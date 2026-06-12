@@ -28,3 +28,8 @@
 &physical_layout_orcishcrafts1 {
     kscan = <&kscan0>;
 };
+
+&usbd {
+    status = "okay";
+    // ... other properties
+};
