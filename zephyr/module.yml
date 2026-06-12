@@ -1,0 +1,4 @@
+name: zmk-keyboard-orcishcrafts1
+build:
+  settings:
+    board_root: .

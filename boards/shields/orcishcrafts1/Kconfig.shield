@@ -1,0 +1,6 @@
+config SHIELD_ORCISHCRAFTS1_LEFT
+    def_bool $(shields_list_contains,orcishcrafts1_left)
+  
+config SHIELD_ORCISHCRAFTS1_RIGHT
+    def_bool $(shields_list_contains,orcishcrafts1_right)
+  
