@@ -19,9 +19,10 @@
 #
 ---
 include:
-
-  - board: nice_nano_v2
+  - board: nice_nano_v2   # Or whatever your base board definition is
     shield: orcishcrafts1_left
+    snippet: studio-rpc-usb-uart  # <-- THIS IS THE MISSING KEY!
+
 
 ## To build with ZMK Studio support, uncomment the following block
 ## by removing the leading '#' from each line.
