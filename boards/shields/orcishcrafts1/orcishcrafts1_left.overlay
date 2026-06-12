@@ -28,7 +28,3 @@
 &physical_layout_orcishcrafts1 {
     kscan = <&kscan0>;
 };
-
-&usb {
-    status = "okay";
-};
