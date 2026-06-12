@@ -20,3 +20,6 @@
     transform = <&matrix_transform0>;
 };
 
+&uicr {
+    nfct-pins-as-gpios;
+};
