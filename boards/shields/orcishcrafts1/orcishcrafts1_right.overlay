@@ -33,8 +33,7 @@
     kscan = <&kscan0>;
 };
 
-&usb {
+&usbd {
     status = "okay";
+    // ... other properties
 };
-
-
