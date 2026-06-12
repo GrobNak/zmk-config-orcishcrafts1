@@ -7,20 +7,20 @@
         wakeup-source;
 
         col-gpios
-            = <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 022 */
-            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 100 */
-            , <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 009 */
-            , <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 010 */
-            , <&gpio1 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 106 */
-            , <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> /* Silk Label 104 */
+            = <&pro_micro 6 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
             ;
 
         row-gpios
-            = <&gpio0 29 GPIO_ACTIVE_HIGH> /* Silk Label 029 */
-            , <&gpio0 2  GPIO_ACTIVE_HIGH> /* Silk Label 002 */
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> /* Silk Label 115 */
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> /* Silk Label 113 */
-            , <&gpio0 5  GPIO_ACTIVE_HIGH> /* Silk Label 005 */
+            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
     };
 };
