@@ -27,7 +27,6 @@
     chosen {
         zephyr,display = &display;
         zmk,kscan = &kscan0;
-        zmk,matrix-transform = &matrix_transform0;
     };
 };
 
