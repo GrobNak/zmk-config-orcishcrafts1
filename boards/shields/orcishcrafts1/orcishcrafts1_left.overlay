@@ -27,14 +27,6 @@
     chosen {
         zephyr,display = &display;
     };
-
-    /* Maps the backlight directly to a core user property hook */
-    backlight {
-        compatible = "zephyr,user";
-        backlight-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
-    };
-
-
 };
 
 &physical_layout_orcishcrafts1 {
