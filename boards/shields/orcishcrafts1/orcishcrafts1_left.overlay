@@ -58,6 +58,7 @@
             display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
+            spi-max-frequency = <20000000>;       
             
             /* Control Pins */
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES tied to D4 (P0.22)
