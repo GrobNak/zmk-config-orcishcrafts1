@@ -92,6 +92,6 @@
 
             /* Final Required Zephyr Controller Fields */
         ram-param = [00 f0];                       // <--- ADD THIS
-        rgbctrl-param = [cd 08 14];       
+        rgb-param = [cd 08 14];      
     };
 };
