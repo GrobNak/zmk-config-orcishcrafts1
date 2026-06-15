@@ -35,11 +35,12 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <20000000>;
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
+            
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
             
             width = <170>;
             height = <320>;
-            x-offset = <35>;                      // Standard panel line offset
+            x-offset = <0>;
             y-offset = <0>;
             
             colmod = <0x55>;
