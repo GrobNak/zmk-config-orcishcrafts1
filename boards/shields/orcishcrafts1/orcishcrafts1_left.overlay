@@ -27,6 +27,14 @@
     chosen {
         zephyr,display = &display;
     };
+
+    /* Automatically pulls the BLK pin high on boot */
+    backlight {
+        compatible = "regulator-fixed";
+        regulator-name = "display_backlight";
+        gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
+        regulator-boot-on;
+    };
 };
 
 &physical_layout_orcishcrafts1 {
