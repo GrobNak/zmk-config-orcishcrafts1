@@ -77,19 +77,23 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
             
+            /* Native Physical Coordinates for the 1.9" TFT Panel */
             width = <170>;
             height = <320>;
-            x-offset = <0>;
+            x-offset = <35>;                  // Restored standard panel alignment offset
             y-offset = <0>;
             
-            colmod = <0x55>;
+            /* High-Performance 16-Bit Color Depth Optimization */
+            colmod = <0x05>;                  // 16-bit RGB mode selection parameter
             gamma = <1>;
-            vcom = <0x19>;
+            mdac = <0x00>;                    // Native scanning direction configuration
+            lcm = <0x2c>;
+            
+            /* Let the driver auto-initialize internal power tables cleanly */
+            vcom = <0x2b>;
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            mdac = <0x00>;
-            lcm = <0x2c>;
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -98,5 +102,6 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+
     };
 };
