@@ -71,6 +71,7 @@
         y-offset = <0>;
         
         /* Required initialization variables for ST7789 panels */
+        colmod = <0x55>;
         vcom = <0x19>;
         gctrl = <0x35>;
         vrhs = <0x12>;
