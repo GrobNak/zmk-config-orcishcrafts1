@@ -79,7 +79,7 @@
         vdvs = <0x20>;
         mdac = <0x00>;
         lcm = <0x2c>;
-        porch-param = <0x0c 0x0c 0x00 0x33 0x33>;
+        porch-param = [0c 0c 00 33 33]; 
         cmd-table-num = <1>;
     };
 };
