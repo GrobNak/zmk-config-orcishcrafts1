@@ -38,7 +38,7 @@
     status = "okay";
 };
 
-/* Define the physical pins for the SPI bus mapping to nice!nano v2 chip IDs */
+/* Define the physical pins for active AND sleep modes */
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
@@ -46,19 +46,34 @@
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA tied to D2 (P0.17)
         };
     };
+
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            low-power-enable;                     // Shuts down current draw on sleep
+        };
+    };
 };
 
-/* Configure the SPI bus and attach the ST7789 display driver */
+/* Configure SPI Bus with both operational states matched */
 &spi0 {
     status = "okay";
     pinctrl-0 = <&spi0_default>;
-    pinctrl-names = "default";
+    pinctrl-1 = <&spi0_sleep>;                    // <--- LINKS THE SLEEP PROFILE
+    pinctrl-names = "default", "sleep";           // <--- DECLARES BOTH STATES ARE PRESENT
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS tied to D1 (P0.06)
 
-            display: st7789v@0 {
+    mipi_dbi {
+        compatible = "zephyr,mipi-dbi-spi";
+        reg = <0>;
+        spi-max-frequency = <20000000>;
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
+
+        display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <20000000>;       
+            spi-max-frequency = <20000000>;
             
             /* Control Pins */
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES tied to D4 (P0.22)
@@ -86,4 +101,5 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+    };
 };
