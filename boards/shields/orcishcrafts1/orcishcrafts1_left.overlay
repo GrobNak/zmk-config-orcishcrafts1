@@ -60,13 +60,15 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
+    
+    /* 1. Ensure Chip Select is explicitly assigned to D1 (P0.06) */
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <20000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
         #address-cells = <1>;                     
         #size-cells = <0>;                        
 
@@ -75,11 +77,12 @@
             reg = <0>;
             spi-max-frequency = <20000000>;
             
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
+            /* 2. Toggle reset pin polarity to verify active high vs low tracking */
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; // RES tied to D4 (P0.22)
             
             width = <170>;
             height = <320>;
-            x-offset = <35>;
+            x-offset = <0>;
             y-offset = <0>;
             
             colmod = <0x55>;
@@ -100,3 +103,4 @@
         };
     };
 };
+
