@@ -32,7 +32,7 @@
     backlight {
         compatible = "regulator-fixed";
         regulator-name = "display_backlight";
-        gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
+        gpio = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
         regulator-boot-on;
     };
 };
