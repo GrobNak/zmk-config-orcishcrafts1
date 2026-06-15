@@ -1,10 +1,52 @@
+#include "orcishcrafts1.dtsi"
+
+/ {
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        wakeup-source;
+
+        col-gpios
+            = <&pro_micro 6 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+            ;
+
+        row-gpios
+            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+
+    chosen {
+        zephyr,display = &display;
+        zmk,kscan = &kscan0;
+        zmk,matrix-transform = &matrix_transform0;
+    };
+};
+
+&physical_layout_orcishcrafts1 {
+    kscan = <&kscan0>;
+};
+
+&usbd {
+    status = "okay";
+};
+
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; 
         };
     };
+
     spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
@@ -19,17 +61,15 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
-};
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
-/* Create a root-level virtual MIPI node to eliminate circular bus mapping loops */
-/ {
-    mipi_dbi {
+    mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
-        spi-dev = <&spi0>;                        // Links cleanly to the hardware bus
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
-        #address-cells = <1>;
-        #size-cells = <0>;
+        reg = <0>;
+        spi-max-frequency = <20000000>;
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   
+        #address-cells = <1>;                     
+        #size-cells = <0>;                        
 
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
