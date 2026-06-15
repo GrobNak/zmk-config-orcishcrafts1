@@ -57,6 +57,7 @@
 };
 
 /* Configure SPI Bus with both operational states matched */
+/* Configure SPI Bus with both operational states matched */
 &spi0 {
     status = "okay";
     pinctrl-0 = <&spi0_default>;
@@ -105,3 +106,4 @@
         };
     };
 };
+
