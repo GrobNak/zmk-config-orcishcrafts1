@@ -30,10 +30,11 @@
 
     /* Automatically pulls the BLK pin high on boot */
     backlight {
-        compatible = "regulator-fixed";
-        regulator-name = "display_backlight";
-        gpio = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
-        regulator-boot-on;
+        compatible = "gpio-leds";
+        backlight_led: backlight_led {
+            gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
+            label = "Backlight Enable";
+        };
     };
 };
 
