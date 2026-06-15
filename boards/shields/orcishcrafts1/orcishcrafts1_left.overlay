@@ -28,16 +28,12 @@
         zephyr,display = &display;
     };
 
-    /* Automatically pulls the BLK pin high on boot */
-    /* Forces Pin D5 (P0.24) to lock high on power-up */
+    /* Maps the backlight directly to a core user property hook */
     backlight {
-        compatible = "gpio-keys";
-        display_bl {
-            gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
-            label = "Display Backlight";
-            linux,code = <1>; 
-        };
+        compatible = "zephyr,user";
+        backlight-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // Pin D5 (P0.24)
     };
+
 
 };
 
