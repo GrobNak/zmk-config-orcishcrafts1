@@ -1,5 +1,4 @@
 #include "orcishcrafts1.dtsi"
-#include <dt-bindings/mipi_dbi/mipi_dbi.h>
 
 / {
     kscan0: kscan0 {
@@ -78,8 +77,8 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            /* Required Integer Macro Configuration from System Manual */
-            mipi-mode = <MIPI_DBI_MODE_SPI_4WIRE>;
+            /* Passed as raw explicit integer to bypass include files */
+            mipi-mode = <1>;
             
             /* Display Resolution Dimensions */
             width = <170>;
