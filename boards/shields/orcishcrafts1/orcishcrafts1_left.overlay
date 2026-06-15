@@ -64,6 +64,9 @@
         cmd-data-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>; // DC tied to D0 (P0.08)
         reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>;   // RES tied to D4 (P0.22)
 
+            /* Required MIPI Bus Configuration Mode */
+        mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE"; 
+
         /* Display Resolution & Dimensions */
         width = <170>;
         height = <320>;
