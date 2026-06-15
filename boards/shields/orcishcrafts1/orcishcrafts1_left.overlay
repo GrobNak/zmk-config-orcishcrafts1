@@ -81,7 +81,6 @@
         lcm = <0x2c>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
-        cmd-table-num = <1>;
 
         /* Modern Zephyr Power Control parameters */
         pwctrl1-param = [a4 a1];   
