@@ -82,10 +82,11 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            width = <170>;
-            height = <320>;
-            x-offset = <35>;                    
-            y-offset = <0>;
+            /* HARDWARE CORRECTION: Flip native dimensions to align with silicon RAM tracks */
+            width = <320>;                     // <--- UPDATED
+            height = <170>;                    // <--- UPDATED
+            x-offset = <0>;                    // <--- UPDATED
+            y-offset = <35>;                   // <--- UPDATED (Centers the 170 slice vertically)
             
             colmod = <0x55>;
             gamma = <1>;
@@ -93,9 +94,11 @@
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            mdac = <0x00>;
-            lcm = <0x2c>;
             
+            /* ROTATION FLAG: Forces hardware to read landscape buffer vertically */
+            mdac = <0x70>;                     // <--- CHANGED FROM 0x00 TO 0x70
+            
+            lcm = <0x2c>;
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -104,5 +107,6 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+
     };
 };
