@@ -67,9 +67,13 @@
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
+        
+        /* ZEPHYR 3.5.0 MANUAL MANDATES: Clock properties and unidirectional flags */
+        mipi-max-frequency = <20000000>;          // <--- CORRECT SYSTEM PROPERTY NAME
+        write-only;                               // <--- STOPS HARWARE BLOCKING ON MISO
+        
         spi-cpol;                                 
         spi-cpha;                                 
         
@@ -79,8 +83,9 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <20000000>;
             
+            /* Match display sub-node clock tracking */
+            spi-max-frequency = <20000000>;
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
             width = <170>;
@@ -95,7 +100,7 @@
             vrhs = <0x12>;
             vdvs = <0x20>;
             mdac = <0x00>;
-            lcm = <0x21>;
+            lcm = <0x2c>;                               // Restored standard LCM state
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -106,3 +111,4 @@
         };
     };
 };
+
