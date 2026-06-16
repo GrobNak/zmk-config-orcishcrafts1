@@ -60,14 +60,17 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
+    
+    /* Enabled for your test bench D1 pin configuration */
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <20000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
-        write-only;                               // Disables hardware blocking loops
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
+        write-only;                               
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -76,16 +79,13 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <20000000>;       
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES tied to D4 (P0.22)
-            
-            /* Physical layout dimensions for your 170x320 viewport */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            /* ST7789 MANUAL SELECTION CONFIGS */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
@@ -95,7 +95,6 @@
             mdac = <0x00>;                     
             lcm = <0x2c>;
             
-            /* ZEPHYR MANUAL MANDATE: Structural array declarations */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -106,4 +105,3 @@
         };
     };
 };
-
