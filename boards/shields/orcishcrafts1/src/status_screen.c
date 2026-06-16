@@ -5,7 +5,8 @@
 lv_obj_t *zmk_display_status_screen() {
     lv_obj_t *screen = lv_obj_create(NULL);
     
-    lv_obj_set_size(screen, 170, 320);
+    // Size parameters matching the structural memory mapping bounds
+    lv_obj_set_size(screen, 320, 170);
     lv_obj_set_pos(screen, 0, 0);
     lv_obj_clear_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
     
