@@ -60,14 +60,17 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
+    /* No cs-gpios entry here since CS is now hardwired to ground */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
+        
+        /* Fixed properties from manual to stop the unidirectional hang */
+        mipi-max-frequency = <20000000>;          
+        write-only;                               
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -79,13 +82,11 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            /* Physical coordinate definitions for your 170x320 panel size */
             width = <170>;
             height = <320>;
-            x-offset = <35>;                    // Shifts 170 slice into display window center
+            x-offset = <35>;                    
             y-offset = <0>;
             
-            /* Restored to valid integer properties per build error manual */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
