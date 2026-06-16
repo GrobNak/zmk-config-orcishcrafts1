@@ -95,7 +95,10 @@
             vrhs = <0x12>;
             vdvs = <0x20>;
             mdac = <0x00>;
-            lcm = <0x2c>;
+            
+            /* FORCE HARDWARE INVERSION: Changed from 0x2c to 0x21 to override latch state */
+            lcm = <0x21>;                     
+            
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -104,6 +107,7 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+
     };
 };
 
