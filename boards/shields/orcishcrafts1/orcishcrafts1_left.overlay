@@ -64,9 +64,12 @@
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <20000000>;          // Drives parent bus clock
+        spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
-        write-only;                               // Halts hardware blocking loops
+        write-only;                               // Halts unidirectional bus blocking hangs
+        
+        /* CORRECT PLACEMENT: Declared on the parent bridge block per Zephyr 3.5.0 specifications */
+        mipi-mode = <1>;                          
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -74,14 +77,11 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <20000000>;       // <--- RESTORED TO SATISFY VALIDATOR
+            spi-max-frequency = <20000000>;       // Restored to satisfy strict display requirements
             
-            /* Keep active-high to break the automatic boot reset latch loop */
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; // RES tied to D4 (P0.22)
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES tied to D4 (P0.22)
             
-            mipi-mode = <1>;                          
-            
-            /* Physical dimensions for your 170x320 viewport */
+            /* Physical layout dimensions for your 170x320 viewport */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
