@@ -64,13 +64,9 @@
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <20000000>;
-        mipi-mode = <1>;                          
-        write-only;                               
-        
-        /* CORRECT ZEPHYR PROPERTY NAME: Directly registers the DC signal pin */
+        spi-max-frequency = <20000000>;          // Drives the parent bus clock speed
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
-        /* Conflicting duplicate 'gpios' entries have been removed entirely */
+        write-only;                               // Disables hardware blocking loops
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -78,14 +74,19 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <20000000>;
+            /* spi-max-frequency removed from here to fix the 0Hz bus drop */
             
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
+            /* STREMLINED SOURCE FIX: Pull active-high to break the hard reset loop */
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; // RES tied to D4 (P0.22)
             
-            width = <320>;                     
-            height = <170>;                    
-            x-offset = <0>;                    
-            y-offset = <35>;                   
+            /* Aligned to the correct child node position per Zephyr 3.5.0 rules */
+            mipi-mode = <1>;                          
+            
+            /* Physical layout dimensions for the 170x320 grid viewport */
+            width = <170>;                     
+            height = <320>;                    
+            x-offset = <35>;                    
+            y-offset = <0>;                   
             
             colmod = <0x55>;
             gamma = <1>;
@@ -93,7 +94,7 @@
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            mdac = <0x70>;                     
+            mdac = <0x00>;                     
             lcm = <0x2c>;
             
             porch-param = [0c 0c 00 33 33];
@@ -106,3 +107,4 @@
         };
     };
 };
+
