@@ -60,9 +60,7 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    /* Enabled for your test bench D1 pin configuration */
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
+    /* cs-gpios is removed because CS is hardwired to ground */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
@@ -70,7 +68,7 @@
         spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
-        write-only;                               
+        write-only;                               // Halts the half-duplex wait loop
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -79,7 +77,7 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <20000000>;       
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
+            /* reset-gpios is removed because RES is hardwired to VCC */
             
             width = <170>;                     
             height = <320>;                    
