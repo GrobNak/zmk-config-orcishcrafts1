@@ -1,33 +1,43 @@
 #include <zephyr/kernel.h>
-#include <zmk/display.h>
-#include <lvgl.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/display.h>
 
-static lv_obj_t *main_screen;
+// Automatically pull the display hardware handle directly from your overlay file
+#define DISPLAY_NODE DT_NODELABEL(display)
 
-// Automated rendering thread loop to keep the ST7789 bus actively driven
-static void refresh_timer_cb(lv_timer_t * timer) {
-    if (main_screen != NULL) {
-        lv_obj_invalidate(main_screen);
-        lv_refr_now(NULL);
+static int initialize_test_bench_screen(void) {
+    // 1. Locate the physical ST7789 display controller engine instance
+    const struct device *display_dev = DEVICE_DT_GET(DISPLAY_NODE);
+    
+    if (!device_is_ready(display_dev)) {
+        return -1; // Halt if the hardware bus isn't initialized yet
     }
+
+    // 2. Allocate a localized pixel buffer block matching 170x320 resolution
+    // Using 0xE3EC maps to a clean, warm amber/orange color value in RGB565 format
+    static uint16_t pixel_buffer[170];
+    for (int i = 0; i < 170; i++) {
+        pixel_buffer[i] = 0xE3EC; 
+    }
+
+    // 3. Configure the structural rendering window coordinates
+    struct display_capabilities caps;
+    display_get_capabilities(display_dev, &caps);
+
+    struct display_buffer_descriptor desc = {
+        .buf_size = sizeof(pixel_buffer),
+        .width = 170,
+        .height = 1, // Write the color array stream row-by-row
+        .pitch = 170,
+    };
+
+    // 4. Actively stream the warm color payload into every physical row register
+    for (int y = 0; y < 320; y++) {
+        display_write(display_dev, 0, y, &desc, pixel_buffer);
+    }
+
+    return 0;
 }
 
-lv_obj_t *zmk_display_status_screen() {
-    // 1. Initialize the root screen object canvas
-    main_screen = lv_obj_create(NULL);
-    
-    // 2. Set strict dimensions matching your physical 170x320 grid viewport
-    lv_obj_set_size(main_screen, 170, 320);
-    lv_obj_set_pos(main_screen, 0, 0);
-    lv_obj_clear_flag(main_screen, LV_OBJ_FLAG_SCROLLABLE);
-    
-    // 3. Paint the canvas background layer warm amber orange (Hex: 0xE67E22)
-    lv_obj_set_style_bg_color(main_screen, lv_color_hex(0xE67E22), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(main_screen, LV_OPA_COVER, LV_PART_MAIN);
-    
-    // 4. ZEPHYR ASYNC LOCK FIX: Register an active 50ms refresh timer 
-    // This loops the frame buffer memory and prevents the SPI lines from dropping into idle sleep
-    lv_timer_create(refresh_timer_cb, 50, NULL);
-    
-    return main_screen;
-}
+// Automatically execute the pixel streaming routine the moment the kernel boots
+SYS_INIT(initialize_test_bench_screen, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
