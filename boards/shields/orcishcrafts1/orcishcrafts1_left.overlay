@@ -81,19 +81,25 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
+            /* Restored to your exact physical panel dimensions */
             width = <170>;
             height = <320>;
-            x-offset = <35>;
+            x-offset = <35>;                    // Keeps the 170-pixel window centered
             y-offset = <0>;
             
+            /* Clock Sync and Required Parameters */
             colmod = <0x55>;
             gamma = <1>;
-            vcom = <0x19>;
-            gctrl = <0x35>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
+            vcom = [19];
+            gctrl = [35];
+            vrhs = [12];
+            vdvs = [20];
             mdac = <0x00>;
             lcm = <0x2c>;
+            
+            /* Required Zephyr timing variables to stabilize the hardware clock */
+            vblank = <10>;                      // <--- ADD THIS LINE RIGHT HERE
+            
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
