@@ -67,6 +67,10 @@
         reg = <0>;
         spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        
+        /* Moved to parent wrapper node per Zephyr 3.5.0 manual rules */
+        mipi-mode = <1>;                          
+        
         #address-cells = <1>;                     
         #size-cells = <0>;                        
 
@@ -77,16 +81,11 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            /* Passed as raw explicit integer to bypass include files */
-            mipi-mode = <1>;
-            
-            /* Display Resolution Dimensions */
             width = <170>;
             height = <320>;
             x-offset = <35>;
             y-offset = <0>;
             
-            /* Color Settings & Required Parameters */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
