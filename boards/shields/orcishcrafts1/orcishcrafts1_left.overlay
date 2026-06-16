@@ -60,16 +60,14 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    /* CS-GPIOS REMOVED FROM HERE TO PREVENT PERIPHERAL LOCK */
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
-        
-        /* CS pin handles transactions directly in the MIPI layer */
-        cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;    // CS -> D1
+        mipi-mode = <1>;                          
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -81,24 +79,21 @@
             
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            /* Restored to your exact physical panel dimensions */
+            /* Physical coordinate definitions for your 170x320 panel size */
             width = <170>;
             height = <320>;
-            x-offset = <35>;                    // Keeps the 170-pixel window centered
+            x-offset = <35>;                    // Shifts 170 slice into display window center
             y-offset = <0>;
             
-            /* Clock Sync and Required Parameters */
+            /* Restored to valid integer properties per build error manual */
             colmod = <0x55>;
             gamma = <1>;
-            vcom = [19];
-            gctrl = [35];
-            vrhs = [12];
-            vdvs = [20];
+            vcom = <0x19>;
+            gctrl = <0x35>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
             mdac = <0x00>;
             lcm = <0x2c>;
-            
-            /* Required Zephyr timing variables to stabilize the hardware clock */
-            vblank = <10>;                      // <--- ADD THIS LINE RIGHT HERE
             
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
