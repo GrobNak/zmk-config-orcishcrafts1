@@ -60,16 +60,16 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
+    /* CS-GPIOS REMOVED FROM HERE TO PREVENT PERIPHERAL LOCK */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
+        spi-max-frequency = <20000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         
-        /* Direct Driver Specifications Match */
-        mipi-max-frequency = <20000000>;          // Fixes the 0Hz bus clock drop
-        write-only;                               // Halts hardware blocking loops
+        /* CS pin handles transactions directly in the MIPI layer */
+        cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;    // CS -> D1
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -77,34 +77,30 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
+            spi-max-frequency = <20000000>;
             
-            /* Physical Dimensions & Start address tracking */
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
+            
             width = <170>;
             height = <320>;
             x-offset = <35>;
             y-offset = <0>;
             
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
-            
-            /* Raw Sequence Initialization Code Block */
-            cmd-table = [
-                11 00 80    /* Sleep Out + 128ms Delay */
-                36 01 00    /* Memory Data Access Control (Native Orientation) */
-                3a 01 55    /* Interface Pixel Format (16-bit RGB565) */
-                b2 05 0c 0c 00 33 33 /* Porch Setting */
-                b7 01 35    /* Gate Control */
-                bb 01 19    /* VCOM Setting */
-                c0 01 2c    /* LCM Control */
-                c2 01 01    /* VDV and VRH Command Enable */
-                c3 01 12    /* VRH Set */
-                c4 01 20    /* VDV Set */
-                c6 01 0f    /* Frame Rate Control */
-                d0 02 a4 a1 /* Power Control 1 */
-                e0 0e d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23 /* Positive Gamma */
-                e1 0e d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23 /* Negative Gamma */
-                21 00 00    /* Display Inversion On */
-                29 00 80    /* Display On + 128ms Delay */
-            ];
+            colmod = <0x55>;
+            gamma = <1>;
+            vcom = <0x19>;
+            gctrl = <0x35>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
+            mdac = <0x00>;
+            lcm = <0x2c>;
+            porch-param = [0c 0c 00 33 33];
+            cmd2en-param = [5a 69 02 01];
+            pwctrl1-param = [a4 a1];
+            pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
+            nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
+            ram-param = [00 f0];
+            rgb-param = [cd 08 14];
         };
     };
 };
