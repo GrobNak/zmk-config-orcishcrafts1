@@ -69,9 +69,9 @@
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
         
-        /* Force the SPI Bus into Mode 3 to match the ST7789 Panel Timing Spec */
-        spi-cpol;                                 // <--- ADD THIS
-        spi-cpha;                                 // <--- ADD THIS
+        /* Retain SPI Mode 3 configurations to align clocks with the glass */
+        spi-cpol;                                 
+        spi-cpha;                                 
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -87,9 +87,6 @@
             height = <320>;
             x-offset = <35>;
             y-offset = <0>;
-            
-            /* Invert the color map registry for IPS panels */
-            inversion-on;                             // <--- ADD THIS
             
             colmod = <0x55>;
             gamma = <1>;
@@ -109,3 +106,4 @@
         };
     };
 };
+
