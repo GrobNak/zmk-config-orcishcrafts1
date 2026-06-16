@@ -65,13 +65,12 @@
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <20000000>;
-        
-        /* 1. ST7789V INITIALIZATION FIX: Map the DC pin to both required variables */
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
-        gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;      // <--- ADD THIS LINE TO CLEAR THE INITIALIZATION DEADLOCK
-        
         mipi-mode = <1>;                          
         write-only;                               
+        
+        /* CORRECT ZEPHYR PROPERTY NAME: Directly registers the DC signal pin */
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
+        /* Conflicting duplicate 'gpios' entries have been removed entirely */
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -107,4 +106,3 @@
         };
     };
 };
-
