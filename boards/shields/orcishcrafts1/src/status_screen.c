@@ -10,12 +10,12 @@ static int force_amber_bench_stream(void) {
     // 1. Grab the raw initialized hardware driver pointer from the kernel core
     const struct device *display_dev = DEVICE_DT_GET(DISPLAY_NODE);
     
-    if (!device_is_ready(display_dev)) {
+    if (!display_dev || !device_is_ready(display_dev)) {
         return -1; // Fail out if the SPI core didn't wake up
     }
 
     // 2. Prepare a 170-pixel wide color buffer line mapped to Warm Amber (0xE3EC in RGB565)
-    static uint16_t row_buffer[170];
+    static uint16_t row_buffer[170]; // <--- FIXED TYPE DEFINITION WITH SIZE BRACKETS
     for (int i = 0; i < 170; i++) {
         row_buffer[i] = 0xE3EC;
     }
@@ -40,6 +40,6 @@ static int force_amber_bench_stream(void) {
 SYS_INIT(force_amber_bench_stream, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
 
 // Satisfy ZMK Studio linker requirements with an empty wrapper stub
-struct lv_obj_t *zmk_display_status_screen(void) {
+void *zmk_display_status_screen(void) {
     return NULL;
 }
