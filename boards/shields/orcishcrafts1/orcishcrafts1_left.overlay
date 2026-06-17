@@ -39,14 +39,14 @@
 };
 
 &pinctrl {
-    spi1_default: spi1_default {
+    spi3_default: spi3_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to D2 (P0.17)
         };
     };
 
-    spi1_sleep: spi1_sleep {
+    spi3_sleep: spi3_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>;
@@ -55,22 +55,20 @@
     };
 };
 
-&spi1 {
+&spi3 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-0 = <&spi3_default>;
+    pinctrl-1 = <&spi3_sleep>;
     pinctrl-names = "default", "sleep";
-    /* CS is hardwired to GND on the bench */
+    /* CS remains hardwired to GND on your bench to keep it selected */
 
-    mipi_dbi@0 {
+    mipi_dbi0: mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <24000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC hardwired to D0 (P0.08)
         mipi-mode = <1>;                          
-        write-only;                               
-        spi-cpol;                                 // SPI Mode 3
-        spi-cpha;                                 // SPI Mode 3
+        write-only;                               // Drops MISO confirmation checks
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -79,14 +77,13 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <24000000>;       
-            /* RES is hardwired to VCC on the bench */
+            /* RES remains hardwired to VCC on the bench to prevent reset freezes */
             
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            /* Restored required integer properties to pass validation */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
@@ -95,8 +92,7 @@
             vdvs = <0x20>;
             mdac = <0x00>;                     
             lcm = <0x2c>;
-
-            /* Bare-minimum template arrays matching standard constraints */
+            
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
