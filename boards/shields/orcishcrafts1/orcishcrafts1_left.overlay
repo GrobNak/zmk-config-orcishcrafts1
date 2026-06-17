@@ -60,7 +60,7 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    /* cs-gpios is removed because CS is hardwired to GND on the bench */
+    /* CS is hardwired to GND on the bench */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
@@ -68,11 +68,9 @@
         spi-max-frequency = <24000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
-        write-only;                               // Disables data-return wait loops
-        
-        /* HARDWARE MANUAL SPEC: Force SPI Mode 3 to synchronize the clocks */
-        spi-cpol;                                 
-        spi-cpha;                                 
+        write-only;                               // Tells the bus it's a 1-way stream
+        spi-cpol;                                 // Force SPI Mode 3
+        spi-cpha;                                 // Force SPI Mode 3
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -81,33 +79,18 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <24000000>;       
-            /* reset-gpios is removed because RES is hardwired to VCC on the bench */
+            /* RES is hardwired to VCC on the bench */
             
-            /* Physical coordinate tracking for the XIITIA 1.9" panel */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            /* Required Interface Settings */
+            /* Give the driver bare-minimum structural constants to pass compile */
             colmod = <0x55>;
             gamma = <1>;
-            vcom = <0x19>;
-            gctrl = <0x35>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            
-            /* Color Mapping Mode: Set to 0x00 for standard RGB orientation */
             mdac = <0x00>;                     
             lcm = <0x2c>;
-            
-            porch-param = [0c 0c 00 33 33];
-            cmd2en-param = [5a 69 02 01];
-            pwctrl1-param = [a4 a1];
-            pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
-            nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
-            ram-param = [00 f0];
-            rgb-param = [cd 08 14];
         };
     };
 };
