@@ -1,48 +1,45 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
-#include <zephyr/drivers/mipi_dbi.h>
-#include <zmk/display.h>
-#include <lvgl.h>
+#include <zephyr/drivers/display.h>
+#include <zephyr/init.h>
 
-// Point the command macro explicitly to the new isolated SPI3 MIPI label
-#define MIPI_NODE DT_NODELABEL(mipi_dbi0)
+// Match the display target node handle directly
+#define DISPLAY_NODE DT_NODELABEL(display)
 
-static void send_raw_cmd(const struct device *mipi_dev, uint8_t cmd, const uint8_t *data, size_t len) {
-    struct mipi_dbi_config config = {
-        .mode = MIPI_DBI_MODE_SPI_4WIRE,
-        .config.spi_config = {
-            .frequency = 24000000,
-            .operation = SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_MODE_CPOL | SPI_MODE_CPHA,
-        },
-    };
-    mipi_dbi_command_write(mipi_dev, &config, cmd, data, len);
-}
-
-lv_obj_t *zmk_display_status_screen() {
-    const struct device *mipi_dev = DEVICE_DT_GET(MIPI_NODE);
-
-    if (device_is_ready(mipi_dev)) {
-        // Run the manual un-latch bit sequence directly over the isolated pin controllers
-        send_raw_cmd(mipi_dev, 0x01, NULL, 0); 
-        k_msleep(150);
-        send_raw_cmd(mipi_dev, 0x11, NULL, 0); 
-        k_msleep(150);
-        uint8_t colmod_val = 0x55;
-        send_raw_cmd(mipi_dev, 0x3A, &colmod_val, 1);
-        uint8_t mdac_val = 0x00;
-        send_raw_cmd(mipi_dev, 0x36, &mdac_val, 1);
-        send_raw_cmd(mipi_dev, 0x21, NULL, 0);
-        send_raw_cmd(mipi_dev, 0x29, NULL, 0);
-        k_msleep(50);
+static int force_amber_bench_stream(void) {
+    // 1. Grab the raw initialized hardware driver pointer from the kernel core
+    const struct device *display_dev = DEVICE_DT_GET(DISPLAY_NODE);
+    
+    if (!device_is_ready(display_dev)) {
+        return -1; // Fail out if the SPI core didn't wake up
     }
 
-    lv_obj_t *screen = lv_obj_create(NULL);
-    lv_obj_set_size(screen, 170, 320);
-    lv_obj_set_pos(screen, 0, 0);
-    lv_obj_clear_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
-    
-    lv_obj_set_style_bg_color(screen, lv_color_hex(0xE67E22), LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(screen, LV_OPA_COVER, LV_PART_MAIN);
-    
-    return screen;
+    // 2. Prepare a 170-pixel wide color buffer line mapped to Warm Amber (0xE3EC in RGB565)
+    static uint16_t row_buffer[170];
+    for (int i = 0; i < 170; i++) {
+        row_buffer[i] = 0xE3EC;
+    }
+
+    // 3. Define a single-row pixel buffer descriptor
+    struct display_buffer_descriptor desc = {
+        .buf_size = sizeof(row_buffer),
+        .width = 170,
+        .height = 1,
+        .pitch = 170,
+    };
+
+    // 4. Pump raw amber pixels into every single row of the 320 vertical grid lines
+    for (int y = 0; y < 320; y++) {
+        display_write(display_dev, 0, y, &desc, row_buffer);
+    }
+
+    return 0;
+}
+
+// Register this routine to fire immediately during the application boot stage
+SYS_INIT(force_amber_bench_stream, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
+
+// Satisfy ZMK Studio linker requirements with an empty wrapper stub
+struct lv_obj_t *zmk_display_status_screen(void) {
+    return NULL;
 }
