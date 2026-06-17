@@ -60,15 +60,19 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    /* cs-gpios is removed because CS is hardwired to ground */
+    /* cs-gpios is removed because CS is hardwired to GND on the bench */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <20000000>;
+        spi-max-frequency = <24000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
-        write-only;                               // Halts the half-duplex wait loop
+        write-only;                               // Disables data-return wait loops
+        
+        /* HARDWARE MANUAL SPEC: Force SPI Mode 3 to synchronize the clocks */
+        spi-cpol;                                 
+        spi-cpha;                                 
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -76,20 +80,24 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <20000000>;       
-            /* reset-gpios is removed because RES is hardwired to VCC */
+            spi-max-frequency = <24000000>;       
+            /* reset-gpios is removed because RES is hardwired to VCC on the bench */
             
+            /* Physical coordinate tracking for the XIITIA 1.9" panel */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
+            /* Required Interface Settings */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
+            
+            /* Color Mapping Mode: Set to 0x00 for standard RGB orientation */
             mdac = <0x00>;                     
             lcm = <0x2c>;
             
