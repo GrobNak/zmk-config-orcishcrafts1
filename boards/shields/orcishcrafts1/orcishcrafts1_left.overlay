@@ -98,8 +98,12 @@
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         
-        /* 8-BIT SANITY BLOCK UNLOCK: mipi-mode = 0 cuts 16-bit bursts into single bytes */
-        mipi-mode = <0>;                          
+        /* 
+           8-BIT INTERFACE FIX: 
+           Setting mipi-mode to <2> forces 4-wire SPI fallback behavior, commanding the 
+           low-level driver to process allocations purely via single 8-bit characters.
+        */
+        mipi-mode = <2>;                          
         write-only;                               
 
         #address-cells = <1>;
