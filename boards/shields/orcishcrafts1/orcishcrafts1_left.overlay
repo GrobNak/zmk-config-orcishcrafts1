@@ -1,23 +1,62 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
- * Safe Solder Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Solder Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Matrix Calibration: Column Order Reversed to Match Bench Soldering Changes
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* 
-       CORE MATRIX CONFLICT RESOLUTION: 
-       We remove the duplicate pin arrays entirely. This forces the firmware 
-       to read your original, working key routes straight from the main 
-       repository dtsi file without triggering a kernel boot panic.
-    */
+    // 1. KEYBOARD MATRIX DEFINITION (REVERSED COLUMN SCANNING PATH)
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        wakeup-source;
+
+        /* FIXED: Column routing sequence flipped backward to match your bench wiring */
+        col-gpios
+            = <&pro_micro 9 GPIO_ACTIVE_HIGH> 
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH> 
+            , <&pro_micro 7 GPIO_ACTIVE_HIGH> 
+            , <&pro_micro 6 GPIO_ACTIVE_HIGH> 
+            , <&pro_micro 5 GPIO_ACTIVE_HIGH> 
+            , <&pro_micro 4 GPIO_ACTIVE_HIGH> 
+            ;
+
+        row-gpios
+            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+
+    matrix_transform0: matrix_transform0 {
+        compatible = "zmk,matrix-transform";
+        columns = <6>;
+        rows = <5>;
+        map = <
+            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
+            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
+            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
+            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
+            RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4) RC(4,5)
+        >;
+    };
+
     chosen {
         zephyr,display = &display;   
         zmk,display = &display;      
+        zmk,kscan = &kscan0;
     };
+};
+
+&physical_layout_orcishcrafts1 {
+    kscan = <&kscan0>;
+    transform = <&matrix_transform0>;
 };
 
 &usbd {
@@ -41,7 +80,7 @@
     };
 };
 
-// Secure Interface Routing For The Display
+// SPI Peripheral Core Engine
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
