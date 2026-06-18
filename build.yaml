@@ -3,7 +3,7 @@
 include:
   - board: nice_nano_v2
     shield: orcishcrafts1_left
-    # The snippet line has been completely removed to unlock the SPI clock registers
+    snippet: studio-rpc-usb-uart
 
   - board: nice_nano_v2
     shield: orcishcrafts1_right
