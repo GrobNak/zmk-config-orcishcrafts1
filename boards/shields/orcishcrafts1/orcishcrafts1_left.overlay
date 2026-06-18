@@ -4,10 +4,9 @@
  */
 
 #include "orcishcrafts1-layouts.dtsi"
-#include <dt-bindings/zmk/matrix_transform.h> // <--- ADDED TO FIX THE RC MACRO PARSE ERROR
+#include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -31,7 +30,6 @@
             ;
     };
 
-    // Fallback Matrix Transform block to satisfy required physical-layout bindings
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
@@ -53,19 +51,18 @@
 
 &physical_layout_orcishcrafts1 {
     kscan = <&kscan0>;
-    transform = <&matrix_transform0>; // Map explicitly back to the validation handle
+    transform = <&matrix_transform0>;
 };
 
 &usbd {
     status = "okay";
 };
 
-// 2. HARDWARE SPI BUS PIN CONFIGURATION
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
         };
     };
     spi0_sleep: spi0_sleep {
@@ -82,37 +79,31 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    // Software controlled CS pin on D1 (P0.06) matching your wiring plan
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
 
-    // 3. MIPI DBI HARDWARE BUS WRAPPER (Required for Zephyr 3.5.0 ST7789)
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <8000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
-        write-only;                               // Halts un-wired MISO channel stalls
+        write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <8000000>; 
-            
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4 (P0.22)
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
 
-            /* Physical viewport window specifications */
-            width = <170>;  
+            /* 172 PIXEL WIDTH HARDWARE SPEC FIX */
+            width = <172>;                     // <--- CHANGED TO 172
             height = <320>; 
-            x-offset = <35>;
+            x-offset = <34>;                    // Shift offset recalibrated for 172 frame boundary
             y-offset = <0>;
 
-            /* Core Register Properties */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
@@ -122,7 +113,6 @@
             mdac = <0x00>;
             lcm = <0x2c>;
 
-            /* Byte Array Declarations Required by Driver Binding Validator */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
