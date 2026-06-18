@@ -65,8 +65,8 @@
 &pinctrl {
     spi3_default: spi3_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCK on D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // MOSI on D2 (P0.17)
         };
     };
     spi3_sleep: spi3_sleep {
@@ -136,5 +136,6 @@
 };
 
 &uicr {
-    nfct-pins-as-gpios;
+    /* HARDWARE LOCK REMOVAL: Strips the default pin configuration off P0.20 to free SCL */
+    /delete-property/ nfct-pins-as-gpios;
 };
