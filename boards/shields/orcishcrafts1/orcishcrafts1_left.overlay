@@ -60,7 +60,7 @@
     status = "okay";
 };
 
-// Route pins cleanly over SPI1
+// Route pins over SPI1
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -102,8 +102,27 @@
 
             width = <172>;  
             height = <320>; 
-            x-offset = <0>;
+            x-offset = <34>;
             y-offset = <0>;
+
+            /* RESTORED MANDATORY INTEGER BASELINE FIELDS TO PASS PARSER VALIDATION */
+            colmod = <0x05>;                      
+            gamma = <1>;
+            vcom = <0x19>;
+            gctrl = <0x35>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
+            mdac = <0x00>;                        
+            lcm = <0x21>;                         
+
+            /* Restored basic structural arrays without cache-poisoning syntax keys */
+            porch-param = [0C 0C 00 33 33];
+            cmd2en-param = [5A 69 02 01];
+            pwctrl1-param = [A4 A1];
+            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
+            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
+            ram-param = [00 F0];
+            rgb-param = [CD 08 14];
         };
     };
 };
