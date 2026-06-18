@@ -1,4 +1,3 @@
-
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
@@ -99,8 +98,6 @@
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         mipi-mode = <1>;                          
-        
-        /* THE WORD SIZE FIX: Forces strict 8-bit sequential single-byte transfers */
         write-only;                               
 
         #address-cells = <1>;
@@ -119,14 +116,19 @@
             x-offset = <34>;
             y-offset = <0>;
 
-            colmod = <0x05>;                      
-            gamma = <1>;
-            vcom = <0x19>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            gctrl = <0x35>;                       
-            mdac = <0x00>;                        
-            lcm = <0x21>;                         
+            /* 
+               CRITICAL REGISTER TYPE FIX: 
+               Re-formatted all single properties from integers into strict 8-bit byte arrays 
+               to pass the Zephyr driver's internal initialization data validation checks.
+            */
+            colmod =;                      
+            gamma =;
+            vcom =;
+            vrhs =;
+            vdvs =;
+            gctrl =;                       
+            mdac =;                        
+            lcm =;                         
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
