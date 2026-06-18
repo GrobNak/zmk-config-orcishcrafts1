@@ -64,8 +64,8 @@
 &pinctrl {
     spi3_default: spi3_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> Hole D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> Hole D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
         };
     };
     spi3_sleep: spi3_sleep {
@@ -90,7 +90,7 @@
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> Hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
         mipi-mode = <1>;                          
         write-only;                               
 
@@ -102,7 +102,9 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> Hole D4 (P0.22)
+            
+            /* RESET LOCK FIX: Swapped to ACTIVE_HIGH to release panel from hardware freeze loop */
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; // RES -> D4 (P0.22)
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -120,7 +122,7 @@
             mdac = <0x60>;                        
             lcm = <0x21>;                         
 
-            /* RAW RE-FORMATTED BYTE ARRAYS: Formatted strictly per Zephyr parser specs */
+            /* Balanced Byte Array Structures */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
