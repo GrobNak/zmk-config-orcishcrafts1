@@ -15,7 +15,7 @@ static int force_amber_bench_stream(void) {
     }
 
     // 2. Prepare a 170-pixel wide color buffer line mapped to Warm Amber (0xE3EC in RGB565)
-    static uint16_t row_buffer[170]; // <--- FIXED TYPE DEFINITION WITH SIZE BRACKETS
+    static uint16_t row_buffer[170];
     for (int i = 0; i < 170; i++) {
         row_buffer[i] = 0xE3EC;
     }
