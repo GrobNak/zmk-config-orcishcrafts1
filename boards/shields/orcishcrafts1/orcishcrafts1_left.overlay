@@ -46,7 +46,7 @@
 
     chosen {
         zephyr,display = &display;   // Links the device to the low-level kernel driver
-        zmk,display = &display;      // <--- ADDED: Links the device to the ZMK graphics pipeline
+        zmk,display = &display;      // Links the device to the ZMK graphics pipeline
         zmk,kscan = &kscan0;
     };
 };
@@ -86,8 +86,8 @@
     // Software controlled CS pin on D1 (P0.06) matching your wiring plan
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
-    // 3. MIPI DBI HARDWARE BUS WRAPPER (Required for Zephyr 3.5.0 ST7789)
-    mipi_dbi@0 {
+    // 3. MANDATORY FIXED BUS NAME WRAPPER (Fixes the silent driver initialization crash)
+    mipi_dbi0: mipi_dbi {                         // <--- FIXED NODE SYNTAX NAME
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <8000000>;
