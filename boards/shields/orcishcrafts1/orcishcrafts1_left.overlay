@@ -4,6 +4,7 @@
  */
 
 #include "orcishcrafts1-layouts.dtsi"
+#include <dt-bindings/zmk/matrix_transform.h> // <--- ADDED TO FIX THE RC MACRO PARSE ERROR
 
 / {
     // 1. KEYBOARD MATRIX DEFINITION
