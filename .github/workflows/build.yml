@@ -25,14 +25,14 @@ jobs:
             ${{ runner.os }}-build-
 
       - name: Initialize workspace
-        uses: zmkfirmware/zmk/actions/init@main
+        uses: zmkfirmware/zmk/.github/actions/init@main  # <--- FIXED INTERNAL DIRECTORY PATH
 
       - name: Build Left Shield
-        uses: zmkfirmware/zmk/actions/build-config@main
+        uses: zmkfirmware/zmk/.github/actions/build-config@main  # <--- FIXED INTERNAL DIRECTORY PATH
         with:
           board: nice_nano_v2
           shield: orcishcrafts1_left
-          # We leave out the snippet line completely to release the SPI0 registers
+          # No snippet line. The hardware SPI lines are completely free.
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
