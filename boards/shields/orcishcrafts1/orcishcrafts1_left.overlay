@@ -7,7 +7,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION
+    // Keyboard Matrix Mapping
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -83,7 +83,7 @@
     pinctrl-1 = <&spi3_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano pin D1 (P0.06)
+    // CS wire mapped to nice!nano pin D1 (P0.06)
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi0: mipi_dbi@0 {                        
@@ -103,8 +103,8 @@
             reg = <0>;
             spi-max-frequency = <4000000>; 
             
-            /* RESET LOCK FIX: Swapped to ACTIVE_HIGH to release panel from hardware freeze loop */
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>; // RES -> D4 (P0.22)
+            /* DUMMY RE-MAP FIX: Pulls pin high to float it safely, preventing hardware boot loop freezes */
+            reset-gpios = <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; 
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
