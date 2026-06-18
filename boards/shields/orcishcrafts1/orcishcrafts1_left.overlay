@@ -1,128 +1,47 @@
-/* 
- * OrcishCrafts1 Left Shield Overlay
- * Hardware: Nice!Nano V2 + ST7789 1.9" Display (Portrait)
- */
-
-#include "orcishcrafts1-layouts.dtsi"
-#include <dt-bindings/zmk/matrix_transform.h>
-
-/ {
-    // 1. KEYBOARD MATRIX DEFINITION
-    kscan0: kscan0 {
-        compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
-        wakeup-source;
-
-        col-gpios
-            = <&pro_micro 6 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-            ;
-
-        row-gpios
-            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            ;
-    };
-
-    matrix_transform0: matrix_transform0 {
-        compatible = "zmk,matrix-transform";
-        columns = <6>;
-        rows = <5>;
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-            RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4) RC(4,5)
-        >;
-    };
-
-    chosen {
-        zephyr,display = &display;   
-        zmk,display = &display;      
-        zmk,kscan = &kscan0;
-    };
-};
-
-&physical_layout_orcishcrafts1 {
-    kscan = <&kscan0>;
-    transform = <&matrix_transform0>;
-};
-
-&usbd {
-    status = "okay";
-};
-
-// 2. HARDWARE SPI BUS PIN CONFIGURATION
-&pinctrl {
-    spi0_default: spi0_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
-        };
-    };
-    spi0_sleep: spi0_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
-            low-power-enable;
-        };
-    };
-};
-
 &spi0 {
     status = "okay";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    // Software controlled CS pin on D1 (P0.06) matching your wiring plan
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS on D1 (P0.06)
 
-    // 3. FIXED WRAPPER NAME PATH (Satisfies the unit address requirements)
-    mipi_dbi0: mipi_dbi@0 {                        // <--- FIXED BOTH THE LABEL AND UNIT ADDRESS
+    mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <8000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
+        
+        /* TIMING FIX: Slow the bus down to 1 MHz to clear signal line reflections */
+        spi-max-frequency = <1000000>;            // <--- CHANGED FROM 8000000 TO 1000000
+        
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC on D0 (P0.08)
         mipi-mode = <1>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            spi-max-frequency = <8000000>; 
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4 (P0.22)
+            
+            /* Match child node transmission constraint speed */
+            spi-max-frequency = <1000000>;        // <--- CHANGED FROM 8000000 TO 1000000
+            
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES on D4 (P0.22)
 
-            /* 172-Pixel Window Dimensions Fix */
             width = <172>;  
             height = <320>; 
             x-offset = <34>;
             y-offset = <0>;
 
-            /* HARDWARE CORRECTION FOR THE XIITIA PANEL */
-            colmod = <0x05>;                      // <--- CHANGED FROM 0x55 TO 0x05 FOR RGB565 PACKING
-            mdac = <0x60>;                        // <--- CHANGED FROM 0x00 TO 0x60 FOR MEMORY SCANNING ALIGNMENT
-            
+            colmod = <0x05>;
             gamma = <1>;
             vcom = <0x19>;
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
+            mdac = <0x60>;
             lcm = <0x2c>;
 
-            /* Structural Arrays */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -131,10 +50,5 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
-
     };
-};
-
-&uicr {
-    nfct-pins-as-gpios;
 };
