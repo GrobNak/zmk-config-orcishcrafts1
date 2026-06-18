@@ -6,7 +6,7 @@
 #include "orcishcrafts1-layouts.dtsi"
 
 / {
-    // Define the keyboard kscan matrix node explicitly to eliminate parse errors
+    // 1. KEYBOARD MATRIX DEFINITION
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -45,11 +45,12 @@
     status = "okay";
 };
 
+// 2. HARDWARE SPI BUS PIN CONFIGURATION
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to D2 (P0.17)
         };
     };
     spi0_sleep: spi0_sleep {
@@ -67,32 +68,36 @@
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // Software controlled CS pin on D1 (P0.06) matching your wiring table
+    // Software controlled CS pin on D1 (P0.06) matching your test bench
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
+    // 3. MIPI DBI HARDWARE BUS WRAPPER (Required for Zephyr 3.5.0 ST7789)
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <8000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC hardwired to D0 (P0.08)
         mipi-mode = <1>;                          
-        write-only;                               
+        write-only;                               // Halts un-wired MISO channel stalls
 
         #address-cells = <1>;
         #size-cells = <0>;
 
+        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <8000000>; 
             
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES hardwired to D4 (P0.22)
 
+            /* Physical viewport window specifications */
             width = <170>;  
             height = <320>; 
             x-offset = <35>;
             y-offset = <0>;
 
+            /* Core Register Properties */
             colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
@@ -102,6 +107,7 @@
             mdac = <0x00>;
             lcm = <0x2c>;
 
+            /* Byte Array Declarations Required by Driver Binding Validator */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
