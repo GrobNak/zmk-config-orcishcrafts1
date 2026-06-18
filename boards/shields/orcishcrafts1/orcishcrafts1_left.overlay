@@ -41,8 +41,8 @@
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to D2 (P0.17)
         };
     };
 
@@ -60,18 +60,15 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    /* CS is hardwired to GND on your bench to keep it selected */
+    /* CS is hardwired directly to Ground to keep it selected */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        
-        /* ZEPHYR BINDING MANDATE: Property location rules */
-        mipi-max-frequency = <24000000>;          
+        spi-max-frequency = <24000000>;
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC hardwired to D0 (P0.08)
         mipi-mode = <1>;                          
-        write-only;                               
-        
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        write-only;                               // Halts un-wired MISO blocking hangs
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -79,17 +76,15 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
-            
-            /* Required node parameter bindings */
             spi-max-frequency = <24000000>;       
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
+            /* Physical Window Coordinates for the XIITIA 1.9" panel */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            colmod = <0x55>;
+            colmod = <0x55>;                      
             gamma = <1>;
             vcom = <0x19>;
             gctrl = <0x35>;
@@ -97,14 +92,16 @@
             vdvs = <0x20>;
             mdac = <0x00>;                     
             lcm = <0x2c>;
-            
-            porch-param = [0c 0c 00 33 33];
-            cmd2en-param = [5a 69 02 01];
-            pwctrl1-param = [a4 a1];
-            pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
-            nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
-            ram-param = [00 f0];
-            rgb-param = [cd 08 14];
+
+            /* FORCE HARDWARE AWAKENING: Overrides the driver's broken reset check */
+            cmd-table = [
+                01 00 80    /* Software Reset + Delay */
+                11 00 80    /* Wake up from Sleep Mode + Delay */
+                3a 01 55    /* Force 16-bit RGB565 Color Format */
+                36 01 00    /* Set portrait address scanning */
+                21 00 00    /* Enable Display Inversion for IPS panel */
+                29 00 80    /* Force Display Gate ON + Delay */
+            ];
         };
     };
 };
