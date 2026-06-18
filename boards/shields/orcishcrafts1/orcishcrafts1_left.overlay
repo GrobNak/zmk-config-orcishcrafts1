@@ -83,59 +83,59 @@
     };
 };
 
-// 3. SECURE DIRECT ROUTING FOR THE DISPLAY DEVICE
+// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
 
-    #address-cells = <1>;
-    #size-cells = <0>;
-
-    /* 
-       DIRECT NATIVE HARDWARE BINDING OVERRIDE:
-       Wipes out the buggy 'zephyr,mipi-dbi-spi' middleware translation node.
-       Mounting the ST7789V directly to the SPI peripheral container restricts
-       all memory transfers to standard, hardware-supported 8-bit sequential streams.
-    */
-    display: display@0 {
-        compatible = "sitronix,st7789v";
+    spi@0 {                        
+        compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <4000000>; 
+        spi-max-frequency = <4000000>;            
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         
-        // RES wire control mapped cleanly to nice!nano/SuperMini pin D5 (P0.24)
-        reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
-        
-        // DC wire control mapped cleanly to nice!nano/SuperMini pin D0 (P0.08)
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    
+        /* 8-BIT SANITY BLOCK UNLOCK: mipi-mode = 0 cuts 16-bit bursts into single bytes */
+        mipi-mode = <0>;                          
+        write-only;                               
 
-        /* 172x320 Viewport Specifications */
-        width = <172>;  
-        height = <320>; 
-        x-offset = <34>;
-        y-offset = <0>;
+        #address-cells = <1>;
+        #size-cells = <0>;
 
-        colmod = <0x05>;                      
-        gamma = <1>;
-        vcom = <0x19>;
-        vrhs = <0x12>;
-        vdvs = <0x20>;
-        gctrl = <0x35>;                       
-        mdac = <0x00>;                        
-        lcm = <0x21>;                         
+        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
+        display: display@0 {
+            compatible = "sitronix,st7789v";
+            reg = <0>;
+            spi-max-frequency = <4000000>; 
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-        /* Balanced Byte Array Structures */
-        porch-param = [0C 0C 00 33 33];
-        cmd2en-param = [5A 69 02 01];
-        pwctrl1-param = [A4 A1];
-        pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-        nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-        ram-param = [00 F0];
-        rgb-param = [CD 08 14];
+            /* 172x320 Viewport Specifications */
+            width = <172>;  
+            height = <320>; 
+            x-offset = <34>;
+            y-offset = <0>;
+
+            colmod = <0x05>;                      
+            gamma = <1>;
+            vcom = <0x19>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
+            gctrl = <0x35>;                       
+            mdac = <0x00>;                        
+            lcm = <0x21>;                         
+
+            /* Balanced Byte Array Structures */
+            porch-param = [0C 0C 00 33 33];
+            cmd2en-param = [5A 69 02 01];
+            pwctrl1-param = [A4 A1];
+            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
+            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
+            ram-param = [00 F0];
+            rgb-param = [CD 08 14];
+        };
     };
 };
 
