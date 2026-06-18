@@ -118,8 +118,8 @@
             mdac = <0x00>;                        
             lcm = <0x2c>;                         
 
-            /* DRIVER GATE UNLOCK FIX: Explicitly mandates display inversion profile to hold gates open */
-            st7789v,inversion-on;                 // <--- UNLOCKS SILICON INVERSION STANDBY DEADLOCK
+            /* FIXED DRIVER BINDING PROPERTY MATCHING ZEPHYR REPO SPEC */
+            inversion-on;                         // <--- CORRECT PARAMETER KEY NAME
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
