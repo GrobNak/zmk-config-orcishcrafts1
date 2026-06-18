@@ -97,7 +97,9 @@
         reg = <0>;
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
+        
+        /* THE WORD SIZE RESOLUTION: Forces 8-bit array framing rules on the wrapper */
+        mipi-mode = <0>;                          
         write-only;                               
 
         #address-cells = <1>;
@@ -110,17 +112,14 @@
             spi-max-frequency = <4000000>; 
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-            /* 
-               THE BUFFER ENFORCEMENT FIX: 
-               Changing resolution bounds to standard 240x320 prevents ZMK's buffer engine 
-               from attempting un-aligned 16-bit fast bursts, forcing pure 8-bit streaming.
-            */
+            /* 240x320 Viewport Specifications */
             width = <240>;  
             height = <320>; 
             x-offset = <0>;
             y-offset = <0>;
 
-            colmod = <0x05>;                      
+            /* HARDWARE BLOCK UNLOCK: colmod 0x03 forces 8-bit sequential data formatting */
+            colmod = <0x03>;                      
             gamma = <1>;
             vcom = <0x19>;
             vrhs = <0x12>;
@@ -135,7 +134,7 @@
             pwctrl1-param = [A4 A1];
             pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
             nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 f0];
+            ram-param = [00 F0];
             rgb-param = [CD 08 14];
         };
     };
