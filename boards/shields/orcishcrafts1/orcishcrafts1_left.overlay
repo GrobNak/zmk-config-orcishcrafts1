@@ -61,12 +61,12 @@
     status = "okay";
 };
 
-// 2. SPI1 HARDWARE ENGINE MAP ON PORT 0 CHANNELS
+// Hardware SPI1 Pin Routing configuration
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> hole D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> hole D2 (P0.17)
         };
     };
     spi1_sleep: spi1_sleep {
@@ -84,25 +84,26 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1 (P0.06)
+    // CS control mapped cleanly to hole D1 (P0.06)
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> hole D0 (P0.08)
         mipi-mode = <1>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
+        // Physical Panel Driver Register Settings
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> hole D5 (P0.24)
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -113,24 +114,22 @@
             colmod = <0x05>;                      
             gamma = <1>;
             vcom = <0x19>;
-            gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            
-            /* FIXED REVERSED ORIENTATION STRATEGY FOR XIITIA HARDWARE */
-            mdac = <0x00>;                        // <--- FIXED PORTRAIT DRIVER MAPPING
-            lcm = <0x2C>;                         // <--- FIXED FACTORY ALIGNED POLARITY SIGNALS
+
+            /* TARGET PANEL CALIBRATION OVERRIDES FOR THE 1.9" IPS PANEL */
+            gctrl = <0x14>;                       // <--- SPECIFIC RE-ALIGNMENT CURRENT MODIFIER
+            mdac = <0xC0>;                        // <--- REVERSES ROW/COL SCAN DIRECTIONS TO WAKE PIXELS
+            lcm = <0x21>;                         
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
             cmd2en-param = [5A 69 02 01];
             pwctrl1-param = [A4 A1];
             pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3f 44 51 2F 1F 1F 20 23];
+            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
             ram-param = [00 F0];
             rgb-param = [CD 08 14];
-            
-            /* Bad cmd2en-param-len variable has been entirely deleted */
         };
     };
 };
