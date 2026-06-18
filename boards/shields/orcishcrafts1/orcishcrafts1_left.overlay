@@ -1,6 +1,7 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 + ST7789 1.9" Display (Portrait)
+ * Wiring: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -60,7 +61,7 @@
     status = "okay";
 };
 
-// Hardware SPI Bus Pin Configurations (SPI3)
+// 2. HARDWARE SPI BUS PIN CONFIGURATIONS (SPI3)
 &pinctrl {
     spi3_default: spi3_default {
         group1 {
@@ -83,7 +84,7 @@
     pinctrl-1 = <&spi3_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano pin D1 (P0.06)
+    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi0: mipi_dbi@0 {                        
@@ -97,14 +98,14 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // Physical Panel Driver Register Settings
+        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
             
-            /* HARDWARE PULSE FIX: Restored to ACTIVE_LOW to pull the pin back to 3.3V after boot */
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4 (P0.22)
+            /* RE-MAPPED RESET PIN: Shifted to unshared data pin D5 (P0.24) */
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -112,7 +113,7 @@
             x-offset = <34>;
             y-offset = <0>;
 
-            /* Core Register Value Overrides */
+            /* XIITIA 1.9" Substrate Core Value Overrides */
             colmod = <0x05>;                      
             gamma = <1>;
             vcom = <0x19>;
@@ -121,8 +122,6 @@
             vdvs = <0x20>;
             mdac = <0x60>;                        
             lcm = <0x21>;                         
-
-            /* Problematic vblank variable has been entirely removed */
 
             /* Balanced Byte Array Structures */
             porch-param = [0c 0c 00 33 33];
