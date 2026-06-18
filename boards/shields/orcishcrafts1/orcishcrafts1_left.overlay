@@ -65,8 +65,8 @@
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> hole D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> hole D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
         };
     };
     spi1_sleep: spi1_sleep {
@@ -84,26 +84,24 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS control mapped cleanly to hole D1 (P0.06)
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         mipi-mode = <1>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // Physical Panel Driver Register Settings
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> hole D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -116,11 +114,12 @@
             vcom = <0x19>;
             vrhs = <0x12>;
             vdvs = <0x20>;
+            gctrl = <0x35>;                       
+            mdac = <0x00>;                        
+            lcm = <0x2c>;                         
 
-            /* TARGET PANEL CALIBRATION OVERRIDES FOR THE 1.9" IPS PANEL */
-            gctrl = <0x14>;                       // <--- SPECIFIC RE-ALIGNMENT CURRENT MODIFIER
-            mdac = <0xC0>;                        // <--- REVERSES ROW/COL SCAN DIRECTIONS TO WAKE PIXELS
-            lcm = <0x21>;                         
+            /* DRIVER GATE UNLOCK FIX: Explicitly mandates display inversion profile to hold gates open */
+            st7789v,inversion-on;                 // <--- UNLOCKS SILICON INVERSION STANDBY DEADLOCK
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
