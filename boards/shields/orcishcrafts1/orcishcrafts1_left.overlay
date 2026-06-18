@@ -61,13 +61,12 @@
     status = "okay";
 };
 
-// 2. FORCE RE-MAPPING SPI1 HARDWARE ENGINES ONTO CLEAN PORT 0 CHANNELS
+// 2. SPI1 HARDWARE ENGINE MAP ON PORT 0 CHANNELS
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            /* Maps clock back to clean hole D3 (P0.20) and data back to clean hole D2 (P0.17) */
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; 
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2 (P0.17)
         };
     };
     spi1_sleep: spi1_sleep {
@@ -85,8 +84,7 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1 (P0.06)
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
@@ -104,9 +102,7 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            
-            // RES wire control mapped cleanly to nice!nano/SuperMini pin D5 (P0.24)
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5 (P0.24)
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -131,6 +127,9 @@
             nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
             ram-param = [00 F0];
             rgb-param = [CD 08 14];
+
+            /* DRIVER MATRIX OVERFLOW FIX: Force layout descriptor length tracking */
+            cmd2en-param-len = <4>;               // <--- ADDED REQUIRED LENGTH IDENTIFIER
         };
     };
 };
