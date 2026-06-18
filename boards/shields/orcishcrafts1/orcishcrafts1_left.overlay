@@ -61,16 +61,30 @@
     status = "okay";
 };
 
-// 2. HARDWARE SPI1 FORCED PIN INITIALIZATION (Rips out pinctrl bottlenecks)
+// 2. MODERN PINCTRL OVERRIDE FORMAT FOR SPI1 BUS
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to hole D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to hole D2 (P0.17)
+        };
+    };
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            low-power-enable;
+        };
+    };
+};
+
+// 3. ATTACH THE ALIGNED PIN CONFIGURATIONS TO THE ACTIVE SPI1 ENGINE
 &spi1 {
     status = "okay";
-    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
     
-    /* DIRECT SILICON OVERRIDE: Forces the pins to activate without pinctrl blocks */
-    sck-pin = <20>;   // SCL hardwired to hole D3 (P0.20)
-    mosi-pin = <17>;  // SDA hardwired to hole D2 (P0.17)
-    /* MISO pin left out completely to prevent pin assignment loops */
-
     // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
@@ -84,7 +98,7 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
+        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
