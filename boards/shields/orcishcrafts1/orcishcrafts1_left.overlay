@@ -118,8 +118,9 @@
             mdac = <0x00>;                        
             lcm = <0x21>;                         
 
-            /* LOOP BREAKER FIX: Forces the driver to bypass infinite microsecond calibration loops */
-            reset-ms = <1>;                       // <--- OVERRIDES HARDCODED BOOT TIMEOUT DELAYS
+            /* VERIFIED REPO DELAY FIX: Bypasses infinite microsecond loops using standard driver properties */
+            pre-reset-delay-ms = <10>;            
+            post-reset-delay-ms = <120>;          
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
