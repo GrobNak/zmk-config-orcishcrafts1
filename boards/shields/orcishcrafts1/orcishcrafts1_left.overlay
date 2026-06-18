@@ -92,15 +92,14 @@
     
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
 
-    /* FIXED: Changed node name from mipi_dbi0 to 'spi@0' to satisfy the spi_bus_bridge schema constraint */
     spi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        
-        /* FIXED: Set mandatory clock limits directly on the parent bridge block */
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
+        
+        /* THE WORD SIZE WORD FIX: Setting MIPI mode to <0> forces strict 8-bit SPI packaging */
+        mipi-mode = <0>;                          // <--- CHANGED FROM <1> TO <0>
 
         #address-cells = <1>;
         #size-cells = <0>;
