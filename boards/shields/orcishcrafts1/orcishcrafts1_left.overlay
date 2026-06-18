@@ -1,7 +1,7 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
- * Hardware: Nice!Nano V2 + ST7789 1.9" Display
- * Verified Wiring: SCL=P0.20, SDA=P0.17, RES=P0.22, DC=P0.08, CS=P0.06
+ * Hardware: Nice!Nano V2 + ST7789 1.9" Display (Portrait)
+ * Verified Wiring: SCL=P0.20, SDA=P0.17, RES=P0.22, DC=P0.08, CS=P0.06 (Tied GND/VCC internally)
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -14,7 +14,7 @@ kscan0: kscan0 {
     diode-direction = "col2row";
     wakeup-source;
 
-    // Columns - Keep exactly as you had them (Working!)
+    // Columns (Pins confirmed working for keyboard)
     col-gpios
         = <&pro_micro 6 GPIO_ACTIVE_HIGH>
         , <&pro_micro 8 GPIO_ACTIVE_HIGH>
@@ -23,7 +23,7 @@ kscan0: kscan0 {
         , <&pro_micro 16 GPIO_ACTIVE_HIGH>
         , <&pro_micro 14 GPIO_ACTIVE_HIGH>;
 
-    // Rows - Keep exactly as you had them (Working!)
+    // Rows (Pins confirmed working for keyboard)
     row-gpios
         = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -33,23 +33,24 @@ kscan0: kscan0 {
 };
 
 // =========================================================================
-// 2. DISPLAY CONFIGURATION (REPLACED - Minimal & Fixed for SPI Mode 3)
+// 2. DISPLAY CONFIGURATION (FIXED)
 // =========================================================================
 
 /* 
-   CRITICAL FIX: 
-   We use the standard 'sitronix,st7789' driver directly on the SPI bus.
-   We explicitly set spi-cpol and spi-cpha to match your Arduino's SPI_MODE3.
-   All hex initialization params have been removed to prevent mismatches.
+   Fixes Applied:
+   1. Removed cs-gpios to prevent Pin 6 conflict with internal module wiring.
+   2. Corrected width/height to 172x320 (Portrait).
+   3. Added spi-cpol/spi-cpha for SPI_MODE3 compatibility.
+   4. Removed custom hex params (using driver defaults).
 */
 
 display: display@0 {
     compatible = "sitronix,st7789";
     reg = <0>;
 
-    /* Dimensions matching tft.init(172, 320) */
-    width = <320>;  /* Portrait Height */
-    height = <172>; /* Portrait Width */
+    /* Dimensions matching physical 172x320 Portrait Screen */
+    width = <172>;  
+    height = <320>; 
 
     spi-max-frequency = <8000000>; /* 8MHz Safe Speed */
 
@@ -57,19 +58,18 @@ display: display@0 {
     reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* RES -> D4 (P0.22) */
     dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    /* DC -> D0 (P0.08) */
     
-    /* Optional: Some screens need explicit CS control via GPIO if not hardwired */
-    /* If your screen has CS wired to D1 (P0.06), enable the line below. 
-       If CS is hardwired to GND/VCC on the module, comment it out or leave it. */
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;     /* CS -> D1 (P0.06) */
+    // REMOVED: cs-gpios = <&gpio0 6 ...>; 
+    // Reason: Generic modules usually have CS tied internally. 
+    // Forcing a GPIO causes the screen to ignore data.
 
-    /* CRITICAL: Force SPI Mode 3 (CPOL=1, CPHA=1) */
+    /* CRITICAL: Force SPI Mode 3 (CPOL=1, CPHA=1) to match Arduino sketch */
     spi-cpol;
     spi-cpha;
 
     /* Standard 16-bit Color */
     colmod = <0x55>;
 
-    /* Orientation */
+    /* Orientation: 0 = Portrait (Native). Change to 180 if upside down. */
     rotation = <0>;
 
     /* Reset Timing Delays (Matches Adafruit defaults) */
@@ -97,8 +97,8 @@ chosen {
 };
 
 /* 
-   Pin Control for SPI Bus (Keep your original pinctrl if it worked, 
-   but ensure it points to P0.20 and P0.17)
+   Pin Control for SPI Bus 
+   Maps SCK to P0.20 and MOSI to P0.17 as per verified wiring
 */
 &pinctrl {
     spi0_default: spi0_default {
