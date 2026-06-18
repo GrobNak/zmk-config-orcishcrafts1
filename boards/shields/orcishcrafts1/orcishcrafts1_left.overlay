@@ -116,20 +116,21 @@
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            mdac = <0x60>;                        
-            lcm = <0x21>;                         
+            
+            /* FIXED REVERSED ORIENTATION STRATEGY FOR XIITIA HARDWARE */
+            mdac = <0x00>;                        // <--- FIXED PORTRAIT DRIVER MAPPING
+            lcm = <0x2C>;                         // <--- FIXED FACTORY ALIGNED POLARITY SIGNALS
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
             cmd2en-param = [5A 69 02 01];
             pwctrl1-param = [A4 A1];
             pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
+            nvgam-param = [D0 04 0C 11 13 2C 3f 44 51 2F 1F 1F 20 23];
             ram-param = [00 F0];
             rgb-param = [CD 08 14];
-
-            /* DRIVER MATRIX OVERFLOW FIX: Force layout descriptor length tracking */
-            cmd2en-param-len = <4>;               // <--- ADDED REQUIRED LENGTH IDENTIFIER
+            
+            /* Bad cmd2en-param-len variable has been entirely deleted */
         };
     };
 };
