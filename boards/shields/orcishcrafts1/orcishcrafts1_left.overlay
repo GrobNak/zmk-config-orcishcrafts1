@@ -1,7 +1,7 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
- * Hardware: SuperMini NRF52840 + ST7789 1.9" Display (Portrait)
- * Wiring: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
+ * SuperMini Labels Layout: SCK->113, MOSI->115, CS->D1, DC->D0, RES->D5
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -61,27 +61,28 @@
     status = "okay";
 };
 
-// 2. HARDWARE SPI BUS PIN CONFIGURATIONS (SPI3)
+// 2. HARDWARE SPI0 OVERRIDE FOR PORT 1 PIN REGISTERS (SUPERMINI SPECIFIC)
 &pinctrl {
-    spi3_default: spi3_default {
+    spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCK on D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // MOSI on D2 (P0.17)
+            /* Maps clock explicitly to label 113 (P1.13) and data to label 115 (P1.15) */
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,  
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>; 
         };
     };
-    spi3_sleep: spi3_sleep {
+    spi0_sleep: spi0_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>;
             low-power-enable;
         };
     };
 };
 
-&spi3 {
+&spi0 {
     status = "okay";
-    pinctrl-0 = <&spi3_default>;
-    pinctrl-1 = <&spi3_sleep>;
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
     
     // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
@@ -104,7 +105,7 @@
             reg = <0>;
             spi-max-frequency = <4000000>; 
             
-            /* RE-MAPPED RESET PIN: Shifted to unshared data pin D5 (P0.24) */
+            // RES wire control mapped cleanly to nice!nano/SuperMini pin D5 (P0.24)
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
 
             /* 172x320 Viewport Window Specifications */
@@ -113,7 +114,6 @@
             x-offset = <34>;
             y-offset = <0>;
 
-            /* XIITIA 1.9" Substrate Core Value Overrides */
             colmod = <0x05>;                      
             gamma = <1>;
             vcom = <0x19>;
@@ -136,6 +136,5 @@
 };
 
 &uicr {
-    /* HARDWARE LOCK REMOVAL: Strips the default pin configuration off P0.20 to free SCL */
-    /delete-property/ nfct-pins-as-gpios;
+    nfct-pins-as-gpios;
 };
