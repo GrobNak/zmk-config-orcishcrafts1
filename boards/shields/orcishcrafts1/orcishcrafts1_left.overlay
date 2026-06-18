@@ -45,8 +45,8 @@
     };
 
     chosen {
-        zephyr,display = &display;   // Links the device to the low-level kernel driver
-        zmk,display = &display;      // Links the device to the ZMK graphics pipeline
+        zephyr,display = &display;   
+        zmk,display = &display;      
         zmk,kscan = &kscan0;
     };
 };
@@ -86,14 +86,14 @@
     // Software controlled CS pin on D1 (P0.06) matching your wiring plan
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
-    // 3. MANDATORY FIXED BUS NAME WRAPPER (Fixes the silent driver initialization crash)
-    mipi_dbi0: mipi_dbi {                         // <--- FIXED NODE SYNTAX NAME
+    // 3. FIXED WRAPPER NAME PATH (Satisfies the unit address requirements)
+    mipi_dbi0: mipi_dbi@0 {                        // <--- FIXED BOTH THE LABEL AND UNIT ADDRESS
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <8000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
         mipi-mode = <1>;                          
-        write-only;                               // Halts un-wired MISO channel stalls
+        write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
