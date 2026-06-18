@@ -1,14 +1,13 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
- * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
- * Final Safe SuperMini Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display
+ * Wiring Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -61,7 +60,7 @@
     status = "okay";
 };
 
-// Hardware SPI1 Pin Routing configuration
+// Route pins cleanly over SPI1
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -84,15 +83,13 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1 (P0.06)
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
-        mipi-mode = <1>;                          
-        write-only;                               
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
 
         #address-cells = <1>;
         #size-cells = <0>;
@@ -101,33 +98,12 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5
 
-            /* 172x320 Viewport Window Specifications */
             width = <172>;  
             height = <320>; 
-            x-offset = <34>;
+            x-offset = <0>;
             y-offset = <0>;
-
-            colmod = <0x05>;                      
-            gamma = <1>;
-            mdac = <0x00>;                        
-            lcm = <0x21>;                         
-
-            /* MANUAL FACTORY ALIGNED HARDWARE VOLTAGE REGISTER VALUES */
-            vcom = <0x2b>;                        // <--- FIXED: Heightened baseline VCOM threshold
-            gctrl = <0x35>;                       // <--- FIXED: Regulated gate driver voltage
-            vrhs = <0x11>;                        // <--- FIXED: Stable positive voltage limits
-            vdvs = <0x20>;                        // <--- FIXED: Synchronized digital voltage source
-
-            /* Balanced Byte Array Structures */
-            porch-param = [0C 0C 00 33 33];
-            cmd2en-param = [5A 69 02 01];
-            pwctrl1-param = [A4 A1];
-            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 F0];
-            rgb-param = [CD 08 14];
         };
     };
 };
