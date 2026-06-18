@@ -1,35 +1,37 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
- * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
- * Solder Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
- * Matrix Calibration: Reset completely back to original working settings
+ * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
+ * Physical Display Wiring: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Physical Matrix Wiring: Verified Raw SuperMini Backside Port Layout
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION (YOUR ORIGINAL WORKING KEY ROUTING RESTORED)
+    // 1. KEYBOARD MATRIX DEFINITION (MATCHED EXACTLY TO YOUR BENCH WIRING)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
 
+        /* Columns mapped exactly from left to right (Tab side to inner edge) */
         col-gpios
-            = <&pro_micro 4 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 5 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 6 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 7 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> // Column 1 (031)
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> // Column 2 (029)
+            , <&gpio0  2 GPIO_ACTIVE_HIGH> // Column 3 (002)
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> // Column 4 (115)
+            , <&gpio1 13 GPIO_ACTIVE_HIGH> // Column 5 (113)
+            , <&gpio1 11 GPIO_ACTIVE_HIGH> // Column 6 (111)
             ;
 
+        /* Rows mapped exactly from top to bottom */
         row-gpios
-            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 1 (010)
+            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 2 (009)
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 3 (106)
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 4 (104)
+            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 5 (100)
             ;
     };
 
@@ -62,7 +64,7 @@
     status = "okay";
 };
 
-// Hardware SPI1 Pin Routing configuration
+// 2. HARDWARE SPI1 PIN ROUTING (Isolated display tracks)
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -86,13 +88,13 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS on Hole D1 (P0.06)
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC on Hole D0 (P0.08)
         mipi-mode = <1>;                          
 
         #address-cells = <1>;
@@ -103,7 +105,7 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES on Hole D5 (P0.24)
 
             /* 172x320 Viewport Specifications */
             width = <172>;  
