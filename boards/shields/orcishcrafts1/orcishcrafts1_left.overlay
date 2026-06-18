@@ -116,19 +116,15 @@
             x-offset = <34>;
             y-offset = <0>;
 
-            /* 
-               CRITICAL REGISTER TYPE FIX: 
-               Re-formatted all single properties from integers into strict 8-bit byte arrays 
-               to pass the Zephyr driver's internal initialization data validation checks.
-            */
-            colmod =;                      
-            gamma =;
-            vcom =;
-            vrhs =;
-            vdvs =;
-            gctrl =;                       
-            mdac =;                        
-            lcm =;                         
+            /* RESTORED: Standard integer array tokens matching valid driver binding limits */
+            colmod = <0x05>;                      
+            gamma = <1>;
+            vcom = <0x19>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
+            gctrl = <0x35>;                       
+            mdac = <0x00>;                        
+            lcm = <0x21>;                         
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
