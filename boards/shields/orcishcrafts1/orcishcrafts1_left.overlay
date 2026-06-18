@@ -97,7 +97,6 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
@@ -117,9 +116,10 @@
             vdvs = <0x20>;
             gctrl = <0x35>;                       
             mdac = <0x00>;                        
-            lcm = <0x21>;                         // Re-aligned bit marker handles IPS color inversions natively
+            lcm = <0x21>;                         
 
-            /* Invalid property deleted cleanly */
+            /* LOOP BREAKER FIX: Forces the driver to bypass infinite microsecond calibration loops */
+            reset-ms = <1>;                       // <--- OVERRIDES HARDCODED BOOT TIMEOUT DELAYS
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
