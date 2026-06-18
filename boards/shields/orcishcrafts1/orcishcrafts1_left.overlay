@@ -1,13 +1,14 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
- * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display
- * Wiring Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
+ * Final Safe SuperMini Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
+    // 1. KEYBOARD MATRIX DEFINITION
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -60,62 +61,52 @@
     status = "okay";
 };
 
-// Route pins over SPI1
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
-        };
-    };
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
-            low-power-enable;
-        };
-    };
-};
-
+// 2. HARDWARE SPI1 FORCED PIN INITIALIZATION (Rips out pinctrl bottlenecks)
 &spi1 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
+    compatible = "nordic,nrf-spim";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
+    /* DIRECT SILICON OVERRIDE: Forces the pins to activate without pinctrl blocks */
+    sck-pin = <20>;   // SCL hardwired to hole D3 (P0.20)
+    mosi-pin = <17>;  // SDA hardwired to hole D2 (P0.17)
+    /* MISO pin left out completely to prevent pin assignment loops */
+
+    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> hole D0 (P0.08)
+        mipi-mode = <1>;                          
 
         #address-cells = <1>;
         #size-cells = <0>;
 
+        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> hole D5 (P0.24)
 
+            /* 172x320 Viewport Window Specifications */
             width = <172>;  
             height = <320>; 
             x-offset = <34>;
             y-offset = <0>;
 
-            /* RESTORED MANDATORY INTEGER BASELINE FIELDS TO PASS PARSER VALIDATION */
             colmod = <0x05>;                      
             gamma = <1>;
             vcom = <0x19>;
-            gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
+            gctrl = <0x35>;                       
             mdac = <0x00>;                        
             lcm = <0x21>;                         
 
-            /* Restored basic structural arrays without cache-poisoning syntax keys */
+            /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
             cmd2en-param = [5A 69 02 01];
             pwctrl1-param = [A4 A1];
