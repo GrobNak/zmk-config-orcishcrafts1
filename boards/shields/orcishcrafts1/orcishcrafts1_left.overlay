@@ -98,14 +98,12 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL ST7789 PANEL CONSTRAINTS
+        // PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <1000000>; 
-            
-            // RES wire mapped cleanly to nice!nano pin D4 (P0.22)
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4 (P0.22)
 
             width = <172>;  
             height = <320>; 
@@ -119,7 +117,9 @@
             vrhs = <0x12>;
             vdvs = <0x20>;
             mdac = <0x60>;
-            lcm = <0x2c>;
+            
+            /* COLOR CORRECTION: Changed from 0x2c to 0x21 to flip the hardware color inversion */
+            lcm = <0x21>;                         // <--- UPDATE THIS REGISTER PROP VALUE
 
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
@@ -129,6 +129,7 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+
     };
 };
 
