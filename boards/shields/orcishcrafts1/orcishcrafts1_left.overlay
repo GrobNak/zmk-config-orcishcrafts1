@@ -95,11 +95,11 @@
     spi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        
-        /* HARDWARE STABILITY FIX: Clock dropped to a safe 2MHz to clear frame word size errors */
         spi-max-frequency = <2000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
+        
+        /* THE WORD SIZE FIX: Forces MIPI-DBI mid-layer to restrict data to 8-bit packets */
+        mipi-mode = <0>;                          
 
         #address-cells = <1>;
         #size-cells = <0>;
