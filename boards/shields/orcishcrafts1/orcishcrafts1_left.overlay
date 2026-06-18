@@ -98,12 +98,11 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
+        // PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <8000000>; 
-            
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4 (P0.22)
 
             /* 172-Pixel Window Dimensions Fix */
@@ -112,17 +111,18 @@
             x-offset = <34>;
             y-offset = <0>;
 
-            /* Core Register Properties */
-            colmod = <0x55>;
+            /* HARDWARE CORRECTION FOR THE XIITIA PANEL */
+            colmod = <0x05>;                      // <--- CHANGED FROM 0x55 TO 0x05 FOR RGB565 PACKING
+            mdac = <0x60>;                        // <--- CHANGED FROM 0x00 TO 0x60 FOR MEMORY SCANNING ALIGNMENT
+            
             gamma = <1>;
             vcom = <0x19>;
             gctrl = <0x35>;
             vrhs = <0x12>;
             vdvs = <0x20>;
-            mdac = <0x00>;
             lcm = <0x2c>;
 
-            /* Byte Array Declarations Required by Driver Binding Validator */
+            /* Structural Arrays */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
@@ -131,6 +131,7 @@
             ram-param = [00 f0];
             rgb-param = [cd 08 14];
         };
+
     };
 };
 
