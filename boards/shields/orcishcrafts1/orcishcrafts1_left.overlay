@@ -60,15 +60,15 @@
     status = "okay";
 };
 
-// 2. FIXED SCOPING FOR HARDWARE PIN CONFIGURATION
+// 2. HARDWARE SPI1 PIN ROUTING (Bypasses locked SPI0 peripheral blocks)
 &pinctrl {
-    spi0_default: spi0_default {
+    spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to hole D3
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to hole D2
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> Hole D3 (P0.20)
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> Hole D2 (P0.17)
         };
     };
-    spi0_sleep: spi0_sleep {
+    spi1_sleep: spi1_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>;
@@ -77,11 +77,11 @@
     };
 };
 
-// 3. ATTACH THE COMPATIBLE DRIVERS TO THE SPI CHANNEL
-&spi0 {
+// 3. ACTIVATE THE SPI1 INTERFACE CHANNELS
+&spi1 {
     status = "okay";
-    pinctrl-0 = <&spi0_default>;
-    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
     // CS wire mapped cleanly to nice!nano pin D1 (P0.06)
@@ -90,17 +90,15 @@
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        
-        /* SAFE TIMING SYNC: Set to 1 MHz to guarantee clean signal edge capture */
-        spi-max-frequency = <1000000>;            
-        
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC hardwired to hole D0 (P0.08)
+        spi-max-frequency = <1000000>; // Run at safe 1MHz to ensure clean line stabilization            
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> Hole D0 (P0.08)
         mipi-mode = <1>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
+        // 4. PHYSICAL ST7789 PANEL CONSTRAINTS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
