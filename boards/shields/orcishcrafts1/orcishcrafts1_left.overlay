@@ -1,3 +1,4 @@
+
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
@@ -7,7 +8,6 @@
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <dt-bindings/spi/spi.h>
 
 / {
     aliases {
@@ -99,6 +99,9 @@
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         mipi-mode = <1>;                          
+        
+        /* THE WORD SIZE FIX: Forces strict 8-bit sequential single-byte transfers */
+        write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
@@ -109,9 +112,6 @@
             reg = <0>;
             spi-max-frequency = <4000000>; 
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
-
-            /* THE 8-BIT WORD LOCK: Mandates strict byte sizing down to the low-level nRF SPIM layer */
-            operation = <(SPI_WORD_SET(8) | SPI_OP_MODE_MASTER)>;
 
             /* 172x320 Viewport Specifications */
             width = <172>;  
