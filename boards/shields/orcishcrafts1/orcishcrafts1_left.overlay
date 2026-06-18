@@ -39,14 +39,14 @@
 };
 
 &pinctrl {
-    spi3_default: spi3_default {
+    spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
         };
     };
 
-    spi3_sleep: spi3_sleep {
+    spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>;
@@ -55,20 +55,23 @@
     };
 };
 
-&spi3 {
+&spi0 {
     status = "okay";
-    pinctrl-0 = <&spi3_default>;
-    pinctrl-1 = <&spi3_sleep>;
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    /* CS is hardwired directly to Ground to bypass selection freezes */
+    /* CS is hardwired to GND on your bench to keep it selected */
 
-    mipi_dbi0: mipi_dbi@0 {
+    mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <24000000>;
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC hardwired to D0 (P0.08)
+        
+        /* ZEPHYR BINDING MANDATE: Property location rules */
+        mipi-max-frequency = <24000000>;          
         mipi-mode = <1>;                          
-        write-only;                               // Halts un-wired MISO blocking hangs
+        write-only;                               
+        
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -76,19 +79,17 @@
         display: st7789v@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
+            
+            /* Required node parameter bindings */
             spi-max-frequency = <24000000>;       
+            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES -> D4
             
-            /* FORCE HARDWARE RE-REGISTRATION: Satisfies the internal state compiler */
-            reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; // RES mapped to D4 (P0.22)
-            
-            /* Physical Window Coordinates for the XIITIA 1.9" panel */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            /* Restored required integer properties to pass validation check */
-            colmod = <0x55>;                      
+            colmod = <0x55>;
             gamma = <1>;
             vcom = <0x19>;
             gctrl = <0x35>;
