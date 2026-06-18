@@ -1,9 +1,66 @@
+#include "orcishcrafts1.dtsi"
+
+/ {
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        wakeup-source;
+
+        col-gpios
+            = <&pro_micro 6 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+            ;
+
+        row-gpios
+            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+
+    chosen {
+        zephyr,display = &display;
+        zmk,kscan = &kscan0;
+    };
+};
+
+&physical_layout_orcishcrafts1 {
+    kscan = <&kscan0>;
+};
+
+&usbd {
+    status = "okay";
+};
+
+&pinctrl {
+    spi0_default: spi0_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> D3
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> D2
+        };
+    };
+
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            low-power-enable;                     
+        };
+    };
+};
+
 &spi0 {
     status = "okay";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    /* CS is hardwired directly to Ground to keep it selected */
+    /* CS wire remains hardwired to GND to stay selected */
 
     mipi_dbi@0 {
         compatible = "zephyr,mipi-dbi-spi";
@@ -11,7 +68,7 @@
         spi-max-frequency = <24000000>;
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC tied to D0 (P0.08)
         mipi-mode = <1>;                          
-        write-only;                               // Halts un-wired MISO blocking hangs
+        write-only;                               // Suppresses un-wired MISO loops
         
         #address-cells = <1>;                     
         #size-cells = <0>;                        
@@ -21,16 +78,16 @@
             reg = <0>;
             spi-max-frequency = <24000000>;       
             
-            /* Wired to Nice!Nano pin D4 (P0.22) */
+            /* Connected physically to Nice!Nano pin D4 (P0.22) */
             reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
             
-            /* Physical Window Coordinates for the XIITIA 1.9" panel */
+            /* Window Dimensions for XIITIA 1.9" panel */
             width = <170>;                     
             height = <320>;                    
             x-offset = <35>;                    
             y-offset = <0>;                   
             
-            /* Restored standard parameters to pass validation */
+            /* Core Required Driver Properties */
             colmod = <0x55>;                      
             gamma = <1>;
             vcom = <0x19>;
@@ -40,6 +97,7 @@
             mdac = <0x00>;                     
             lcm = <0x2c>;
             
+            /* Structural Byte Arrays Required by Binding Validator */
             porch-param = [0c 0c 00 33 33];
             cmd2en-param = [5a 69 02 01];
             pwctrl1-param = [a4 a1];
