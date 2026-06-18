@@ -3,4 +3,39 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
+    runs-on: ubuntu-latest
+    name: Build Left Shield Firmware
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            modules
+            tools
+            zephyr
+            bootloader
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+
+      - name: Initialize workspace
+        uses: zmkfirmware/zmk/actions/init@main
+
+      - name: Build Left Shield
+        uses: zmkfirmware/zmk/actions/build-config@main
+        with:
+          board: nice_nano_v2
+          shield: orcishcrafts1_left
+          # We leave out the snippet line completely to release the SPI0 registers
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcishcrafts1_left_firmware
+          path: build/zephyr/zmk.uf2
