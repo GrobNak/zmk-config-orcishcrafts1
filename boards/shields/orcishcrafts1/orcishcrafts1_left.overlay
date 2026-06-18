@@ -1,20 +1,19 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: Nice!Nano V2 + ST7789 1.9" Display (Portrait)
- * Verified Wiring: SCL=P0.20, SDA=P0.17, RES=P0.22, DC=P0.08, CS=P0.06 (Tied GND/VCC internally)
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 
 // =========================================================================
-// 1. KEYBOARD MATRIX (Preserved - Working)
+// 1. KEYBOARD MATRIX
 // =========================================================================
+
 kscan0: kscan0 {
     compatible = "zmk,kscan-gpio-matrix";
     diode-direction = "col2row";
     wakeup-source;
 
-    // Columns (Pins confirmed working for keyboard)
     col-gpios
         = <&pro_micro 6 GPIO_ACTIVE_HIGH>
         , <&pro_micro 8 GPIO_ACTIVE_HIGH>
@@ -23,7 +22,6 @@ kscan0: kscan0 {
         , <&pro_micro 16 GPIO_ACTIVE_HIGH>
         , <&pro_micro 14 GPIO_ACTIVE_HIGH>;
 
-    // Rows (Pins confirmed working for keyboard)
     row-gpios
         = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
         , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -33,58 +31,40 @@ kscan0: kscan0 {
 };
 
 // =========================================================================
-// 2. DISPLAY CONFIGURATION (FIXED)
+// 2. DISPLAY CONFIGURATION
 // =========================================================================
-
-/* 
-   Fixes Applied:
-   1. Removed cs-gpios to prevent Pin 6 conflict with internal module wiring.
-   2. Corrected width/height to 172x320 (Portrait).
-   3. Added spi-cpol/spi-cpha for SPI_MODE3 compatibility.
-   4. Removed custom hex params (using driver defaults).
-*/
 
 display: display@0 {
     compatible = "sitronix,st7789";
     reg = <0>;
 
-    /* Dimensions matching physical 172x320 Portrait Screen */
     width = <172>;  
     height = <320>; 
 
-    spi-max-frequency = <8000000>; /* 8MHz Safe Speed */
+    spi-max-frequency = <8000000>; 
 
-    /* YOUR VERIFIED PIN MAPPING */
-    reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* RES -> D4 (P0.22) */
-    dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    /* DC -> D0 (P0.08) */
-    
-    // REMOVED: cs-gpios = <&gpio0 6 ...>; 
-    // Reason: Generic modules usually have CS tied internally. 
-    // Forcing a GPIO causes the screen to ignore data.
+    reset-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
+    dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    
+    // cs-gpios removed to prevent conflict
 
-    /* CRITICAL: Force SPI Mode 3 (CPOL=1, CPHA=1) to match Arduino sketch */
     spi-cpol;
     spi-cpha;
 
-    /* Standard 16-bit Color */
     colmod = <0x55>;
-
-    /* Orientation: 0 = Portrait (Native). Change to 180 if upside down. */
     rotation = <0>;
 
-    /* Reset Timing Delays (Matches Adafruit defaults) */
     post-reset-delay-ms = <120>;
-    pre-reset-delay-ms = <10>;
+    pre-reset-delay-sleep-ms = <10>;
 };
 
-/* Tell ZMK to use this display node */
 chosen {
     zmk-display = &display;
 };
 
 // =========================================================================
-// 3. PHYSICAL LAYOUT REFERENCE
+// 3. PHYSICAL LAYOUT
 // =========================================================================
+
 &physical_layout_orcishcrafts1 {
     kscan = <&kscan0>;
 };
@@ -92,19 +72,16 @@ chosen {
 // =========================================================================
 // 4. USB & Power
 // =========================================================================
+
 &usbd {
     status = "okay";
 };
 
-/* 
-   Pin Control for SPI Bus 
-   Maps SCK to P0.20 and MOSI to P0.17 as per verified wiring
-*/
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  /* SCL -> P0.20 */
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; /* SDA -> P0.17 */
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
         };
     };
     spi0_sleep: spi0_sleep {
@@ -126,6 +103,7 @@ chosen {
 // =========================================================================
 // 5. MATRIX TRANSFORM
 // =========================================================================
+
 matrix_transform0: matrix_transform0 {
     compatible = "zmk,matrix-transform";
     columns = <12>;
