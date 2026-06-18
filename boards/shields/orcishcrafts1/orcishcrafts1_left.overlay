@@ -8,7 +8,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION
+    // 1. KEYBOARD MATRIX DEFINITION (FULLY RESTORED KEY ROUTING)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -61,7 +61,7 @@
     status = "okay";
 };
 
-// 2. MODERN PINCTRL OVERRIDE FORMAT FOR SPI1 BUS
+// 2. HARDWARE SPI1 PIN CONTROL MANAGEMENT
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -78,21 +78,20 @@
     };
 };
 
-// 3. ATTACH THE ALIGNED PIN CONFIGURATIONS TO THE ACTIVE SPI1 ENGINE
+// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         mipi-mode = <1>;                          
 
         #address-cells = <1>;
@@ -103,9 +102,9 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> hole D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-            /* 172x320 Viewport Window Specifications */
+            /* 172x320 Physical Substrate Frame Geometry Specifications */
             width = <172>;  
             height = <320>; 
             x-offset = <34>;
