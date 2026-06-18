@@ -111,14 +111,14 @@
 
             colmod = <0x05>;                      
             gamma = <1>;
-            vcom = <0x19>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            gctrl = <0x35>;                       
             mdac = <0x00>;                        
             lcm = <0x21>;                         
 
-            /* Problematic delay variables have been entirely removed */
+            /* MANUAL FACTORY ALIGNED HARDWARE VOLTAGE REGISTER VALUES */
+            vcom = <0x2b>;                        // <--- FIXED: Heightened baseline VCOM threshold
+            gctrl = <0x35>;                       // <--- FIXED: Regulated gate driver voltage
+            vrhs = <0x11>;                        // <--- FIXED: Stable positive voltage limits
+            vdvs = <0x20>;                        // <--- FIXED: Synchronized digital voltage source
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
