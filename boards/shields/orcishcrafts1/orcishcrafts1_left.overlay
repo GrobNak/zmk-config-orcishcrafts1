@@ -1,14 +1,14 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clones + ST7789 1.9" Display (Portrait)
- * Final Safe SuperMini Layout: SCK->D3, MOSI->D2, CS->D1, DC->D0, RES->D5
+ * Conflict-Free Layout: SCK->TX, MOSI->RX, CS->D6, DC->D0, RES->D5
  */
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. KEYBOARD MATRIX DEFINITION (FULLY RESTORED KEY ROUTING)
+    // 1. KEYBOARD MATRIX DEFINITION (FULLY OPERATIONAL KEYS)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -61,50 +61,50 @@
     status = "okay";
 };
 
-// 2. HARDWARE SPI1 PIN CONTROL MANAGEMENT
+// 2. HARDWARE PINCTRL FOR TX AND RX SAFE OVERRIDES
 &pinctrl {
-    spi1_default: spi1_default {
+    spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL hardwired to hole D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA hardwired to hole D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,   // SCL hardwired to pin TX (P0.06)
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>;  // SDA hardwired to pin RX (P0.08)
         };
     };
-    spi1_sleep: spi1_sleep {
+    spi0_sleep: spi0_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>;
             low-power-enable;
         };
     };
 };
 
-// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
-&spi1 {
+// 3. TARGET CLEAN SPI0 HARDWARE BLOCK
+&spi0 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
+    // CS wire moved to unshared physical pin D6 (P0.25)
+    cs-gpios = <&gpio0 25 GPIO_ACTIVE_LOW>;        
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
+        dc-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;  // DC on hole D0 (P0.10 chip address clears matrix)
         mipi-mode = <1>;                          
+        write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES on hole D5 (P0.24)
 
-            /* 172x320 Physical Substrate Frame Geometry Specifications */
             width = <172>;  
             height = <320>; 
             x-offset = <34>;
@@ -119,7 +119,6 @@
             mdac = <0x00>;                        
             lcm = <0x21>;                         
 
-            /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
             cmd2en-param = [5A 69 02 01];
             pwctrl1-param = [A4 A1];
