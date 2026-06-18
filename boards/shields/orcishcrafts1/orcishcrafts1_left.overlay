@@ -100,9 +100,6 @@
         mipi-mode = <1>;                          
         write-only;                               
 
-        /* THE RAW TRANS-SIZE FIX: Forcefully clamps all underlying SPIM transfers to 8 bits */
-        spi-frame-size = <8>;                     
-
         #address-cells = <1>;
         #size-cells = <0>;
 
@@ -113,10 +110,14 @@
             spi-max-frequency = <4000000>; 
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-            /* 172x320 Viewport Specifications */
-            width = <172>;  
+            /* 
+               THE BUFFER ENFORCEMENT FIX: 
+               Changing resolution bounds to standard 240x320 prevents ZMK's buffer engine 
+               from attempting un-aligned 16-bit fast bursts, forcing pure 8-bit streaming.
+            */
+            width = <240>;  
             height = <320>; 
-            x-offset = <34>;
+            x-offset = <0>;
             y-offset = <0>;
 
             colmod = <0x05>;                      
@@ -134,7 +135,7 @@
             pwctrl1-param = [A4 A1];
             pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
             nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 F0];
+            ram-param = [00 f0];
             rgb-param = [CD 08 14];
         };
     };
