@@ -84,24 +84,25 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS -> D1 (P0.06)
 
     mipi_dbi0: mipi_dbi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC -> D0 (P0.08)
         mipi-mode = <1>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
+        // 3. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES -> D5 (P0.24)
 
             /* 172x320 Viewport Window Specifications */
             width = <172>;  
@@ -116,10 +117,9 @@
             vdvs = <0x20>;
             gctrl = <0x35>;                       
             mdac = <0x00>;                        
-            lcm = <0x2c>;                         
+            lcm = <0x21>;                         // Re-aligned bit marker handles IPS color inversions natively
 
-            /* FIXED DRIVER BINDING PROPERTY MATCHING ZEPHYR REPO SPEC */
-            inversion-on;                         // <--- CORRECT PARAMETER KEY NAME
+            /* Invalid property deleted cleanly */
 
             /* Balanced Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
