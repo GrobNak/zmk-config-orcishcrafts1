@@ -19,7 +19,7 @@
         zmk,kscan = &kscan0;
     };
 
-    // 1. KEYBOARD MATRIX DEFINITION (MIRRORED COLUMNS FOR RIGHT SIDE)
+    // 1. KEYBOARD MATRIX DEFINITION (RAW DIRECT PORTS - MIRRORED FOR RIGHT HALF)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
@@ -94,7 +94,7 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    /* LOCKED: CS wire control is actively tracked on Hole D1 (P0.06 / Pin 6) */
+    /* CS wire control is actively tracked on Hole D1 (P0.06) */
     cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
     spi@0 {                        
@@ -113,7 +113,7 @@
             reg = <0>;
             spi-max-frequency = <1000000>; 
             
-            /* Original Right Side Reset Pin: Active on Hole D5 (P0.24) */
+            /* Original Right Side Reset Pin: Still active on Hole D5 (P0.24) */
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
 
             /* 240x320 Safe Hardware Allocation Viewport Boundaries */
