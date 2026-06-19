@@ -2,6 +2,21 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    /* 
+       THE INSTANT POWER SHUTDOWN OVERLAY:
+       Pressing and holding your first two keys (A and B) together for 50ms 
+       commands ZMK to shut down the display, Bluetooth radios, and sleep the chip.
+    */
+    combos {
+        compatible = "zmk,combos";
+        
+        combo_instant_sleep {
+            timeout-ms = <50>;
+            key-positions = <0 1>;    // Maps directly to the indices of your first two keys (A and B)
+            bindings = <&soft_off>;   // Calls the core power-down execution macro
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
