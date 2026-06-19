@@ -83,59 +83,56 @@
     };
 };
 
-// 3. SECURE DIRECT SPI HARDWARE BUS ROUTING (Bypasses intermediate MIPI wrappers)
+// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire control mapped cleanly to nice!nano/SuperMini pin D1 (P0.06)
-    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        // CS wire control on Hole D1 (P0.06)
 
-    #address-cells = <1>;
-    #size-cells = <0>;
-
-    /* 
-       DIRECT COMPATIBLE INITIALIZATION MATCH: 
-       Mounting the driver node directly inside the hardware SPI container drops 
-       the mid-layer byte grouping calculations completely, locking the Nordic SPIM 
-       engine into mandatory, error-free 8-bit streaming mode.
-    */
-    display: display@0 {
-        compatible = "sitronix,st7789v";
+    /* RESTORED: Standard MIPI-DBI bridge mapping wrapper to capture dc-gpios cleanly */
+    spi@0 {                        
+        compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        spi-max-frequency = <4000000>; 
-        
-        // RES wire control mapped cleanly to nice!nano/SuperMini pin D5 (P0.24)
-        reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
-        
-        // DC wire control mapped cleanly to nice!nano/SuperMini pin D0 (P0.08)
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    
+        spi-max-frequency = <4000000>;            
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
+        mipi-mode = <1>;                          
+        write-only;                               
 
-        /* 240x320 Viewport Specifications */
-        width = <240>;  
-        height = <320>; 
-        x-offset = <0>;
-        y-offset = <0>;
+        #address-cells = <1>;
+        #size-cells = <0>;
 
-        colmod = <0x05>;                      
-        gamma = <1>;
-        vcom = <0x19>;
-        vrhs = <0x12>;
-        vdvs = <0x20>;
-        gctrl = <0x35>;                       
-        mdac = <0x00>;                        
-        lcm = <0x21>;                         
+        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
+        display: display@0 {
+            compatible = "sitronix,st7789v";
+            reg = <0>;
+            spi-max-frequency = <4000000>; 
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-        /* Balanced Byte Array Structures */
-        porch-param = [0C 0C 00 33 33];
-        cmd2en-param = [5A 69 02 01];
-        pwctrl1-param = [A4 A1];
-        pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-        nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-        ram-param = [00 F0];
-        rgb-param = [CD 08 14];
+            /* 240x320 Safe Hardware Allocation Viewport Boundaries */
+            width = <240>;  
+            height = <320>; 
+            x-offset = <0>;
+            y-offset = <0>;
+
+            /* 
+               WORD RE-ALIGNMENT CONFIGURATION:
+               Stripped out the custom porch and gamma tuning arrays entirely.
+               Allowing the driver to boot using its standard built-in parameters
+               forces the MIPI transaction tables to strictly serialize down into 
+               hardware-supported 8-bit chunks.
+            */
+            colmod = <0x05>;                      
+            gamma = <1>;
+            vcom = <0x19>;
+            vrhs = <0x12>;
+            vdvs = <0x20>;
+            gctrl = <0x35>;                       
+            mdac = <0x00>;                        
+            lcm = <0x21>;                         
+        };
     };
 };
 
