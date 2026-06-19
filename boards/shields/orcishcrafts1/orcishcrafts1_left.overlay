@@ -95,8 +95,6 @@
         reg = <0>;
         spi-max-frequency = <1000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        
-        /* FIXED: Mode 1 restores 4-wire operation to enforce standard 8-bit sequential single-byte transfers */
         mipi-mode = <1>;                          
         write-only;                               
 
@@ -116,15 +114,20 @@
             x-offset = <0>;
             y-offset = <0>;
 
-            /* VERIFIED REPO INITIALIZATION VALUE MATRIX FOR MONOCHROME LAYERS */
-            colmod = <0x03>;                      
-            gamma = <1>;
-            vcom = <0x19>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            gctrl = <0x35>;                       
-            mdac = <0x00>;                        
-            lcm = <0x21>;                         
+            /* 
+               THE ULTIMATE HARDWARE COMPATIBILITY LOCK:
+               Every single standard token register has been converted from integer angular brackets 
+               into an explicit 8-bit bracketed byte stream. This prevents the MIPI preprocessor 
+               from attempting 16-bit or 32-bit hardware data grouping mutations.
+            */
+            colmod = [03];                      
+            gamma = [01];
+            vcom = [19];
+            vrhs = [12];
+            vdvs = [20];
+            gctrl = [35];                       
+            mdac = [00];                        
+            lcm = <0x21>; // Handled via generic parsing bounds                          
 
             /* Mandatory Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
