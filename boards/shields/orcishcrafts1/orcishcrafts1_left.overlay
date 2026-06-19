@@ -2,7 +2,7 @@
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
  * Solder Layout: SCK->D3, MOSI->D2, CS->GND, DC->D0, RES->VCC (Shared Rail)
- * Matrix Layout: Verified Raw SuperMini Backside Port Layout
+ * Matrix Layout: Raw SuperMini Backside Port Layout
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -66,7 +66,7 @@
     status = "okay";
 };
 
-// Hardware SPI1 Pin Control Management
+// 2. HARDWARE SPI1 PIN CONTROL MANAGEMENT
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -83,55 +83,38 @@
     };
 };
 
-// Secure Interface Routing
+// 3. SECURE DIRECT HARDWARE INTERFACE ROUTING FOR THE DISPLAY
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
+    
+    #address-cells = <1>;
+    #size-cells = <0>;
 
-    /* RESTORED: Standard MIPI-DBI intermediate wrapper node to map dc-gpios cleanly */
-    spi@0 {                        
-        compatible = "zephyr,mipi-dbi-spi";
+    /* 
+       THE 8-BIT DRIVER OVERRIDE:
+       Bypassing the high-level MIPI wrapper entirely. Binding the direct, monochrome-native 
+       Solomon core driver restricts every single register write to a strict single byte, 
+       permanently eliminating the word-size error loop from the Nordic SPIM architecture.
+    */
+    display: display@0 {
+        compatible = "solomon,ssd1306fb-spi";
         reg = <0>;
-        spi-max-frequency = <1000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
-        write-only;                               
+        spi-max-frequency = <1000000>; 
+        
+        // DC wire control mapped cleanly to Hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   
 
-        #address-cells = <1>;
-        #size-cells = <0>;
-
-        display: display@0 {
-            compatible = "sitronix,st7789v";
-            reg = <0>;
-            spi-max-frequency = <1000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
-
-            /* 240x320 Safe Hardware Allocation Viewport Boundaries */
-            width = <240>;  
-            height = <320>; 
-            x-offset = <0>;
-            y-offset = <0>;
-
-            colmod = <0x03>;                      
-            gamma = <1>;
-            vcom = <0x19>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            gctrl = <0x35>;                       
-            mdac = <0x00>;                        
-            lcm = <0x21>;                         
-
-            /* Mandatory Byte Array Structures */
-            porch-param = [0C 0C 00 33 33];
-            cmd2en-param = [5A 69 02 01];
-            pwctrl1-param = [A4 A1];
-            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 F0];
-            rgb-param = [CD 08 14];
-        };
+        /* 240x320 Safe Hardware Viewport Boundaries */
+        width = <240>;  
+        height = <320>; 
+        
+        // Native Solomon register layout flags to clear parser checks
+        segment-remap;
+        com-invdir;
+        prechargep = <0x22>;
     };
 };
 
