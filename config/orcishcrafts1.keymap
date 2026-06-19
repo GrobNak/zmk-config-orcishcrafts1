@@ -3,31 +3,41 @@
 
 / {
     /* 
-       THE INSTANT POWER SHUTDOWN OVERLAY:
-       Pressing and holding your first two keys (A and B) together for 50ms 
-       commands ZMK to shut down the display, Bluetooth radios, and sleep the chip.
+       THE INSTANT POWER SHUTDOWN LAYER:
+       Pressing and holding your left-hand alpha keys Q and W (indices 1 and 2) 
+       together for 50ms commands ZMK to shut down the display and Bluetooth radios.
     */
     combos {
         compatible = "zmk,combos";
         
         combo_instant_sleep {
             timeout-ms = <50>;
-            key-positions = <0 1>;    // Maps directly to the indices of your first two keys (A and B)
-            bindings = <&soft_off>;   // Calls the core power-down execution macro
+            key-positions = <1 2>;     // Maps directly to the physical Q and W keys
+            bindings = <&soft_off>;    // Calls the core power-down execution macro
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
+        /*
+           LAYER 0: PHYSICAL SPLIT QWERTY GRID MATRICES
+           Structured exactly to mirror your physical 6x5 casing plates.
+           Modifiers sit cleanly on the outer columns, alphas centered.
+        */
         default_layer {
             display-name = "Base";
             bindings = <
-                &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J &kp K &kp L
-                &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V &kp W &kp X
-                &kp Y &kp Z &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J
-                &kp K &kp L &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V
-                &kp W &kp X &kp Y &kp Z &kp A &kp B
+                /* --- ROW 1 --- */
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
+                /* --- ROW 2 --- */
+                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                /* --- ROW 3 --- */
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
+                /* --- ROW 4 --- */
+                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
+                /* --- ROW 5 (THUMB PLATES / BOTTOM OVERFLOW) --- */
+                &kp LBKT  &kp RBKT  &kp SPACE &kp SPACE &kp LALT  &kp RALT
             >;
         };
         extra1 {
