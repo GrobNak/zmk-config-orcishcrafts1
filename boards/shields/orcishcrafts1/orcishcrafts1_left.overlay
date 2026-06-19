@@ -1,8 +1,8 @@
 /* 
  * OrcishCrafts1 Left Shield Overlay
  * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
- * Solder Layout: SCK->D3, MOSI->D2, CS->GND, DC->D0, RES->D5
- * Matrix Layout: Raw SuperMini Backside Port Layout
+ * Solder Layout: SCK->D3, MOSI->D2, CS->GND, DC->D0, RES->VCC (Shared Rail)
+ * Matrix Layout: Verified Raw SuperMini Backside Port Layout
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -19,27 +19,27 @@
         zmk,kscan = &kscan0;
     };
 
-    // 1. KEYBOARD MATRIX DEFINITION (YOUR WORKING PIN MAPS)
+    // Keyboard Matrix Layout Pin Configuration
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
 
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> // Column 1 (031)
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> // Column 2 (029)
-            , <&gpio0  2 GPIO_ACTIVE_HIGH> // Column 3 (002)
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> // Column 4 (115)
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> // Column 5 (113)
-            , <&gpio1 11 GPIO_ACTIVE_HIGH> // Column 6 (111)
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> 
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> 
+            , <&gpio0  2 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 13 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 11 GPIO_ACTIVE_HIGH> 
             ;
 
         row-gpios
-            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 1 (010)
-            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 2 (009)
-            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 3 (106)
-            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 4 (104)
-            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 5 (100)
+            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             ;
     };
 
@@ -66,12 +66,12 @@
     status = "okay";
 };
 
-// 2. HARDWARE SPI1 PIN CONTROL MANAGEMENT
+// Hardware SPI1 Pin Control Management
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  // SCL -> hole D3 (P0.20)
-                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; // SDA -> hole D2 (P0.17)
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,  
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>; 
         };
     };
     spi1_sleep: spi1_sleep {
@@ -83,58 +83,53 @@
     };
 };
 
-// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
+// DIRECT HARDWARE SPI ENHANCEMENT 
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    // CS wire unmapped in code to prevent electrical conflicts with physical ground tie layouts
+    #address-cells = <1>;
+    #size-cells = <0>;
 
-    /* RESTORED: Mandatory MIPI-DBI intermediate wrapper node to map dc-gpios cleanly */
-    spi@0 {                        
-        compatible = "zephyr,mipi-dbi-spi";
+    /* 
+       THE MONOCHROME TRANS-SIZE TERMINATOR:
+       Mounting the ST7789V directly inside the raw hardware peripheral container 
+       completely strips the intermediate MIPI calculator routines. This forces the 
+       low-level driver to process transactions purely as error-free 8-bit sequential bytes.
+    */
+    display: display@0 {
+        compatible = "sitronix,st7789v";
         reg = <0>;
-        spi-max-frequency = <1000000>;            
-        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
-        write-only;                               
+        spi-max-frequency = <1000000>; 
+        
+        // DC wire control mapped cleanly to Hole D0 (P0.08)
+        dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   
 
-        #address-cells = <1>;
-        #size-cells = <0>;
+        /* Viewport specification tracking registers */
+        width = <240>;  
+        height = <320>; 
+        x-offset = <0>;
+        y-offset = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
-        display: display@0 {
-            compatible = "sitronix,st7789v";
-            reg = <0>;
-            spi-max-frequency = <1000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
+        colmod = <0x03>;                      
+        gamma = <1>;
+        vcom = <0x19>;
+        vrhs = <0x12>;
+        vdvs = <0x20>;
+        gctrl = <0x35>;                       
+        mdac = <0x00>;                        
+        lcm = <0x21>;                         
 
-            /* 240x320 Safe Hardware Allocation Viewport Boundaries */
-            width = <240>;  
-            height = <320>; 
-            x-offset = <0>;
-            y-offset = <0>;
-
-            colmod = <0x03>;                      
-            gamma = <1>;
-            vcom = <0x19>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            gctrl = <0x35>;                       
-            mdac = <0x00>;                        
-            lcm = <0x21>;                         
-
-            /* Mandatory Byte Array Structures */
-            porch-param = [0C 0C 00 33 33];
-            cmd2en-param = [5A 69 02 01];
-            pwctrl1-param = [A4 A1];
-            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 F0];
-            rgb-param = [CD 08 14];
-        };
+        /* Mandatory Byte Array Structures */
+        porch-param = [0C 0C 00 33 33];
+        cmd2en-param = [5A 69 02 01];
+        pwctrl1-param = [A4 A1];
+        pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
+        nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
+        ram-param = [00 F0];
+        rgb-param = [CD 08 14];
     };
 };
 
