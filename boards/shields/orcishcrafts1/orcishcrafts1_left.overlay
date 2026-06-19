@@ -95,8 +95,6 @@
     spi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
-        
-        /* ELECTRICAL STABILITY FIX: Dropped clock to 1MHz to clear capacitance wire noise */
         spi-max-frequency = <1000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
         mipi-mode = <0>;                          
@@ -110,9 +108,11 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <1000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
+            
+            /* HARDWARE WAKEUP FIX: Polarity changed to ACTIVE_HIGH to pull panel out of cold standby mode */
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // <--- CHANGED FROM LOW TO HIGH
 
-            /* 240x320 Safe Allocation Viewport Boundaries */
+            /* 240x320 Safe Hardware Allocation Viewport Boundaries */
             width = <240>;  
             height = <320>; 
             x-offset = <0>;
