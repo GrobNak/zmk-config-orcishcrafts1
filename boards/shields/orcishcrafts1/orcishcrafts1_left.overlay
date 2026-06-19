@@ -97,28 +97,31 @@
         reg = <0>;
         spi-max-frequency = <4000000>;            
         dc-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;   // DC wire control on Hole D0 (P0.08)
-        mipi-mode = <1>;                          
-        
-        /* THE WORD SIZE RESOLUTION: Ensures the MIPI-DBI host controller formats all downstream packets into 8-bit transfers */
+        mipi-mode = <0>;                          
         write-only;                               
 
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS (RESTORED ALL REQUIRED ARRAYS)
+        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <4000000>; 
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
-            /* 240x320 Viewport Window Specifications */
+            /* 240x320 Safe Hardware Allocation Viewport Boundaries */
             width = <240>;  
             height = <320>; 
             x-offset = <0>;
             y-offset = <0>;
 
-            colmod = <0x05>;                      
+            /* 
+               THE BUFFER ENFORCEMENT RESOLUTION: 
+               Setting colmod to <0x03> forces the driver to step down from 16-bit packets, 
+               slicing the color array streams into safe, 8-bit sequential single-byte blocks.
+            */
+            colmod = <0x03>;                      // <--- FIXED: Clamps memory mapping width to 8 bits
             gamma = <1>;
             vcom = <0x19>;
             vrhs = <0x12>;
@@ -127,7 +130,7 @@
             mdac = <0x00>;                        
             lcm = <0x21>;                         
 
-            /* MANDATORY VALUE FIELDS FOR ZEPHYR DRIVER SCHEMAS */
+            /* Mandatory Byte Array Structures */
             porch-param = [0C 0C 00 33 33];
             cmd2en-param = [5A 69 02 01];
             pwctrl1-param = [A4 A1];
