@@ -89,8 +89,6 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    /* CS wire control completely managed by physical GND tie to bypass hardware collisions */
 
     spi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
@@ -108,8 +106,6 @@
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <1000000>; 
-            
-            /* Polarity locked back to active low for standard power management */
             reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
 
             /* 240x320 Safe Hardware Allocation Viewport Boundaries */
@@ -118,8 +114,7 @@
             x-offset = <0>;
             y-offset = <0>;
 
-            /* HARDWARE DELAY INTERACTION: Forces the controller to sleep-wait until hardware registers clear */
-            post-reset-delay-ms = <150>;          // <--- VALID PARAMETER: Halts startup loop for 150ms to let power lines normalize
+            /* Cleaned up: Invalid delay property completely removed */
 
             colmod = <0x03>;                      
             gamma = <1>;
