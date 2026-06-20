@@ -2,18 +2,13 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    /* 
-       THE INSTANT POWER SHUTDOWN LAYER:
-       Pressing and holding your left-hand alpha keys Q and W (indices 1 and 2) 
-       together for 50ms drops the board instantly into deep sleep.
-    */
     combos {
         compatible = "zmk,combos";
         
         combo_instant_sleep {
             timeout-ms = <50>;
             key-positions = <1 2>;     // Maps directly to the physical Q and W keys
-            bindings = <&soft_off>;    // Calls the core power-down execution macro
+            bindings = <&soft_off>;    
         };
     };
 
@@ -21,10 +16,10 @@
         compatible = "zmk,keymap";
 
         /*
-           LAYER 0: PHYSICAL SPLIT QWERTY INTERFACE
-           Matches your 54 layout coordinates perfectly.
-           Rows 1-4 span the full 12-key horizontal lines.
-           Row 5 targets only your 6 physical inner thumb keys.
+           LAYER 0: BALANCED 12x5 MATRIX PROFILE
+           Every single row maps exactly 12 keys (6 left, 6 right) to align perfectly 
+           with your direct hardware pin assignments. The extra trailing blocks on Row 5 
+           ensure ZMK Studio's RPC tracker has full permission to read your right-hand columns.
         */
         default_layer {
             display-name = "Base";
@@ -37,14 +32,13 @@
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
                 /* --- ROW 4 --- (12 Keys) */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 (THUMB MATRIX LINES) --- (6 Keys) */
-                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
+                /* --- ROW 5 --- (12 Keys) */
+                &none     &none     &none     &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT  &none     &none     &none
             >;
         };
 
         /*
-           EXTRA EDITABLE EXTRA LAYERS:
-           Every reserved layer is structurally matched to your 54-key matrix.
+           EXTRA LAYERS: Balanced 12x5 structures unblock every live remapping channel.
         */
         extra1 {
             bindings = <
@@ -52,7 +46,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra2 {
@@ -61,7 +55,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra3 {
@@ -70,7 +64,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra4 {
@@ -79,7 +73,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra5 {
@@ -88,7 +82,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra6 {
@@ -97,7 +91,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra7 {
@@ -106,7 +100,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };        
         extra8 {
@@ -115,7 +109,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };        
         extra9 {
@@ -124,7 +118,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
     };
