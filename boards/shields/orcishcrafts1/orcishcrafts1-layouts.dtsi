@@ -53,7 +53,7 @@
             , <&key_physical_attrs 100 100 1550  250       0  1550   250>
             
             , <&key_physical_attrs 100 100    0  350       0     0   350>
-            , progress_attrs <&key_physical_attrs 100 100  100  337       0   100   337>
+            , <&key_physical_attrs 100 100  100  337       0   100   337>
             , <&key_physical_attrs 100 100  200  312       0   200   312>
             , <&key_physical_attrs 100 100  300  300       0   300   300>
             , <&key_physical_attrs 100 100  400  312       0   400   312>
