@@ -8,39 +8,111 @@
         default_layer {
             display-name = "Base";
             bindings = <
-                &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J &kp K &kp L
-                &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V &kp W &kp X
-                &kp Y &kp Z &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J
-                &kp K &kp L &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V
-                &kp W &kp X &kp Y &kp Z &kp A &kp B
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
+                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
+                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
+                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
             >;
         };
+
         extra1 {
-            status = "reserved";
+            display-name = "Ex1";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra2 {
-            status = "reserved";
+            display-name = "Ex2";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra3 {
-            status = "reserved";
+            display-name = "Ex3";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra4 {
-            status = "reserved";
+            display-name = "Ex4";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra5 {
-            status = "reserved";
+            display-name = "Ex5";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra6 {
-            status = "reserved";
+            display-name = "Ex6";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
+
         extra7 {
-            status = "reserved";
-        };        
+            display-name = "Ex7";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
+        };
+
         extra8 {
-            status = "reserved";
-        };        
+            display-name = "Ex8";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
+        };
+
         extra9 {
-            status = "reserved";
+            display-name = "Ex9";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                                    &none &none &none   &none &none &none
+            >;
         };
     };
 };
