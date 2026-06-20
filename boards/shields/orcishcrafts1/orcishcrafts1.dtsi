@@ -1,16 +1,7 @@
-/*
- * OrcishCrafts1 Shared Base Matrix Transform Configuration
- * Strictly defines your native 54-key physical footprint
- */
-
+#include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* 
-       THE PHYSICAL TRANSLATION MASK:
-       Maps your 4 rows of 12 keys plus your 6 centralized thumb entries (54 Total) 
-       directly onto your hardware grid wires without any nested layout loops.
-    */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
