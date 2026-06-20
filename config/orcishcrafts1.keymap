@@ -7,7 +7,7 @@
         
         combo_instant_sleep {
             timeout-ms = <50>;
-            key-positions = <1 2>;     // Maps directly to the physical Q and W keys
+            key-positions = <1 2>;
             bindings = <&soft_off>;    
         };
     };
