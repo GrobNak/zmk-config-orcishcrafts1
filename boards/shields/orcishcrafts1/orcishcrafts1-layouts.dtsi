@@ -3,6 +3,8 @@
  * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Total)
  */
 
+#include <physical_layouts.dtsi>
+
 / {
     chosen {
         zmk,physical-layout = &physical_layout_orcishcrafts1;
