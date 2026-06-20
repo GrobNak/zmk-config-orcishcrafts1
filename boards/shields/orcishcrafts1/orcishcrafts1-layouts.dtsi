@@ -1,10 +1,16 @@
-#include <physical_layouts.dtsi>
+/*
+ * OrcishCrafts1 Structural Physical Layout Definition
+ * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Total)
+ */
 
 / {
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        keys  //                     w   h    x    y     rot    rx    ry
+        transform = <&matrix_transform0>;
+        kscan = <&kscan0>;
+
+        keys 
             = <&key_physical_attrs 100 100    0   50       0     0    50>
             , <&key_physical_attrs 100 100  100   37       0   100    37>
             , <&key_physical_attrs 100 100  200   12       0   200    12>
