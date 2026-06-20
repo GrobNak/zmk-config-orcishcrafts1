@@ -1,18 +1,18 @@
 /*
- * OrcishCrafts1 Unified ZMK Studio Production Profile
- * Multi-Transform Architecture to handle Split Offsets natively without cell drops
+ * OrcishCrafts1 Composite Production Split Layout Architecture
+ * Explicitly groups separate tracking nodes under a master composite container
  */
 
 #include <physical_layouts.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* CHOSEN COMPILER SYSTEM ANCHOR */
+    /* THE PRIMARY SYSTEM ANCHOR: Registers your composite container node */
     chosen {
         zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
-    /* LEFT MASTER HARDWARE MATRIX MAPPING (Columns 0 to 5) */
+    /* LEFT HARDWARE MATRIX TRANSLATION CHANNEL (Columns 0 to 5) */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
@@ -26,12 +26,12 @@
         >;
     };
 
-    /* RIGHT SATELLITE HARDWARE MATRIX MAPPING (Shifts columns 0-5 to 6-11) */
+    /* RIGHT HARDWARE MATRIX TRANSLATION CHANNEL (Shifts Columns 0-5 to 6-11) */
     matrix_transform1: matrix_transform1 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
         rows = <5>;
-        col-offset = <6>; /* THE MIRROR CRUSHER: Forces right side chip to index 6-11 */
+        col-offset = <6>; /* THE MIRROR SQUASHER: Offsets right side keys permanently */
         map = <
             RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
             RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
@@ -41,85 +41,93 @@
         >;
     };
 
-    /* PHYSICAL VIEWPORT INTERFACE BOUNDS FOR ZMK STUDIO */
-    physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
+    /* SUB-LAYOUT CONTAINER: LEFT HALF */
+    physical_layout_left: physical_layout_left {
         compatible = "zmk,physical-layout";
+        display-name = "Left";
+        transform = <&matrix_transform0>;
+        keys 
+            = <&key_physical_attrs 100 100    0   50       0     0    50>
+            , <&key_physical_attrs 100 100  100   37       0   100    37>
+            , <&key_physical_attrs 100 100  200   12       0   200    12>
+            , <&key_physical_attrs 100 100  300    0       0   300     0>
+            , <&key_physical_attrs 100 100  400   12       0   400    12>
+            , <&key_physical_attrs 100 100  500   25       0   500    25>
+            
+            , <&key_physical_attrs 100 100    0  150       0     0   150>
+            , <&key_physical_attrs 100 100  100  137       0   100   137>
+            , <&key_physical_attrs 100 100  200  112       0   200   112>
+            , <&key_physical_attrs 100 100  300  100       0   300   100>
+            , <&key_physical_attrs 100 100  400  112       0   400   112>
+            , <&key_physical_attrs 100 100  500  125       0   500   125>
+            
+            , <&key_physical_attrs 100 100    0  250       0     0   250>
+            , <&key_physical_attrs 100 100  100  237       0   100   237>
+            , <&key_physical_attrs 100 100  200  212       0   200   212>
+            , <&key_physical_attrs 100 100  300  200       0   300   200>
+            , <&key_physical_attrs 100 100  400  212       0   400   212>
+            , <&key_physical_attrs 100 100  500  225       0   500   225>
+            
+            , <&key_physical_attrs 100 100    0  350       0     0   350>
+            , <&key_physical_attrs 100 100  100  337       0   100   337>
+            , <&key_physical_attrs 100 100  200  312       0   200   312>
+            , <&key_physical_attrs 100 100  300  300       0   300   300>
+            , <&key_physical_attrs 100 100  400  312       0   400   312>
+            , <&key_physical_attrs 100 100  500  350       0   500   350>
+            
+            , <&key_physical_attrs 100 100  400  437       0   400   437>
+            , <&key_physical_attrs 100 100  500  465       0   500   465>
+            , <&key_physical_attrs 100 100  600  450       0   600   450>
+            ;
+    };
+
+    /* SUB-LAYOUT CONTAINER: RIGHT HALF */
+    physical_layout_right: physical_layout_right {
+        compatible = "zmk,physical-layout";
+        display-name = "Right";
+        transform = <&matrix_transform1>;
+        keys 
+            = <&key_physical_attrs 100 100 1050   25       0  1050    25>
+            , <&key_physical_attrs 100 100 1150   12       0  1150    12>
+            , <&key_physical_attrs 100 100 1250    0       0  1250     0>
+            , <&key_physical_attrs 100 100 1350   12       0  1350    12>
+            , <&key_physical_attrs 100 100 1450   37       0  1450    37>
+            , <&key_physical_attrs 100 100 1550   50       0  1550    50>
+            
+            , <&key_physical_attrs 100 100 1050  125       0  1050   125>
+            , <&key_physical_attrs 100 100 1150  112       0  1150   112>
+            , <&key_physical_attrs 100 100 1250  100       0  1250   100>
+            , <&key_physical_attrs 100 100 1350  112       0  1350   112>
+            , <&key_physical_attrs 100 100 1450  137       0  1450   137>
+            , <&key_physical_attrs 100 100 1550  150       0  1550   150>
+            
+            , <&key_physical_attrs 100 100 1050  225       0  1050   225>
+            , <&key_physical_attrs 100 100 1150  212       0  1150   212>
+            , <&key_physical_attrs 100 100 1250  200       0  1250   200>
+            , <&key_physical_attrs 100 100 1350  212       0  1350   212>
+            , <&key_physical_attrs 100 100 1450  237       0  1450   237>
+            , <&key_physical_attrs 100 100 1550  250       0  1550   250>
+            
+            , <&key_physical_attrs 100 100 1050  350       0  1050   350>
+            , <&key_physical_attrs 100 100 1150  312       0  1150   312>
+            , <&key_physical_attrs 100 100 1250  300       0  1250   300>
+            , <&key_physical_attrs 100 100 1350  312       0  1350   312>
+            , <&key_physical_attrs 100 100 1450  337       0  1450   337>
+            , <&key_physical_attrs 100 100 1550  350       0  1550   350>
+            
+            , <&key_physical_attrs 100 100  950  450       0   950   450>
+            , <&key_physical_attrs 100 100 1050  465       0  1050   465>
+            , <&key_physical_attrs 100 100 1150  440       0  1150   440>
+            ;
+    };
+
+    /* 4. THE COMPOSITE PARENT CONTAINER NODE FOR FULL SPLIT SYSTEM SUPPORT */
+    physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
+        compatible = "zmk,physical-layout-composite";
         display-name = "OrcishCrafts1";
         
-        /* 
-           THE VALID MULTI-TRANSFORM BINDING:
-           Maps the left matrix to the first 27 items, and the shifted right matrix 
-           to the remaining 27 items natively, resolving the #key-cells error instantly.
-        */
-        transform = <&matrix_transform0 &matrix_transform1>;
-
-        keys 
-            /* ================= LEFT SIDE VISUAL MAP (27 Keys) ================= */
-            = <&key_physical_attrs 100 100    0   50       0     0    50> // ESC
-            , <&key_physical_attrs 100 100  100   37       0   100    37> // Q
-            , <&key_physical_attrs 100 100  200   12       0   200    12> // W
-            , <&key_physical_attrs 100 100  300    0       0   300     0> // E
-            , <&key_physical_attrs 100 100  400   12       0   400    12> // R
-            , <&key_physical_attrs 100 100  500   25       0   500    25> // T
-            
-            , <&key_physical_attrs 100 100    0  150       0     0   150> // TAB
-            , <&key_physical_attrs 100 100  100  137       0   100   137> // A
-            , <&key_physical_attrs 100 100  200  112       0   200   112> // S
-            , <&key_physical_attrs 100 100  300  100       0   300   100> // D
-            , <&key_physical_attrs 100 100  400  112       0   400   112> // F
-            , <&key_physical_attrs 100 100  500  125       0   500   125> // G
-            
-            , <&key_physical_attrs 100 100    0  250       0     0   250> // LSHFT
-            , <&key_physical_attrs 100 100  100  237       0   100   237> // Z
-            , <&key_physical_attrs 100 100  200  212       0   200   212> // X
-            , <&key_physical_attrs 100 100  300  200       0   300   200> // C
-            , <&key_physical_attrs 100 100  400  212       0   400   212> // V
-            , <&key_physical_attrs 100 100  500  225       0   500   225> // B
-            
-            , <&key_physical_attrs 100 100    0  350       0     0   350> // LCTRL
-            , <&key_physical_attrs 100 100  100  337       0   100   337> // LGUI
-            , <&key_physical_attrs 100 100  200  312       0   200   312> // LALT
-            , <&key_physical_attrs 100 100  300  300       0   300   300> // N1
-            , <&key_physical_attrs 100 100  400  312       0   400   312> // N2
-            , <&key_physical_attrs 100 100  500  350       0   500   350> // N3
-            
-            , <&key_physical_attrs 100 100  400  437       0   400   437> // LBKT
-            , <&key_physical_attrs 100 100  500  465       0   500   465> // RBKT
-            , <&key_physical_attrs 100 100  600  450       0   600   450> // SPACE
-
-            /* ================= RIGHT SIDE VISUAL MAP (27 Keys) ================= */
-            , <&key_physical_attrs 100 100 1050   25       0  1050    25> // Y
-            , <&key_physical_attrs 100 100 1150   12       0  1150    12> // U
-            , <&key_physical_attrs 100 100 1250    0       0  1250     0> // I
-            , <&key_physical_attrs 100 100 1350   12       0  1350    12> // O
-            , <&key_physical_attrs 100 100 1450   37       0  1450    37> // P
-            , <&key_physical_attrs 100 100 1550   50       0  1550    50> // BSPC
-            
-            , <&key_physical_attrs 100 100 1050  125       0  1050   125> // H
-            , <&key_physical_attrs 100 100 1150  112       0  1150   112> // J
-            , <&key_physical_attrs 100 100 1250  100       0  1250   100> // K
-            , <&key_physical_attrs 100 100 1350  112       0  1350   112> // L
-            , <&key_physical_attrs 100 100 1450  137       0  1450   137> // SEMI
-            , <&key_physical_attrs 100 100 1550  150       0  1550   150> // SQT
-            
-            , <&key_physical_attrs 100 100 1050  225       0  1050   225> // N
-            , <&key_physical_attrs 100 100 1150  212       0  1150   212> // M
-            , <&key_physical_attrs 100 100 1250  200       0  1250   200> // COMMA
-            , <&key_physical_attrs 100 100 1350  212       0  1350   212> // DOT
-            , <&key_physical_attrs 100 100 1450  237       0  1450   237> // FSLH
-            , <&key_physical_attrs 100 100 1550  250       0  1550   250> // RET
-            
-            , <&key_physical_attrs 100 100 1050  350       0  1050   350> // N4
-            , <&key_physical_attrs 100 100 1150  312       0  1150   312> // N5
-            , <&key_physical_attrs 100 100 1250  300       0  1250   300> // N6
-            , <&key_physical_attrs 100 100 1350  312       0  1350   312> // MINUS
-            , <&key_physical_attrs 100 100 1450  337       0  1450   337> // EQUAL
-            , <&key_physical_attrs 100 100 1550  350       0  1550   350> // BSLH
-            
-            , <&key_physical_attrs 100 100  950  450       0   950   450> // SPACE
-            , <&key_physical_attrs 100 100 1050  465       0  1050   465> // LALT
-            , <&key_physical_attrs 100 100 1150  440       0  1150   440> // RALT
-            ;
+        /* Combines both single-transform layouts to comply with schema rules */
+        outputs = <&physical_layout_left &physical_layout_right>;
     };
 };
 
