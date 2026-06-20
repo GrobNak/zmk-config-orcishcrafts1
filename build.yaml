@@ -1,13 +1,13 @@
-# This file generates the GitHub Actions matrix.
+# OrcishCrafts1 Unified Production Matrix
+# Gives ZMK Studio exclusive access to the USB communication pipelines
 ---
 include:
   - board: nice_nano_v2
     shield: orcishcrafts1_left
-    snippet: zmk-usb-logging studio-rpc-usb-uart
+    snippet: studio-rpc-usb-uart
 
   - board: nice_nano_v2
     shield: orcishcrafts1_right
-    snippet: zmk-usb-logging
 
   - board: nice_nano_v2
     shield: settings_reset
