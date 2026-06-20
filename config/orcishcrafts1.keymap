@@ -2,112 +2,45 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    chosen {
-        zmk,physical-layout = &physical_layout_orcishcrafts1;
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             display-name = "Base";
             bindings = <
-                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
-                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
+                &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J &kp K &kp L
+                &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V &kp W &kp X
+                &kp Y &kp Z &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J
+                &kp K &kp L &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V
+                &kp W &kp X &kp Y &kp Z &kp A &kp B
             >;
         };
-
         extra1 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra2 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra3 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra4 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra5 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra6 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra7 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra8 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra9 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
-            >;
+            status = "reserved";
         };
     };
 };
