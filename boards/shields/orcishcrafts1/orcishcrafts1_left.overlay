@@ -8,8 +8,14 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
+    /* 
+       THE STATIC CHECK SATISFIER:
+       This explicit environment flag registers your physical layout definition 
+       with the core kernel compiler, completely bypassing the physical_layouts.c crash.
+    */
     chosen {
         zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
     kscan0: kscan0 {
