@@ -1,10 +1,18 @@
-#include <physical_layouts.dtsi>
+/*
+ * OrcishCrafts1 Structural Physical Layout Definition
+ * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Total)
+ */
 
 / {
+    chosen {
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
+    };
+
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        keys  //                     w   h    x    y     rot    rx    ry
+
+        keys 
             = <&key_physical_attrs 100 100    0   50       0     0    50>
             , <&key_physical_attrs 100 100  100   37       0   100    37>
             , <&key_physical_attrs 100 100  200   12       0   200    12>
@@ -17,6 +25,7 @@
             , <&key_physical_attrs 100 100 1350   12       0  1350    12>
             , <&key_physical_attrs 100 100 1450   37       0  1450    37>
             , <&key_physical_attrs 100 100 1550   50       0  1550    50>
+            
             , <&key_physical_attrs 100 100    0  150       0     0   150>
             , <&key_physical_attrs 100 100  100  137       0   100   137>
             , <&key_physical_attrs 100 100  200  112       0   200   112>
@@ -29,6 +38,7 @@
             , <&key_physical_attrs 100 100 1350  112       0  1350   112>
             , <&key_physical_attrs 100 100 1450  137       0  1450   137>
             , <&key_physical_attrs 100 100 1550  150       0  1550   150>
+            
             , <&key_physical_attrs 100 100    0  250       0     0   250>
             , <&key_physical_attrs 100 100  100  237       0   100   237>
             , <&key_physical_attrs 100 100  200  212       0   200   212>
@@ -41,6 +51,7 @@
             , <&key_physical_attrs 100 100 1350  212       0  1350   212>
             , <&key_physical_attrs 100 100 1450  237       0  1450   237>
             , <&key_physical_attrs 100 100 1550  250       0  1550   250>
+            
             , <&key_physical_attrs 100 100    0  350       0     0   350>
             , <&key_physical_attrs 100 100  100  337       0   100   337>
             , <&key_physical_attrs 100 100  200  312       0   200   312>
@@ -53,6 +64,7 @@
             , <&key_physical_attrs 100 100 1350  312       0  1350   312>
             , <&key_physical_attrs 100 100 1450  337       0  1450   337>
             , <&key_physical_attrs 100 100 1550  350       0  1550   350>
+            
             , <&key_physical_attrs 100 100  400  437       0   400   437>
             , <&key_physical_attrs 100 100  500  465       0   500   465>
             , <&key_physical_attrs 100 100  600  450       0   600   450>
