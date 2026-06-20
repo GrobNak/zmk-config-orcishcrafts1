@@ -1,8 +1,7 @@
 /* 
- * OrcishCrafts1 Left Shield Overlay
- * Hardware: SuperMini NRF52840 Clone + ST7789 1.9" Display (Portrait)
- * Solder Layout: SCK->D3, MOSI->D2, CS->GND, DC->D0, RES->VCC (Shared Rail)
- * Matrix Layout: Raw SuperMini Backside Port Layout
+ * OrcishCrafts1 Right Shield Overlay
+ * Hardware: SuperMini NRF52840 Clone (Right Side)
+ * Wiring Layout: Original Pro Micro Pin Numbers with Mirrored Columns
  */
 
 #include "orcishcrafts1-layouts.dtsi"
@@ -19,34 +18,38 @@
         zmk,kscan = &kscan0;
     };
 
-    // 1. KEYBOARD MATRIX DEFINITION (YOUR WORKING PIN MAPS)
+    // 1. KEYBOARD MATRIX DEFINITION (YOUR PRO MICRO RIGHT PIN MAPS)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
 
+        /* Original Pro Micro Column mapping mirrored from inner edge to pinky edge */
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> // Column 1 (031)
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> // Column 2 (029)
-            , <&gpio0  2 GPIO_ACTIVE_HIGH> // Column 3 (002)
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> // Column 4 (115)
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> // Column 5 (113)
-            , <&gpio1 11 GPIO_ACTIVE_HIGH> // Column 6 (111)
+            = <&pro_micro 9 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 7 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 6 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 5 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 4 GPIO_ACTIVE_HIGH>
             ;
 
+        /* Original Pro Micro Row mapping matching your baseline setup */
         row-gpios
-            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 1 (010)
-            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 2 (009)
-            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 3 (106)
-            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 4 (104)
-            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 5 (100)
+            = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
     };
 
+    /* MATRIX TRANSFORM OVERRIDE: Offsets the key assignments to the right half map */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <6>;
         rows = <5>;
+        col-offset = <6>; 
         map = <
             RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
             RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
@@ -66,7 +69,7 @@
     status = "okay";
 };
 
-// 2. HARDWARE SPI1 PIN CONTROL MANAGEMENT
+// Hardware SPI1 Pin Control Management (Shared across both halves)
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
@@ -83,14 +86,16 @@
     };
 };
 
-// 3. SECURE INTERFACE ROUTING FOR THE DISPLAY BACKPLANE
+// Secure Interface Routing For Right Side Display
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
+    
+    /* CS wire control active on Hole D1 (P0.06) for standard right-side wiring */
+    cs-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;        
 
-    /* RESTORED: Standard MIPI-DBI intermediate wrapper node to map dc-gpios cleanly */
     spi@0 {                        
         compatible = "zephyr,mipi-dbi-spi";
         reg = <0>;
@@ -102,12 +107,13 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        // 4. PHYSICAL PANEL DRIVER REGISTER SETTINGS
         display: display@0 {
             compatible = "sitronix,st7789v";
             reg = <0>;
             spi-max-frequency = <1000000>; 
-            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; // RES wire control on Hole D5 (P0.24)
+            
+            /* Original Right Side Reset Pin: Still active on Hole D5 (P0.24) */
+            reset-gpios = <&gpio0 24 GPIO_ACTIVE_LOW>; 
 
             /* 240x320 Safe Hardware Allocation Viewport Boundaries */
             width = <240>;  
