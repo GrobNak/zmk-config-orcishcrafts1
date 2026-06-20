@@ -15,6 +15,11 @@
     keymap {
         compatible = "zmk,keymap";
 
+        /*
+           LAYER 0: EXACT 54-KEY SPLIT MAP
+           Rows 1-4 span the clean 12-key horizontal alpha rows.
+           Row 5 contains exactly your 6 physical inner thumb cluster slots (3 left, 3 right).
+        */
         default_layer {
             display-name = "Base";
             bindings = <
@@ -26,8 +31,8 @@
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
                 /* --- ROW 4 --- (12 Keys) */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 --- (6 Keys) */
-                                    &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
+                /* --- ROW 5 (THUMBS ONLY) --- (6 Keys) */
+                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
             >;
         };
 
