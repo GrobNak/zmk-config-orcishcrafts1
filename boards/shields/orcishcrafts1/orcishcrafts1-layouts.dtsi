@@ -4,6 +4,10 @@
  */
 
 / {
+    chosen {
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
+    };
+
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
