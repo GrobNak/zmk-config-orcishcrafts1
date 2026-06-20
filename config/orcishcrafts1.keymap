@@ -2,6 +2,16 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    /* 
+       THE SEPARATION LINK:
+       Instead of putting the matrix transform pointer inside the overlay files,
+       binding it straight to the physical layout node here isolates the halves
+       without breaking ZMK Studio driver validation.
+    */
+    &physical_layout_orcishcrafts1 {
+        transform = <&matrix_transform0>;
+    };
+
     chosen {
         zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
@@ -20,32 +30,14 @@
             >;
         };
 
-        extra1 {
-            status = "reserved";
-        };
-        extra2 {
-            status = "reserved";
-        };
-        extra3 {
-            status = "reserved";
-        };
-        extra4 {
-            status = "reserved";
-        };
-        extra5 {
-            status = "reserved";
-        };
-        extra6 {
-            status = "reserved";
-        };
-        extra7 {
-            status = "reserved";
-        };        
-        extra8 {
-            status = "reserved";
-        };        
-        extra9 {
-            status = "reserved";
-        };
+        extra1 { status = "reserved"; };
+        extra2 { status = "reserved"; };
+        extra3 { status = "reserved"; };
+        extra4 { status = "reserved"; };
+        extra5 { status = "reserved"; };
+        extra6 { status = "reserved"; };
+        extra7 { status = "reserved"; };        
+        extra8 { status = "reserved"; };        
+        extra9 { status = "reserved"; };
     };
 };
