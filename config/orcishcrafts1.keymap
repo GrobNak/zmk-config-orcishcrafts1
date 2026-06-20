@@ -2,13 +2,14 @@
 #include <dt-bindings/zmk/keys.h>
 
 /* 
-   THE CHRONOLOGICAL UN-LOCKER:
-   Declares the abstract node path skeleton early so the keymap's chosen block 
-   can bind it cleanly before the deep shield layout definitions resolve.
+   THE DEVICETREE SCHEMA SATISFIER:
+   Declares the skeleton node with its mandatory string properties early 
+   to pass the validation checks smoothly.
 */
 / {
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
+        display-name = "OrcishCrafts1";
     };
 
     chosen {
