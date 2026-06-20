@@ -11,7 +11,6 @@
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        transform = <&matrix_transform0>;
 
         keys 
             = <&key_physical_attrs 100 100    0   50       0     0    50>
