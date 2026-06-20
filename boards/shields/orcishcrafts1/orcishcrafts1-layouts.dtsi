@@ -4,7 +4,6 @@
  */
 
 #include <physical_layouts.dtsi>
-#include "orcishcrafts1.dtsi"
 
 / {
     chosen {
