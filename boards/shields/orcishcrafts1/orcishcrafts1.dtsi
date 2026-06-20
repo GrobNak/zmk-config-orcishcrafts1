@@ -16,6 +16,11 @@
     };
 };
 
+/* CONNECTS THE TRANSFORM BINDING TO THE LAYOUT HERE OUTSIDE THE SUB-INCLUDE BLOCK */
+&physical_layout_orcishcrafts1 {
+    transform = <&matrix_transform0>;
+};
+
 &uicr {
     nfct-pins-as-gpios;
 };
