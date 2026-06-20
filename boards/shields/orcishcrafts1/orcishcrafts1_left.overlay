@@ -8,14 +8,8 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* 
-       THE CRITICAL STUDIO DESTRUCT-VALVE:
-       Explicitly mapping the physical layout target directly inside the chosen node 
-       forces ZMK Studio to bind your layout geometry to your master chip's USB stream.
-    */
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
     kscan0: kscan0 {
@@ -40,10 +34,6 @@
             , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             ;
     };
-};
-
-&physical_layout_orcishcrafts1 {
-    kscan = <&kscan0>;
 };
 
 &usbd {
