@@ -1,7 +1,7 @@
 /* 
  * OrcishCrafts1 Right Shield Overlay
  * Hardware: SuperMini NRF52840 Clone (Right Side Only)
- * Fix: Reversed electrical columns to match flipped PCB geometry
+ * Pins read sequentially; matrix_transform1 maps the visual spacing
  */
 
 #include "orcishcrafts1.dtsi"
@@ -16,14 +16,14 @@
         diode-direction = "col2row";
         wakeup-source;
 
-        /* REVERSED MATRIX PIN ORDER TO SMASH THE HARDWARE MIRROR LOCK */
+        /* REVERSED PIN MAPPING PATTERN: Matches flipped PCB geometry perfectly */
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> // Col 5 -> maps to master column 6 (Y, H, N)
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> // Col 4 -> maps to master column 7 (U, J, M)
-            , <&gpio0  2 GPIO_ACTIVE_HIGH> // Col 3 -> maps to master column 8 (I, K, COMMA)
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> // Col 2 -> maps to master column 9 (O, L, DOT)
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> // Col 1 -> maps to master column 10 (P, SEMI, FSLH)
-            , <&gpio1 11 GPIO_ACTIVE_HIGH> // Col 0 -> maps to master column 11 (BSPC, SQT, RET)
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> 
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> 
+            , <&gpio0  2 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 13 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 11 GPIO_ACTIVE_HIGH> 
             ;
 
         row-gpios
