@@ -1,3 +1,4 @@
+#include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
@@ -13,10 +14,6 @@
             RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8)
         >;
     };
-};
-
-&physical_layout_orcishcrafts1 {
-    transform = <&matrix_transform0>;
 };
 
 &uicr {
