@@ -4,6 +4,7 @@
  */
 
 #include <physical_layouts.dtsi>
+#include "orcishcrafts1.dtsi" // <--- CRITICAL COMPILER LINK: Imports your matrix transform parameters
 
 / {
     chosen {
@@ -13,8 +14,6 @@
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        
-        /* THE MANDATORY COMPILER LINK: Connects this geometry straight to your transform */
         transform = <&matrix_transform0>;
 
         keys 
