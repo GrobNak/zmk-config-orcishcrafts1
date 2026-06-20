@@ -1,7 +1,18 @@
-#include "orcishcrafts1-layouts.dtsi"
+/*
+ * OrcishCrafts1 Unified Production ZMK Studio Profile
+ * Core Mapping Parameters: 12 Columns x 5 Rows (54 Live Keys)
+ */
+
+#include <physical_layouts.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
+    /* 1. CHOSEN TARGET ROOT ROUTING FLAG */
+    chosen {
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
+    };
+
+    /* 2. THE HARDWARE PIN TRANSLATION TRANSFORM PROFILE (YOUR EXACT baseline) */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
@@ -14,11 +25,97 @@
             RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8)
         >;
     };
-};
 
-/* CONNECTS THE TRANSFORM BINDING TO THE LAYOUT HERE OUTSIDE THE SUB-INCLUDE BLOCK */
-&physical_layout_orcishcrafts1 {
-    transform = <&matrix_transform0>;
+    /* 3. PHYSICAL GEOMETRIC VIEWPORT AND EXPLICIT HARDWARE INTERACTION MATRIX */
+    physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
+        compatible = "zmk,physical-layout";
+        display-name = "OrcishCrafts1";
+        transform = <&matrix_transform0>;
+
+        /* 
+           THE EXPLICIT INDEX MAPPING ENGINE:
+           Instead of letting ZMK guess, this explicitly tells the parser exactly 
+           which geometric key object maps to which electrical matrix position.
+           Every half receives separate tracking arrays, shattering the mirror lock.
+        */
+        keys 
+            /* ================= LEFT HALF alpha GRIDS (Columns 0 to 5) ================= */
+            /* Row 1: Left alpha Track (6 Keys) */
+            = <&key_physical_attrs 100 100    0   50       0     0    50> // ESC  -> RC(0,0)
+            , <&key_physical_attrs 100 100  100   37       0   100    37> // Q    -> RC(0,1)
+            , <&key_physical_attrs 100 100  200   12       0   200    12> // W    -> RC(0,2)
+            , <&key_physical_attrs 100 100  300    0       0   300     0> // E    -> RC(0,3)
+            , <&key_physical_attrs 100 100  400   12       0   400    12> // R    -> RC(0,4)
+            , <&key_physical_attrs 100 100  500   25       0   500    25> // T    -> RC(0,5)
+            
+            /* Row 2: Left alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100    0  150       0     0   150> // TAB  -> RC(1,0)
+            , <&key_physical_attrs 100 100  100  137       0   100   137> // A    -> RC(1,1)
+            , <&key_physical_attrs 100 100  200  112       0   200   112> // S    -> RC(1,2)
+            , <&key_physical_attrs 100 100  300  100       0   300   100> // D    -> RC(1,3)
+            , <&key_physical_attrs 100 100  400  112       0   400   112> // F    -> RC(1,4)
+            , <&key_physical_attrs 100 100  500  125       0   500   125> // G    -> RC(1,5)
+            
+            /* Row 3: Left alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100    0  250       0     0   250> // LSHFT-> RC(2,0)
+            , <&key_physical_attrs 100 100  100  237       0   100   237> // Z    -> RC(2,1)
+            , <&key_physical_attrs 100 100  200  212       0   200   212> // X    -> RC(2,2)
+            , <&key_physical_attrs 100 100  300  200       0   300   200> // C    -> RC(2,3)
+            , <&key_physical_attrs 100 100  400  212       0   400   212> // V    -> RC(2,4)
+            , <&key_physical_attrs 100 100  500  225       0   500   225> // B    -> RC(2,5)
+            
+            /* Row 4: Left alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100    0  350       0     0   350> // LCTRL-> RC(3,0)
+            , <&key_physical_attrs 100 100  100  337       0   100   337> // LGUI -> RC(3,1)
+            , <&key_physical_attrs 100 100  200  312       0   200   312> // LALT -> RC(3,2)
+            , <&key_physical_attrs 100 100  300  300       0   300   300> // N1   -> RC(3,3)
+            , <&key_physical_attrs 100 100  400  312       0   400   312> // N2   -> RC(3,4)
+            , <&key_physical_attrs 100 100  500  350       0   500   350> // N3   -> RC(3,5)
+            
+            /* Row 5: Left Thumbs Track (3 Keys) */
+            , <&key_physical_attrs 100 100  400  437       0   400   437> // LBKT -> RC(4,3)
+            , <&key_physical_attrs 100 100  500  465       0   500   465> // RBKT -> RC(4,4)
+            , <&key_physical_attrs 100 100  600  450       0   600   450> // SPACE-> RC(4,5)
+
+            /* ================= RIGHT HALF alpha GRIDS (Columns 6 to 11) ================= */
+            /* Row 1: Right alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100 1050   25       0  1050    25> // Y    -> RC(0,6)
+            , <&key_physical_attrs 100 100 1150   12       0  1150    12> // U    -> RC(0,7)
+            , <&key_physical_attrs 100 100 1250    0       0  1250     0> // I    -> RC(0,8)
+            , <&key_physical_attrs 100 100 1350   12       0  1350    12> // O    -> RC(0,9)
+            , <&key_physical_attrs 100 100 1450   37       0  1450    37> // P    -> RC(0,10)
+            , <&key_physical_attrs 100 100 1550   50       0  1550    50> // BSPC -> RC(0,11)
+            
+            /* Row 2: Right alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100 1050  125       0  1050   125> // H    -> RC(1,6)
+            , <&key_physical_attrs 100 100 1150  112       0  1150   112> // J    -> RC(1,7)
+            , <&key_physical_attrs 100 100 1250  100       0  1250   100> // K    -> RC(1,8)
+            , <&key_physical_attrs 100 100 1350  112       0  1350   112> // L    -> RC(1,9)
+            , <&key_physical_attrs 100 100 1450  137       0  1450   137> // SEMI -> RC(1,10)
+            , <&key_physical_attrs 100 100 1550  150       0  1550   150> // SQT  -> RC(1,11)
+            
+            /* Row 3: Right alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100 1050  225       0  1050   225> // N    -> RC(2,6)
+            , <&key_physical_attrs 100 100 1150  212       0  1150   212> // M    -> RC(2,7)
+            , <&key_physical_attrs 100 100 1250  200       0  1250   200> // COMMA-> RC(2,8)
+            , <&key_physical_attrs 100 100 1350  212       0  1350   212> // DOT  -> RC(2,9)
+            , <&key_physical_attrs 100 100 1450  237       0  1450   237> // FSLH -> RC(2,10)
+            , <&key_physical_attrs 100 100 1550  250       0  1550   250> // RET  -> RC(2,11)
+            
+            /* Row 4: Right alpha Track (6 Keys) */
+            , <&key_physical_attrs 100 100 1050  350       0  1050   350> // N4   -> RC(3,6)
+            , <&key_physical_attrs 100 100 1150  312       0  1150   312> // N5   -> RC(3,7)
+            , <&key_physical_attrs 100 100 1250  300       0  1250   300> // N6   -> RC(3,8)
+            , <&key_physical_attrs 100 100 1350  312       0  1350   312> // MINUS-> RC(3,9)
+            , <&key_physical_attrs 100 100 1450  337       0  1450   337> // EQUAL-> RC(3,10)
+            , <&key_physical_attrs 100 100 1550  350       0  1550   350> // BSLH -> RC(3,11)
+            
+            /* Row 5: Right Thumbs Track (3 Keys) */
+            , <&key_physical_attrs 100 100  950  450       0   950   450> // SPACE-> RC(4,6)
+            , <&key_physical_attrs 100 100 1050  465       0  1050   465> // LALT -> RC(4,7)
+            , <&key_physical_attrs 100 100 1150  440       0  1150   440> // RALT -> RC(4,8)
+            ;
+    };
 };
 
 &uicr {
