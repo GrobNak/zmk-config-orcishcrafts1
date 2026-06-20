@@ -4,4 +4,5 @@ include:
     shield: orcishcrafts1_left
   - board: nice_nano_v2
     shield: orcishcrafts1_right
-  - board: settings_reset
+  - board: nice_nano_v2
+    shield: settings_reset
