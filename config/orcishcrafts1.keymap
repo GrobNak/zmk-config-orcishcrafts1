@@ -3,7 +3,7 @@
 
 / {
     chosen {
-        zmk,physical-layout = &physical_layout_left;
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
     keymap {
