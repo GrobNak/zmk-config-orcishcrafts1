@@ -3,12 +3,11 @@
 include:
   - board: nice_nano_v2
     shield: orcishcrafts1_left
-    snippet: zmk-usb-logging
-    #studio-rpc-usb-uart
+    snippet: zmk-usb-logging studio
 
   - board: nice_nano_v2
     shield: orcishcrafts1_right
-    snippet: zmk-usb-logging
+    snippet: zmk-usb-logging studio
 
   - board: nice_nano_v2
     shield: settings_reset
