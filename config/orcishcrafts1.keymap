@@ -18,16 +18,11 @@
         default_layer {
             display-name = "Base";
             bindings = <
-                /* --- ROW 1 --- (12 Keys) */
                 &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                /* --- ROW 2 --- (12 Keys) */
                 &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                /* --- ROW 3 --- (12 Keys) */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
-                /* --- ROW 4 --- (12 Keys) */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 --- (6 Keys) */
-                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
+                &kp LBKT  &kp RBKT  &kp SPACE &kp SPACE &kp LALT  &kp RALT
             >;
         };
 
@@ -37,7 +32,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra2 {
@@ -46,7 +41,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra3 {
@@ -55,7 +50,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra4 {
@@ -64,7 +59,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra5 {
@@ -73,7 +68,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra6 {
@@ -82,7 +77,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
         extra7 {
@@ -91,7 +86,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };        
         extra8 {
@@ -100,7 +95,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };        
         extra9 {
@@ -109,7 +104,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none
             >;
         };
     };
