@@ -15,95 +15,32 @@
                 &kp W &kp X &kp Y &kp Z &kp A &kp B
             >;
         };
-
         extra1 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra2 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra3 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra4 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra5 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra6 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra7 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra8 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra9 {
-            bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
     };
 };
