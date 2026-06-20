@@ -2,6 +2,10 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    chosen {
+        zmk,physical-layout = &physical_layout_left;
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
