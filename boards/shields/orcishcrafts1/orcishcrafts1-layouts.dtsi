@@ -13,7 +13,6 @@
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        transform = <&matrix_transform0>;
 
         keys 
             /* ================= LEFT SIDE MATRIX (Keys 0 to 26) ================= */
