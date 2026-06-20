@@ -8,10 +8,8 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* Explicitly mapping the physical layout on the right side prevents index drops */
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
     kscan0: kscan0 {
@@ -36,8 +34,4 @@
             , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             ;
     };
-};
-
-&physical_layout_orcishcrafts1 {
-    kscan = <&kscan0>;
 };
