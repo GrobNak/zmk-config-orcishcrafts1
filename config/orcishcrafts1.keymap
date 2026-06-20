@@ -8,21 +8,15 @@
         default_layer {
             display-name = "Base";
             bindings = <
-                /* --- ROW 1 --- */
-                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                /* --- ROW 2 --- */
-                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                /* --- ROW 3 --- */
-                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
-                /* --- ROW 4 --- */
-                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3        &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 (THUMBS CLUSTER) --- */
-                                              &kp LBKT  &kp RBKT  &kp SPACE     &kp SPACE &kp LALT  &kp RALT
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
+                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
+                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
+                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
             >;
         };
 
         extra1 {
-            display-name = "Ex1";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -33,7 +27,6 @@
         };
 
         extra2 {
-            display-name = "Ex2";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -44,7 +37,6 @@
         };
 
         extra3 {
-            display-name = "Ex3";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -55,7 +47,6 @@
         };
 
         extra4 {
-            display-name = "Ex4";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -66,7 +57,6 @@
         };
 
         extra5 {
-            display-name = "Ex5";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -77,7 +67,6 @@
         };
 
         extra6 {
-            display-name = "Ex6";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -88,7 +77,6 @@
         };
 
         extra7 {
-            display-name = "Ex7";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -99,7 +87,6 @@
         };
 
         extra8 {
-            display-name = "Ex8";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
@@ -110,7 +97,6 @@
         };
 
         extra9 {
-            display-name = "Ex9";
             bindings = <
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
