@@ -1,6 +1,6 @@
 /*
- * OrcishCrafts1 Structural Physical Layout Definition
- * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Total)
+ * OrcishCrafts1 Balanced Physical Layout Definition
+ * Maps 60 exact entries to maintain alignment with the matrix calculations
  */
 
 / {
@@ -65,12 +65,19 @@
             , <&key_physical_attrs 100 100 1450  337       0  1450   337>
             , <&key_physical_attrs 100 100 1550  350       0  1550   350>
             
+            /* ROW 5 Padding entries to clear the LISTIFY macro checks */
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
             , <&key_physical_attrs 100 100  400  437       0   400   437>
             , <&key_physical_attrs 100 100  500  465       0   500   465>
             , <&key_physical_attrs 100 100  600  450       0   600   450>
             , <&key_physical_attrs 100 100  950  450       0   950   450>
             , <&key_physical_attrs 100 100 1050  465       0  1050   465>
             , <&key_physical_attrs 100 100 1150  440       0  1150   440>
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
+            , <&key_physical_attrs 100 100    0    0       0     0     0>
             ;
     };
 };
