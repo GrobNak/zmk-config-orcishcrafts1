@@ -15,11 +15,6 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /*
-           LAYER 0: EXACT 54-KEY SYMMETRIC LAYOUT PROFILE
-           Exactly 48 alphanumeric keys (4 rows of 12) followed by 
-           the 6 thumb keys clustered in the center.
-        */
         default_layer {
             display-name = "Base";
             bindings = <
