@@ -12,16 +12,11 @@
         default_layer {
             display-name = "Base";
             bindings = <
-                /* --- ROW 1 ALPHA GRIDS (6 Left Keys | 6 Right Keys) --- */
-                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                /* --- ROW 2 ALPHA GRIDS (6 Left Keys | 6 Right Keys) --- */
-                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                /* --- ROW 3 ALPHA GRIDS (6 Left Keys | 6 Right Keys) --- */
-                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
-                /* --- ROW 4 ALPHA GRIDS (6 Left Keys | 6 Right Keys) --- */
-                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3        &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 CENTRALIZED THUMBS (3 Left Keys | 3 Right Keys) --- */
-                                              &kp LBKT  &kp RBKT  &kp SPACE     &kp SPACE &kp LALT  &kp RALT
+                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
+                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
+                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
+                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
             >;
         };
 
