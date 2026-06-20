@@ -15,6 +15,11 @@
     keymap {
         compatible = "zmk,keymap";
 
+        /*
+           LAYER 0: MATRIX-ALIGNED SPLIT QWERTY INTERFACE
+           Exactly 60 elements match your hardware transform layout shape perfectly.
+           Your active thumbs sit securely in the center slots of Row 5.
+        */
         default_layer {
             display-name = "Base";
             bindings = <
@@ -26,8 +31,8 @@
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
                 /* --- ROW 4 --- (12 Keys) */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 (THUMBS ONLY) --- (6 Keys) */
-                                              &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT
+                /* --- ROW 5 --- (12 Keys) */
+                &none     &none     &none     &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT  &none     &none     &none
             >;
         };
 
@@ -37,7 +42,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra2 {
@@ -46,7 +51,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra3 {
@@ -55,7 +60,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra4 {
@@ -64,7 +69,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra5 {
@@ -73,7 +78,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra6 {
@@ -82,7 +87,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
         extra7 {
@@ -91,7 +96,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };        
         extra8 {
@@ -100,7 +105,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };        
         extra9 {
@@ -109,7 +114,7 @@
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
                 &none &none &none &none &none &none   &none &none &none &none &none &none
-                                    &none &none &none   &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
             >;
         };
     };
