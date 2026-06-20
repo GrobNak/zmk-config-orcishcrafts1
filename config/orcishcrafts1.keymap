@@ -1,22 +1,6 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
-/* 
-   THE DEVICETREE SCHEMA SATISFIER:
-   Declares the skeleton node with its mandatory string properties early 
-   to pass the validation checks smoothly.
-*/
-/ {
-    physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
-        compatible = "zmk,physical-layout";
-        display-name = "OrcishCrafts1";
-    };
-
-    chosen {
-        zmk,physical-layout = &physical_layout_orcishcrafts1;
-    };
-};
-
 / {
     keymap {
         compatible = "zmk,keymap";
