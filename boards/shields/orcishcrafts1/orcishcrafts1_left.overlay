@@ -8,6 +8,7 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout_left;
     };
 
     kscan0: kscan0 {
