@@ -2,123 +2,45 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    combos {
-        compatible = "zmk,combos";
-        
-        combo_instant_sleep {
-            timeout-ms = <50>;
-            key-positions = <1 2>;     // Maps directly to the physical Q and W keys
-            bindings = <&soft_off>;    
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             display-name = "Base";
             bindings = <
-                /* --- ROW 1 --- (12 Keys) */
-                &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T       &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                /* --- ROW 2 --- (12 Keys) */
-                &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G       &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                /* --- ROW 3 --- (12 Keys) */
-                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B       &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RET
-                /* --- ROW 4 --- (12 Keys) */
-                &kp LCTRL &kp LGUI  &kp LALT  &kp N1    &kp N2    &kp N3      &kp N4    &kp N5    &kp N6    &kp MINUS &kp EQUAL &kp BSLH
-                /* --- ROW 5 --- (12 Keys) */
-                &none     &none     &none     &kp LBKT  &kp RBKT  &kp SPACE   &kp SPACE &kp LALT  &kp RALT  &none     &none     &none
+                &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J &kp K &kp L
+                &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V &kp W &kp X
+                &kp Y &kp Z &kp A &kp B &kp C &kp D &kp E &kp F &kp G &kp H &kp I &kp J
+                &kp K &kp L &kp M &kp N &kp O &kp P &kp Q &kp R &kp S &kp T &kp U &kp V
+                &kp W &kp X &kp Y &kp Z &kp A &kp B
             >;
         };
-
         extra1 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra2 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra3 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra4 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra5 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra6 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
-
         extra7 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra8 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
-        };
-
+            status = "reserved";
+        };        
         extra9 {
-            bindings = <
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-                &none &none &none &none &none &none   &none &none &none &none &none &none
-            >;
+            status = "reserved";
         };
     };
 };
