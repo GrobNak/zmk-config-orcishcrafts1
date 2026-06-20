@@ -1,22 +1,18 @@
 /*
- * OrcishCrafts1 Unified Production ZMK Studio Profile
- * Core Mapping Parameters: 12 Columns x 5 Rows (54 Live Keys)
+ * OrcishCrafts1 Core Shield Mapping & Layout Definition
+ * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Live Keys)
  */
 
 #include <physical_layouts.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* 
-       THE STUDIO ANCHOR:
-       We only assign the physical-layout pointer here. Explicitly declaring 
-       zmk,matrix-transform inside the chosen path is strictly forbidden by the compiler.
-    */
+    /* CHOSEN COMPILER ANCHOR LAYER */
     chosen {
         zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
-    /* THE TRANSLATION MATRIX TRANSLATION MAP (YOUR UNCHANGED BASELINE) */
+    /* TRANSLATION TRANSFORM PROFILE MAP */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
@@ -34,8 +30,6 @@
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
-        
-        /* THE CRITICAL LINK: Connects this block natively to the transform right above it */
         transform = <&matrix_transform0>;
 
         keys 
