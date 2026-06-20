@@ -8,35 +8,30 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    aliases {
-        kscan-0 = &kscan0;
-    };
-
     chosen {
         zmk,kscan = &kscan0;
     };
 
-    // 1. KEYBOARD MATRIX DEFINITION (YOUR PROVEN WORKING PIN MAPS)
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         wakeup-source;
 
         col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> // Column 1 (031)
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> // Column 2 (029)
-            , <&gpio0  2 GPIO_ACTIVE_HIGH> // Column 3 (002)
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> // Column 4 (115)
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> // Column 5 (113)
-            , <&gpio1 11 GPIO_ACTIVE_HIGH> // Column 6 (111)
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> 
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> 
+            , <&gpio0  2 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 13 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 11 GPIO_ACTIVE_HIGH> 
             ;
 
         row-gpios
-            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 1 (010)
-            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 2 (009)
-            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 3 (106)
-            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 4 (104)
-            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Row 5 (100) -> Hole D0 Exclusive Free Pass
+            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             ;
     };
 
