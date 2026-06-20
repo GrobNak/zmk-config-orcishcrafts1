@@ -2,6 +2,14 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    /* 
+       THE STUDIO COMPILER UN-LOCKER:
+       This explicit layout pointer satisfies physical_layouts.c's compile-time validation check.
+    */
+    chosen {
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
