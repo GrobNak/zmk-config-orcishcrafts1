@@ -7,12 +7,16 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* CHOSEN TARGET ROOT ROUTING FLAG */
+    /* 
+       THE STUDIO ANCHOR:
+       We only assign the physical-layout pointer here. Explicitly declaring 
+       zmk,matrix-transform inside the chosen path is strictly forbidden by the compiler.
+    */
     chosen {
         zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
-    /* THE PIN TRANSLATION TRANSFORM PROFILE (REQUIRED BASELINE) */
+    /* THE TRANSLATION MATRIX TRANSLATION MAP (YOUR UNCHANGED BASELINE) */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
@@ -26,16 +30,14 @@
         >;
     };
 
-    /* PHYSICAL LAYOUT COORDINATE CONFIGURATION FOR ZMK STUDIO */
+    /* PHYSICAL VIEWPORT INTERFACE BOUNDS FOR ZMK STUDIO */
     physical_layout_orcishcrafts1: physical_layout_orcishcrafts1 {
         compatible = "zmk,physical-layout";
         display-name = "OrcishCrafts1";
+        
+        /* THE CRITICAL LINK: Connects this block natively to the transform right above it */
+        transform = <&matrix_transform0>;
 
-        /* 
-           THE STUDIO UNLOCK KEYS:
-           By removing the `transform` reference override properties from this block, 
-           the physical_layouts.c compiler hook passes validation smoothly.
-        */
         keys 
             /* ================= LEFT SIDE MATRIX INDEXES ================= */
             = <&key_physical_attrs 100 100    0   50       0     0    50> // ESC  -> RC(0,0)
