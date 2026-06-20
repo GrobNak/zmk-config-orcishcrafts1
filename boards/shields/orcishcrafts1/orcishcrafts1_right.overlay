@@ -3,6 +3,7 @@
  * Hardware: SuperMini NRF52840 Clone (Right Side Only)
  * Matrix Layout: Raw SuperMini Backside Port Layout (Mirrored Columns)
  */
+#include "orcishcrafts1.dtsi"
 
 #include "orcishcrafts1-layouts.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
