@@ -5,7 +5,7 @@
     /* 
        THE INSTANT POWER SHUTDOWN LAYER:
        Pressing and holding your left-hand alpha keys Q and W (indices 1 and 2) 
-       together for 50ms commands ZMK to shut down the display and Bluetooth radios.
+       together for 50ms commands ZMK to drop the board instantly into deep sleep.
     */
     combos {
         compatible = "zmk,combos";
@@ -22,8 +22,9 @@
 
         /*
            LAYER 0: PHYSICAL SPLIT QWERTY GRID MATRICES
-           Structured exactly to mirror your physical 6x5 casing plates.
-           Modifiers sit cleanly on the outer columns, alphas centered.
+           Every single slot contains an active, valid token. Wherever you don't 
+           have physical buttons yet, the placeholder token ensures ZMK Studio 
+           can edit and remap that slot live over USB.
         */
         default_layer {
             display-name = "Base";
@@ -40,32 +41,92 @@
                 &kp LBKT  &kp RBKT  &kp SPACE &kp SPACE &kp LALT  &kp RALT
             >;
         };
+
+        /*
+           EXTRA EDITABLE EXTRA LAYERS:
+           Every reserved layer slot is filled with the placeholder token, forcing 
+           ZMK Studio to unlock the entire workspace for live remapping.
+        */
         extra1 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra2 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra3 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra4 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra5 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra6 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
         extra7 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };        
         extra8 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };        
         extra9 {
-            status = "reserved";
+            bindings = <
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none   &none &none &none &none &none &none
+                &none &none &none &none &none &none
+            >;
         };
     };
 };
