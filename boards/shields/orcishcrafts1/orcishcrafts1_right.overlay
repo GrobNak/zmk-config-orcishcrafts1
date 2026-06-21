@@ -31,14 +31,15 @@
 };
 
 /* 
-   THE PERIPHERAL COMPILER SAFETY VALVE:
-   This block drops the central physical layout properties exclusively on the right half 
-   build context. This completely prevents the right-side compiler loop from erroring out 
-   on missing ZMK Studio RPC bindings, while leaving your master left half fully 
-   operational to process the entire layout.
+   THE RIGHT HALF COMPILER PASS:
+   This dummy RPC node injection satisfies the physical_layouts.c check on the 
+   right-half firmware loop without breaking the global keymap chosen pointer properties.
 */
 #ifndef CONFIG_ZMK_STUDIO
 / {
-    /delete-node/ physical_layout_orcishcrafts1;
+    studio_rpc_uart: studio_rpc_uart {
+        compatible = "zmk,studio-rpc-uart";
+        status = "disabled";
+    };
 };
 #endif
