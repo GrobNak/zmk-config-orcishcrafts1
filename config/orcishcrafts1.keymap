@@ -6,20 +6,20 @@
         compatible = "zmk,keymap";
 
         /* 
-           LAYER 0: Base Alphas (K630 Matrix with the Number Row Completely Removed)
-           Every row has been strictly leveled to exactly 12 keys width.
+           LAYER 0: Your Exact 4-Row + Thumbs Grid Table Layout
+           No extra numbers row, no empty row on top, and no shifted columns.
         */
         default_layer {
             bindings = <
-                /* === ROW 1: TOP ALPHA ROW (12 Keys) === */
+                /* === ROW 1: TOP ROW (12 Keys) === */
                 &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
                 /* === ROW 2: HOME ROW ROW (12 Keys) === */
                 &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp RET
                 /* === ROW 3: BOTTOM ROW (12 Keys) === */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-                /* === ROW 4: BOTTOM MODIFIERS ROW (Strictly fixed to 12 Keys) === */
+                /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
                 &kp LCTRL &kp LGUI  &kp LALT  &none     &none     &none         &none     &none     &none     &kp RALT  &kp RGUI  &kp RCTRL
-                /* === ROW 5: THUMB CLUSTERS (Strictly 6 keys total - 3 Left | 3 Right) === */
+                /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
                                               &kp ESC   &mo 1     &kp SPACE     &kp SPACE &mo 1     &kp BSPC
             >;
         };
@@ -35,11 +35,11 @@
                 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
                 /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
-                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys — Fixed Up Arrow Alignment) === */
+                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
                 &none     &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &none
-                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys — Fixed Left/Down/Right Alignment) === */
+                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
                 &none     &none     &none     &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &none     &none
-                /* === ROW 5: THUMB CLUSTER COMPLIANCE (6 Keys) === */
+                /* === ROW 5: THUMB CLUSTER (6 Keys) === */
                                               &none     &none     &none         &none     &none     &none
             >;
         };
