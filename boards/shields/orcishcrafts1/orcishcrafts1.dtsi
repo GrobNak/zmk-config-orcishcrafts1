@@ -1,131 +1,23 @@
 /*
- * OrcishCrafts1 Production Split Composite Layout Architecture
- * Explicitly groups separate half tracking nodes under a master composite container
+ * OrcishCrafts1 Core Shield Matrix Transform Map
+ * Matches 6x4 Grid per side + 3 Inner Thumb Keys per Half (54 Live Keys)
  */
 
-#include <physical_layouts.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* THE PRIMARY SYSTEM ANCHOR: Registers the parent composite layout container */
-    chosen {
-        zmk,physical-layout = &physical_layout_composite;
-    };
-
-    /* LEFT HARDWARE MATRIX TRANSLATION CHANNEL (Columns 0 to 5) */
-    matrix_transform_left: matrix_transform_left {
+    /* TRANSLATION MATRIX TRANSFORM MAP (YOUR UNCHANGED BASELINE MATH) */
+    matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
-        columns = <6>;
+        columns = <12>;
         rows = <5>;
         map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-            RC(4,3) RC(4,4) RC(4,5)
+            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11)
+            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11)
+            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10) RC(2,11)
+            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(3,11)
+            RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8)
         >;
-    };
-
-    /* RIGHT HARDWARE MATRIX TRANSLATION CHANNEL (Offsets columns 0-5 straight to 6-11) */
-    matrix_transform_right: matrix_transform_right {
-        compatible = "zmk,matrix-transform";
-        columns = <6>;
-        rows = <5>;
-        col-offset = <6>; /* THE MIRROR SQUASHER: Offsets right side keys permanently */
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-            RC(4,3) RC(4,4) RC(4,5)
-        >;
-    };
-
-    /* SUB-LAYOUT CONTAINER: LEFT HALF PHYSICAL GEOMETRY (27 Keys) */
-    physical_layout_left: physical_layout_left {
-        compatible = "zmk,physical-layout";
-        display-name = "Left";
-        transform = <&matrix_transform_left>;
-        keys 
-            = <&key_physical_attrs 100 100    0   50       0     0    50> // ESC
-            , <&key_physical_attrs 100 100  100   37       0   100    37> // Q
-            , <&key_physical_attrs 100 100  200   12       0   200    12> // W
-            , <&key_physical_attrs 100 100  300    0       0   300     0> // E
-            , <&key_physical_attrs 100 100  400   12       0   400    12> // R
-            , <&key_physical_attrs 100 100  500   25       0   500    25> // T
-            
-            , <&key_physical_attrs 100 100    0  150       0     0   150> // TAB
-            , <&key_physical_attrs 100 100  100  137       0   100   137> // A
-            , <&key_physical_attrs 100 100  200  112       0   200   112> // S
-            , <&key_physical_attrs 100 100  300  100       0   300   100> // D
-            , <&key_physical_attrs 100 100  400  112       0   400   112> // F
-            , <&key_physical_attrs 100 100  500  125       0   500   125> // G
-            
-            , <&key_physical_attrs 100 100    0  250       0     0   250> // LSHFT
-            , <&key_physical_attrs 100 100  100  237       0   100   237> // Z
-            , <&key_physical_attrs 100 100  200  212       0   200   212> // X
-            , <&key_physical_attrs 100 100  300  200       0   300   200> // C
-            , <&key_physical_attrs 100 100  400  212       0   400   212> // V
-            , <&key_physical_attrs 100 100  500  225       0   500   225> // B
-            
-            , <&key_physical_attrs 100 100    0  350       0     0   350> // LCTRL
-            , <&key_physical_attrs 100 100  100  337       0   100   337> // LGUI
-            , <&key_physical_attrs 100 100  200  312       0   200   312> // LALT
-            , <&key_physical_attrs 100 100  300  300       0   300   300> // MINUS
-            , <&key_physical_attrs 100 100  400  312       0   400   312> // EQUAL
-            , <&key_physical_attrs 100 100  500  350       0   500   350> // GRAVE
-            
-            , <&key_physical_attrs 100 100  400  437       0   400   437> // THUMB 1
-            , <&key_physical_attrs 100 100  500  465       0   500   465> // THUMB 2
-            , <&key_physical_attrs 100 100  600  450       0   600   450> // THUMB 3
-            ;
-    };
-
-    /* SUB-LAYOUT CONTAINER: RIGHT HALF PHYSICAL GEOMETRY (27 Keys) */
-    physical_layout_right: physical_layout_right {
-        compatible = "zmk,physical-layout";
-        display-name = "Right";
-        transform = <&matrix_transform_right>;
-        keys 
-            = <&key_physical_attrs 100 100 1050   25       0  1050    25> // Y
-            , <&key_physical_attrs 100 100 1150   12       0  1150    12> // U
-            , <&key_physical_attrs 100 100 1250    0       0  1250     0> // I
-            , <&key_physical_attrs 100 100 1350   12       0  1350    12> // O
-            , <&key_physical_attrs 100 100 1450   37       0  1450    37> // P
-            , <&key_physical_attrs 100 100 1550   50       0  1550    50> // BSPC
-            
-            , <&key_physical_attrs 100 100 1050  125       0  1050   125> // H
-            , <&key_physical_attrs 100 100 1150  112       0  1150   112> // J
-            , <&key_physical_attrs 100 100 1250  100       0  1250   100> // K
-            , <&key_physical_attrs 100 100 1350  112       0  1350   112> // L
-            , <&key_physical_attrs 100 100 1450  137       0  1450   137> // SEMI
-            , <&key_physical_attrs 100 100 1550  150       0  1550   150> // RET
-            
-            , <&key_physical_attrs 100 100 1050  225       0  1050   225> // N
-            , <&key_physical_attrs 100 100 1150  212       0  1150   212> // M
-            , <&key_physical_attrs 100 100 1250  200       0  1250   200> // COMMA
-            , <&key_physical_attrs 100 100 1350  212       0  1350   212> // DOT
-            , <&key_physical_attrs 100 100 1450  237       0  1450   237> // FSLH
-            , <&key_physical_attrs 100 100 1550  250       0  1550   250> // RSHFT
-            
-            , <&key_physical_attrs 100 100 1050  350       0  1050   350> // SQT
-            , <&key_physical_attrs 100 100 1150  312       0  1150   312> // BSLH
-            , <&key_physical_attrs 100 100 1250  300       0  1250   300> // LBKT
-            , <&key_physical_attrs 100 100 1350  312       0  1350   312> // RBKT
-            , <&key_physical_attrs 100 100 1450  337       0  1450   337> // HOME
-            , <&key_physical_attrs 100 100 1550  350       0  1550   350> // END
-            
-            , <&key_physical_attrs 100 100  950  450       0   950   450> // THUMB 4
-            , <&key_physical_attrs 100 100 1050  465       0  1050   465> // THUMB 5
-            , <&key_physical_attrs 100 100 1150  440       0  1150   440> // THUMB 6
-            ;
-    };
-
-    /* 4. THE COMPOSITE CONTAINER: Merges both child layouts cleanly for ZMK Studio */
-    physical_layout_composite: physical_layout_composite {
-        compatible = "zmk,physical-layout-composite";
-        display-name = "OrcishCrafts1";
-        outputs = <&physical_layout_left &physical_layout_right>;
     };
 };
 
