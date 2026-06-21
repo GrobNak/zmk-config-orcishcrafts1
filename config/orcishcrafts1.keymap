@@ -1,11 +1,14 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+/* 
+   THE COMPILER FORCER:
+   Explicitly forces the preprocessor to load your composite layouts file 
+   from the shield folder so the chosen block can validate the symbol name.
+*/
+#include "../boards/shields/orcishcrafts1/orcishcrafts1-layouts.dtsi"
+
 / {
-    /* 
-       THE STUDIO ANCHOR:
-       Points straight down to the external layout label defined inside your layout file.
-    */
     chosen {
         zmk,physical-layout = &physical_layout_composite;
     };
