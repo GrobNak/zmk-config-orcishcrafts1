@@ -1,172 +1,38 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <physical_layouts.dtsi>
-#include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    /* 1. THE SYSTEM COMPOSITE ANCHOR: Point straight down to your local containers */
+    /* 
+       THE STUDIO ANCHOR:
+       Points straight down to the external layout label defined inside your layout file.
+    */
     chosen {
         zmk,physical-layout = &physical_layout_composite;
     };
 
-    /* 2. COMPILER LEFT TRANSFORM MAPPING CHANNEL */
-    matrix_transform_left: matrix_transform_left {
-        compatible = "zmk,matrix-transform";
-        columns = <6>;
-        rows = <5>;
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-            RC(4,3) RC(4,4) RC(4,5)
-        >;
-    };
-
-    /* 3. COMPILER RIGHT TRANSFORM MAPPING CHANNEL (SHIFTS COLUMNS BY 6) */
-    matrix_transform_right: matrix_transform_right {
-        compatible = "zmk,matrix-transform";
-        columns = <6>;
-        rows = <5>;
-        col-offset = <6>; /* Shifts your physical right hand keys permanently */
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-            RC(4,3) RC(4,4) RC(4,5)
-        >;
-    };
-
-    /* 4. LEFT HALF GEOMETRIC LAYOUT SPECIFICATIONS (27 Keys) */
-    physical_layout_left: physical_layout_left {
-        compatible = "zmk,physical-layout";
-        display-name = "Left";
-        transform = <&matrix_transform_left>;
-        keys 
-            = <&key_physical_attrs 100 100    0   50       0     0    50> 
-            , <&key_physical_attrs 100 100  100   37       0   100    37> 
-            , <&key_physical_attrs 100 100  200   12       0   200    12> 
-            , <&key_physical_attrs 100 100  300    0       0   300     0> 
-            , <&key_physical_attrs 100 100  400   12       0   400    12> 
-            , <&key_physical_attrs 100 100  500   25       0   500    25> 
-            
-            , <&key_physical_attrs 100 100    0  150       0     0   150> 
-            , <&key_physical_attrs 100 100  100  137       0   100   137> 
-            , <&key_physical_attrs 100 100  200  112       0   200   112> 
-            , <&key_physical_attrs 100 100  300  100       0   300   100> 
-            , <&key_physical_attrs 100 100  400  112       0   400   112> 
-            , <&key_physical_attrs 100 100  500  125       0   500   125> 
-            
-            , <&key_physical_attrs 100 100    0  250       0     0   250> 
-            , <&key_physical_attrs 100 100  100  237       0   100   237> 
-            , <&key_physical_attrs 100 100  200  212       0   200   212> 
-            , <&key_physical_attrs 100 100  300  200       0   300   200> 
-            , <&key_physical_attrs 100 100  400  212       0   400   212> 
-            , <&key_physical_attrs 100 100  500  225       0   500   225> 
-            
-            , <&key_physical_attrs 100 100    0  350       0     0   350> 
-            , <&key_physical_attrs 100 100  100  337       0   100   337> 
-            , <&key_physical_attrs 100 100  200  312       0   200   312> 
-            , <&key_physical_attrs 100 100  300  300       0   300   300> 
-            , <&key_physical_attrs 100 100  400  312       0   400   312> 
-            , <&key_physical_attrs 100 100  500  350       0   500   350> 
-            
-            , <&key_physical_attrs 100 100  400  437       0   400   437> 
-            , <&key_physical_attrs 100 100  500  465       0   500   465> 
-            , <&key_physical_attrs 100 100  600  450       0   600   450> 
-            ;
-    };
-
-    /* 5. RIGHT HALF GEOMETRIC LAYOUT SPECIFICATIONS (27 Keys) */
-    physical_layout_right: physical_layout_right {
-        compatible = "zmk,physical-layout";
-        display-name = "Right";
-        transform = <&matrix_transform_right>;
-        keys 
-            = <&key_physical_attrs 100 100 1050   25       0  1050    25> 
-            , <&key_physical_attrs 100 100 1150   12       0  1150    12> 
-            , <&key_physical_attrs 100 100 1250    0       0  1250     0> 
-            , <&key_physical_attrs 100 100 1350   12       0  1350    12> 
-            , <&key_physical_attrs 100 100 1450   37       0  1450    37> 
-            , <&key_physical_attrs 100 100 1550   50       0  1550    50> 
-            
-            , <&key_physical_attrs 100 100 1050  125       0  1050   125> 
-            , <&key_physical_attrs 100 100 1150  112       0  1150   112> 
-            , <&key_physical_attrs 100 100 1250  100       0  1250   100> 
-            , <&key_physical_attrs 100 100 1350  112       0  1350   112> 
-            , <&key_physical_attrs 100 100 1450  137       0  1450   137> 
-            , <&key_physical_attrs 100 100 1550  150       0  1550   150> 
-            
-            , <&key_physical_attrs 100 100 1050  225       0  1050   225> 
-            , <&key_physical_attrs 100 100 1150  212       0  1150   212> 
-            , <&key_physical_attrs 100 100 1250  200       0  1250   200> 
-            , <&key_physical_attrs 100 100 1350  212       0  1350   212> 
-            , <&key_physical_attrs 100 100 1450  237       0  1450   237> 
-            , <&key_physical_attrs 100 100 1550  250       0  1550   250> 
-            
-            , <&key_physical_attrs 100 100 1050  350       0  1050   350> 
-            , <&key_physical_attrs 100 100 1150  312       0  1150   312> 
-            , <&key_physical_attrs 100 100 1250  300       0  1250   300> 
-            , <&key_physical_attrs 100 100 1350  312       0  1350   312> 
-            , <&key_physical_attrs 100 100 1450  337       0  1450   337> 
-            , <&key_physical_attrs 100 100 1550  350       0  1550   350> 
-            
-            , <&key_physical_attrs 100 100  950  450       0   950   450> 
-            , <&key_physical_attrs 100 100 1050  465       0  1050   465> 
-            , <&key_physical_attrs 100 100 1150  440       0  1150   440> 
-            ;
-    };
-
-    /* 6. COMPOSITE CONTAINER ROOT LAYER */
-    physical_layout_composite: physical_layout_composite {
-        compatible = "zmk,physical-layout-composite";
-        display-name = "OrcishCrafts1";
-        outputs = <&physical_layout_left &physical_layout_right>;
-    };
-};
-
-/ {
     keymap {
         compatible = "zmk,keymap";
 
-        /* 
-           LAYER 0: Base Alphas (60% Form Factor Minus the Number Row)
-           Drops the number row. Moves symbols (Brackets, Slashes, Quotes) to Row 4.
-        */
+        /* === LAYER 0: Alpha Grid (No Number Row) === */
         default_layer {
             display-name = "Alpha";
             bindings = <
-                /* === ROW 1: TOP ALPHA ROW (Numbers completely gone) === */
                 &kp ESC   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
-                /* === ROW 2: HOME ROW ROW === */
                 &kp TAB   &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp RET
-                /* === ROW 3: BOTTOM ROW === */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-                /* === ROW 4: CONDENSED SYMBOLS ROW === */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp MINUS &kp EQUAL &kp GRAVE     &kp SQT   &kp BSLH  &kp LBKT  &kp RBKT  &kp HOME  &kp END
-                /* === ROW 5: THUMB CLUSTERS === */
                                               &kp SPACE &kp LALT  &kp LGUI      &kp RGUI  &mo 1     &kp DEL
             >;
         };
 
-        /* 
-           LAYER 1: Function and Number Block
-           Row 1 = F1 through F12.
-           Row 2 = Numbers 1 through 0, Minus, and Equals.
-        */
+        /* === LAYER 1: Fn Track on Row 1, Numbers on Row 2 === */
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
-                /* === ROW 1: FUNCTION TRACK (F1 to F12 completely fills the 12-key width) === */
                 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
-                /* === ROW 2: NUMBER TRACK (Numbers 1 through 0, ending exactly with Minus and Equals) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
-                /* === ROW 3: EXTRA UTILITIES === */
                 &none     &none     &none     &none     &none     &none         &none     &none     &none     &none     &none     &none
-                /* === ROW 4: ARROW NAVIGATION CLUSTER === */
                 &none     &none     &none     &none     &none     &none         &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &none     &none
-                /* === ROW 5: THUMB CLUSTER === */
                                               &none     &none     &none         &none     &none     &none
             >;
         };
