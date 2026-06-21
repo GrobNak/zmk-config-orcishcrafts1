@@ -1,8 +1,12 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
-/* Local layout tree inclusion */
-#include "orcishcrafts1.dtsi"
+/* 
+   THE DIRECT PREPROCESSOR BRIDGE:
+   Forces the compiler to step out of the config directory and step cleanly 
+   into your active hardware shields directory to fetch the composite layout parameters.
+*/
+#include "../../boards/shields/orcishcrafts1/orcishcrafts1-layouts.dtsi"
 
 / {
     chosen {
