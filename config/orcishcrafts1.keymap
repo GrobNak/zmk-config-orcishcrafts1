@@ -17,7 +17,7 @@
                 /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
                 /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
-                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp RET   &kp BSPC
+                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp BSPC  &kp RET
             >;
         };
 
