@@ -6,37 +6,43 @@
         compatible = "zmk,keymap";
 
         /* 
-           LAYER 0: Exact K630 Layout Matrix Minus the Top Number Row
-           14 columns per row. No keys shifted, no column alignment changed.
+           LAYER 0: Redragon K630 Layout Matrix Minus the Number Row
+           Row 1 starts exactly with Tab on the left edge and ends with Backslash on the right edge.
+           No keys are shifted out of their physical columns, and all edge modifiers match your layout rules.
         */
         default_layer {
             bindings = <
-                /* === ROW 1: TOP ROW === */
-                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp LBKT  &kp RBKT  &kp BSLH
-                /* === ROW 2: HOME ROW === */
-                &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT   &none     &kp RET
-                /* === ROW 3: BOTTOM ROW === */
-                &kp LSHFT &none     &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &none     &kp RSHFT
-                /* === ROW 4: BOTTOM MODIFIERS ROW === */
-                &kp LCTRL &kp LGUI  &kp LALT  &none     &none     &none     &kp SPACE &none     &none     &none     &none     &kp RALT  &mo 1     &kp RCTRL
+                /* === ROW 1: TOP ROW */
+                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
+                /* === ROW 2: HOME ROW ROW */
+                &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp RET
+                /* === ROW 3: BOTTOM ROW */
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
+                /* === ROW 4: */
+                &kp LCTRL &kp LGUI  &kp LALT  &none     &none     &none         &none     &none     &none    &kp RALT   &kp RGUI  &kp RCTRL
+                /* === ROW 5: THUMB CLUSTERS (Escape and Backspace explicitly moved here) === */
+                                              &kp ESC   &mo 1     &kp SPACE    &kp SPACE  &mo 1     &kp BSPC
             >;
         };
 
         /* 
-           LAYER 1: Function and Number Block
+           LAYER 1: Function Track & Number Row Substituted Natively
            Row 1 = F1 through F12.
            Row 2 = Numbers 1 through 0, Minus, and Equals.
         */
         lower_layer {
+            display-name = "Sym/Fn";
             bindings = <
-                /* === ROW 1: FUNCTION TRACK === */
-                &none     &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12   &none
-                /* === ROW 2: NUMBER TRACK === */
-                &none     &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL &none
-                /* === ROW 3: EMPTY EXTRA TRACK === */
-                &none     &none     &none     &none     &none     &none     &none     &none     &none     &none     &none     &none     &none     &none
+                /* === ROW 1: FUNCTION TRACK (F1 to F12 completely fills the 12-key width) === */
+                &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+                /* === ROW 2: NUMBER TRACK (Numbers 1 through 0, ending exactly with Minus and Equals) === */
+                &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
+                /* === ROW 3: EXTRA UTILITIES === */
+                &none     &none     &none     &none     &none     &none         &none     &none     &kp UP     &none     &none     &none
                 /* === ROW 4: ARROW NAVIGATION CLUSTER === */
-                &none     &none     &none     &none     &none     &none     &none     &none     &none     &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &none
+                &none     &none     &none     &none     &none     &none         &none   &kp LEFT  &kp DOWN   &kp RIGHT   &none     &none
+                /* === ROW 5: THUMB CLUSTER === */
+                                              &none     &none     &none         &none     &none     &none
             >;
         };
 
