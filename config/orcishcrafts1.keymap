@@ -2,13 +2,9 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    /* 
-       THE STUDIO ANCHOR:
-       Points directly down to the composite tracking node defined inside 
-       your external orcishcrafts1-layouts.dtsi asset folder.
-    */
+    /* Binds the keymap explicitly to your master layout framework node */
     chosen {
-        zmk,physical-layout = &physical_layout_composite;
+        zmk,physical-layout = &physical_layout_orcishcrafts1;
     };
 
     keymap {
@@ -26,7 +22,7 @@
             >;
         };
 
-        /* === LAYER 1: Function and Number Block === */
+        /* === LAYER 1: Fn Track on Row 1, Numbers on Row 2 === */
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
