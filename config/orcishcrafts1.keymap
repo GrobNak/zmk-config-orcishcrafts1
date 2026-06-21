@@ -1,12 +1,8 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
-/* 
-   THE GLOBAL MODULE INCLUDER:
-   Bypasses relative file paths completely by utilizing the global module header 
-   so the compiler locates your composite layout schema instantly.
-*/
-#include <orcishcrafts1-layouts.dtsi>
+/* Local layout tree inclusion */
+#include "orcishcrafts1.dtsi"
 
 / {
     chosen {
