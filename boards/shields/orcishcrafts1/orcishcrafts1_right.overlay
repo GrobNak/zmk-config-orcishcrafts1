@@ -3,7 +3,14 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        /* Forbidden zmk,matrix-transform removed to fix the Studio assert */
+        
+        /* 
+           THE WIRE LINK:
+           This links the right-side scanning matrix directly to the global transform map.
+           Because this sits on the wireless satellite node (not the USB core half), 
+           it completely splits your typing columns without triggering the Studio build crash.
+        */
+        zmk,matrix-transform = &matrix_transform0;
     };
 
     kscan0: kscan0 {
