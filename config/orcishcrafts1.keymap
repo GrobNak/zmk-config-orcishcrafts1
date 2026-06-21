@@ -2,11 +2,11 @@
 #include <dt-bindings/zmk/keys.h>
 
 /* 
-   THE DIRECT PREPROCESSOR BRIDGE:
-   Forces the compiler to step out of the config directory and step cleanly 
-   into your active hardware shields directory to fetch the composite layout parameters.
+   THE CANONICAL SHIELD PATH BRIDGE:
+   Forces the preprocessor to find your layout structures directly inside 
+   the active zmk extra modules directory workspace.
 */
-#include "../../boards/shields/orcishcrafts1/orcishcrafts1-layouts.dtsi"
+#include "../boards/shields/orcishcrafts1/orcishcrafts1-layouts.dtsi"
 
 / {
     chosen {
