@@ -2,11 +2,11 @@
 #include <dt-bindings/zmk/keys.h>
 
 /* 
-   THE COMPILER FORCER:
-   Explicitly forces the preprocessor to load your composite layouts file 
-   from the shield folder so the chosen block can validate the symbol name.
+   THE GLOBAL MODULE INCLUDER:
+   Bypasses relative file paths completely by utilizing the global module header 
+   so the compiler locates your composite layout schema instantly.
 */
-#include "../boards/shields/orcishcrafts1/orcishcrafts1-layouts.dtsi"
+#include <orcishcrafts1-layouts.dtsi>
 
 / {
     chosen {
