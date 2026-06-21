@@ -17,7 +17,7 @@
                 /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
                 /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
-                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp RET     &kp BSPC
+                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp RET   &kp BSPC
             >;
         };
 
@@ -25,14 +25,14 @@
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
-                /* === ROW 1: FUNCTION TRACK (12 Keys) === */
-                &kp F1    &kp F2    &kp F3    &RALTkp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+                /* === ROW 1: FUNCTION TRACK (12 Keys — FIXED TYPO HERE) === */
+                &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
                 /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
                 /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
-                &trans     &none     &none     &none     &none     &none        &none     &none     &kp UP    &none     &none     &trans
-                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
-                &trans     &trans    &trans    &none     &none     &none        &none     &none     &none     &trans    &trans    &trans
+                &trans    &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &trans
+                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys — RESTORED ARROWS HERE) === */
+                &trans    &trans    &trans    &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans
                 /* === ROW 5: THUMB CLUSTER (6 Keys) === */
                                               &none     &none     &none         &none     &none     &none
             >;
