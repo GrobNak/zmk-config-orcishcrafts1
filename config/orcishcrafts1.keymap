@@ -5,10 +5,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* 
-           LAYER 0: Your Exact 4-Row + Thumbs Grid Table Layout
-           No extra numbers row, no empty row on top, and no shifted columns.
-        */
+        /* === LAYER 0: Alpha Grid (No Number Row) === */
         default_layer {
             bindings = <
                 /* === ROW 1: TOP ROW (12 Keys) === */
@@ -24,10 +21,7 @@
             >;
         };
 
-        /* 
-           LAYER 1: Function Track & Number Row Substituted Natively
-           Every row has been strictly leveled to exactly 12 keys width.
-        */
+        /* === LAYER 1: Fn Track on Row 1, Numbers on Row 2 === */
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
