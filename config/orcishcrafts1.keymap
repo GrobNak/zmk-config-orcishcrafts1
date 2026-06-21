@@ -15,7 +15,7 @@
                 /* === ROW 3: BOTTOM ROW (12 Keys) === */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
                 /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
-                &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
+                &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp SEMI  &kp RALT  &kp RGUI  &kp RCTRL
                 /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
                                               &kp ESC   &mo 1     &kp SPACE     &kp SPACE &mo 1     &kp BSPC
             >;
@@ -26,7 +26,7 @@
             display-name = "Sym/Fn";
             bindings = <
                 /* === ROW 1: FUNCTION TRACK (12 Keys) === */
-                &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+                &kp F1    &kp F2    &kp F3    &RALTkp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
                 /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
                 /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
