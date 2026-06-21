@@ -1,5 +1,5 @@
 /*
- * OrcishCrafts1 Unified ZMK Studio Production Profile
+ * OrcishCrafts1 Unified Production ZMK Studio Profile
  * Core Mapping Parameters: 12 Columns x 5 Rows (54 Live Keys)
  */
 
@@ -16,13 +16,6 @@
         compatible = "zmk,matrix-transform";
         columns = <12>;
         rows = <5>;
-        /* 
-           THE MATRIX PARSER CELL DECLARATION:
-           This explicit assignment tells the devicetree compiler how to link 
-           individual key index tracking labels natively, completely resolving 
-           the "lacks #key-cells" crash while cleanly processing split boards.
-        */
-        #key-cells = <1>;
         map = <
             RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11)
             RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11)
@@ -40,76 +33,70 @@
 
         keys 
             /* ================= LEFT SIDE VISUAL MAP (27 Keys) ================= */
-            = <&key_physical_attrs 100 100    0   50       0     0    50 &matrix_transform0 0>  // ESC
-            , <&key_physical_attrs 100 100  100   37       0   100    37 &matrix_transform0 1>  // Q
-            , <&key_physical_attrs 100 100  200   12       0   200    12 &matrix_transform0 2>  // W
-            , <&key_physical_attrs 100 100  300    0       0   300     0 &matrix_transform0 3>  // E
-            , <&key_physical_attrs 100 100  400   12       0   400    12 &matrix_transform0 4>  // R
-            , <&key_physical_attrs 100 100  500   25       0   500    25 &matrix_transform0 5>  // T
+            = <&key_physical_attrs 100 100    0   50       0     0    50> // ESC
+            , <&key_physical_attrs 100 100  100   37       0   100    37> // Q
+            , <&key_physical_attrs 100 100  200   12       0   200    12> // W
+            , <&key_physical_attrs 100 100  300    0       0   300     0> // E
+            , <&key_physical_attrs 100 100  400   12       0   400    12> // R
+            , <&key_physical_attrs 100 100  500   25       0   500    25> // T
             
-            , <&key_physical_attrs 100 100    0  150       0     0   150 &matrix_transform0 12> // TAB
-            , <&key_physical_attrs 100 100  100  137       0   100   137 &matrix_transform0 13> // A
-            , <&key_physical_attrs 100 100  200  112       0   200   112 &matrix_transform0 14> // S
-            , <&key_physical_attrs 100 100  300  100       0   300   100 &matrix_transform0 15> // D
-            , <&key_physical_attrs 100 100  400  112       0   400   112 &matrix_transform0 16> // F
-            , <&key_physical_attrs 100 100  500  125       0   500   125 &matrix_transform0 17> // G
+            , <&key_physical_attrs 100 100    0  150       0     0   150> // TAB
+            , <&key_physical_attrs 100 100  100  137       0   100   137> // A
+            , <&key_physical_attrs 100 100  200  112       0   200   112> // S
+            , <&key_physical_attrs 100 100  300  100       0   300   100> // D
+            , <&key_physical_attrs 100 100  400  112       0   400   112> // F
+            , <&key_physical_attrs 100 100  500  125       0   500   125> // G
             
-            , <&key_physical_attrs 100 100    0  250       0     0   250 &matrix_transform0 24> // LSHFT
-            , <&key_physical_attrs 100 100  100  237       0   100   237 &matrix_transform0 25> // Z
-            , <&key_physical_attrs 100 100  200  212       0   200   212 &matrix_transform0 26> // X
-            , <&key_physical_attrs 100 100  300  200       0   300   200 &matrix_transform0 27> // C
-            , <&key_physical_attrs 100 100  400  212       0   400   212 &matrix_transform0 28> // V
-            , <&key_physical_attrs 100 100  500  225       0   500   225 &matrix_transform0 29> // B
+            , <&key_physical_attrs 100 100    0  250       0     0   250> // LSHFT
+            , <&key_physical_attrs 100 100  100  237       0   100   237> // Z
+            , <&key_physical_attrs 100 100  200  212       0   200   212> // X
+            , <&key_physical_attrs 100 100  300  200       0   300   200> // C
+            , <&key_physical_attrs 100 100  400  212       0   400   212> // V
+            , <&key_physical_attrs 100 100  500  225       0   500   225> // B
             
-            , <&key_physical_attrs 100 100    0  350       0     0   350 &matrix_transform0 36> // LCTRL
-            , <&key_physical_attrs 100 100  100  337       0   100   337 &matrix_transform0 37> // LGUI
-            , <&key_physical_attrs 100 100  200  312       0   200   312 &matrix_transform0 38> // LALT
-            , <&key_physical_attrs 100 100  300  300       0   300   300 &matrix_transform0 39> // MINUS
-            , <&key_physical_attrs 100 100  400  312       0   400   312 &matrix_transform0 40> // EQUAL
-            , <&key_physical_attrs 100 100  500  350       0   500   350 &matrix_transform0 41> // GRAVE
+            , <&key_physical_attrs 100 100    0  350       0     0   350> // LCTRL
+            , <&key_physical_attrs 100 100  100  337       0   100   337> // LGUI
+            , <&key_physical_attrs 100 100  200  312       0   200   312> // LALT
+            , <&key_physical_attrs 100 100  300  300       0   300   300> // MINUS
+            , <&key_physical_attrs 100 100  400  312       0   400   312> // EQUAL
+            , <&key_physical_attrs 100 100  500  350       0   500   350> // GRAVE
             
-            , <&key_physical_attrs 100 100  400  437       0   400   437 &matrix_transform0 51> // THUMB 1
-            , <&key_physical_attrs 100 100  500  465       0   500   465 &matrix_transform0 52> // THUMB 2
-            , <&key_physical_attrs 100 100  600  450       0   600   450 &matrix_transform0 53> // THUMB 3
+            , <&key_physical_attrs 100 100  400  437       0   400   437> // THUMB 1
+            , <&key_physical_attrs 100 100  500  465       0   500   465> // THUMB 2
+            , <&key_physical_attrs 100 100  600  450       0   600   450> // THUMB 3
 
             /* ================= RIGHT SIDE VISUAL MAP (27 Keys) ================= */
-            /* 
-               THE MANUAL ALIGNMENT SHIFT:
-               By passing the explicit transform indexes 6-11, 18-23, 30-35, 42-47, and 54-56,
-               we bind the right hand's physical switches directly to the right side of the layout canvas,
-               completely smashing the mirror lock.
-            */
-            , <&key_physical_attrs 100 100 1050   25       0  1050    25 &matrix_transform0 6>  // Y
-            , <&key_physical_attrs 100 100 1150   12       0  1150    12 &matrix_transform0 7>  // U
-            , <&key_physical_attrs 100 100 1250    0       0  1250     0 &matrix_transform0 8>  // I
-            , <&key_physical_attrs 100 100 1350   12       0  1350    12 &matrix_transform0 9>  // O
-            , <&key_physical_attrs 100 100 1450   37       0  1450    37 &matrix_transform0 10> // P
-            , <&key_physical_attrs 100 100 1550   50       0  1550    50 &matrix_transform0 11> // BSPC
+            , <&key_physical_attrs 100 100 1050   25       0  1050    25> // Y
+            , <&key_physical_attrs 100 100 1150   12       0  1150    12> // U
+            , <&key_physical_attrs 100 100 1250    0       0  1250     0> // I
+            , <&key_physical_attrs 100 100 1350   12       0  1350    12> // O
+            , <&key_physical_attrs 100 100 1450   37       0  1450    37> // P
+            , <&key_physical_attrs 100 100 1550   50       0  1550    50> // BSPC
             
-            , <&key_physical_attrs 100 100 1050  125       0  1050   125 &matrix_transform0 18> // H
-            , <&key_physical_attrs 100 100 1150  112       0  1150   112 &matrix_transform0 19> // J
-            , <&key_physical_attrs 100 100 1250  100       0  1250   100 &matrix_transform0 20> // K
-            , <&key_physical_attrs 100 100 1350  112       0  1350   112 &matrix_transform0 21> // L
-            , <&key_physical_attrs 100 100 1450  137       0  1450   137 &matrix_transform0 22> // SEMI
-            , <&key_physical_attrs 100 100 1550  150       0  1550   150 &matrix_transform0 23> // RET
+            , <&key_physical_attrs 100 100 1050  125       0  1050   125> // H
+            , <&key_physical_attrs 100 100 1150  112       0  1150   112> // J
+            , <&key_physical_attrs 100 100 1250  100       0  1250   100> // K
+            , <&key_physical_attrs 100 100 1350  112       0  1350   112> // L
+            , <&key_physical_attrs 100 100 1450  137       0  1450   137> // SEMI
+            , <&key_physical_attrs 100 100 1550  150       0  1550   150> // RET
             
-            , <&key_physical_attrs 100 100 1050  225       0  1050   225 &matrix_transform0 30> // N
-            , <&key_physical_attrs 100 100 1150  212       0  1150   212 &matrix_transform0 31> // M
-            , <&key_physical_attrs 100 100 1250  200       0  1250   200 &matrix_transform0 32> // COMMA
-            , <&key_physical_attrs 100 100 1350  212       0  1350   212 &matrix_transform0 33> // DOT
-            , <&key_physical_attrs 100 100 1450  237       0  1450   237 &matrix_transform0 34> // FSLH
-            , <&key_physical_attrs 100 100 1550  250       0  1550   250 &matrix_transform0 35> // RSHFT
+            , <&key_physical_attrs 100 100 1050  225       0  1050   225> // N
+            , <&key_physical_attrs 100 100 1150  212       0  1150   212> // M
+            , <&key_physical_attrs 100 100 1250  200       0  1250   200> // COMMA
+            , <&key_physical_attrs 100 100 1350  212       0  1350   212> // DOT
+            , <&key_physical_attrs 100 100 1450  237       0  1450   237> // FSLH
+            , <&key_physical_attrs 100 100 1550  250       0  1550   250> // RSHFT
             
-            , <&key_physical_attrs 100 100 1050  350       0  1050   350 &matrix_transform0 42> // SQT
-            , <&key_physical_attrs 100 100 1150  312       0  1150   312 &matrix_transform0 43> // BSLH
-            , <&key_physical_attrs 100 100 1250  300       0  1250   300 &matrix_transform0 44> // LBKT
-            , <&key_physical_attrs 100 100 1350  312       0  1350   312 &matrix_transform0 45> // RBKT
-            , <&key_physical_attrs 100 100 1450  337       0  1450   337 &matrix_transform0 46> // HOME
-            , <&key_physical_attrs 100 100 1550  350       0  1550   350 &matrix_transform0 47> // END
+            , <&key_physical_attrs 100 100 1050  350       0  1050   350> // SQT
+            , <&key_physical_attrs 100 100 1150  312       0  1150   312> // BSLH
+            , <&key_physical_attrs 100 100 1250  300       0  1250   300> // LBKT
+            , <&key_physical_attrs 100 100 1350  312       0  1350   312> // RBKT
+            , <&key_physical_attrs 100 100 1450  337       0  1450   337> // HOME
+            , <&key_physical_attrs 100 100 1550  350       0  1550   350> // END
             
-            , <&key_physical_attrs 100 100  950  450       0   950   450 &matrix_transform0 54> // THUMB 4
-            , <&key_physical_attrs 100 100 1050  465       0  1050   465 &matrix_transform0 55> // THUMB 5
-            , <&key_physical_attrs 100 100 1150  440       0  1150   440 &matrix_transform0 56> // THUMB 6
+            , <&key_physical_attrs 100 100  950  450       0   950   450> // THUMB 4
+            , <&key_physical_attrs 100 100 1050  465       0  1050   465> // THUMB 5
+            , <&key_physical_attrs 100 100 1150  440       0  1150   440> // THUMB 6
             ;
     };
 };
