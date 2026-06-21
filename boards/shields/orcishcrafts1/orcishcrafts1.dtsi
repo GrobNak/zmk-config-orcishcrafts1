@@ -1,7 +1,3 @@
-/*
- * OrcishCrafts1 Central 12-Column Hardware Base Transform Matrix
- */
-
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
@@ -9,7 +5,6 @@
         zmk,matrix-transform = &matrix_transform0;
     };
 
-    /* THE UNIFIED 12-COLUMN MASTER MATRIX TRANSFORM MAP */
     matrix_transform0: matrix_transform0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
