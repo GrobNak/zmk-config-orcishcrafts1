@@ -1,29 +1,96 @@
-/*
- * OrcishCrafts1 Central 12-Column Hardware Base Transform Matrix
- */
-
-#include <dt-bindings/zmk/matrix_transform.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
 
 / {
-    chosen {
-        zmk,matrix-transform = &matrix_transform0;
+    /* 
+       COMPRESSED POWER DOWN MACROS:
+       Shortened string identifiers from "left_powerdown" to "lpwd" 
+       to drop underneath Zephyr's compiled device name string lengths.
+       Maintains your 3-second (3000ms) safety delay.
+    */
+    macros {
+        lpwd: lpwd {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <3000>;
+            tap-ms = <10>;
+            bindings = <&soft_off>;
+        };
+
+        rpwd: rpwd {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <3000>;
+            tap-ms = <10>;
+            bindings = <&soft_off>;
+        };
     };
 
-    /* THE UNIFIED 12-COLUMN MASTER MATRIX TRANSFORM MAP */
-    matrix_transform0: matrix_transform0 {
-        compatible = "zmk,matrix-transform";
-        columns = <12>;
-        rows = <5>;
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11)
-            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11)
-            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10) RC(2,11)
-            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(3,11)
-            RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8)
-        >;
-    };
-};
+    /* 
+       THE COMBOS:
+       Left Sleep:  G (Index 17) + Left SPACE (Index 50)  -> Triggers lpwd
+       Right Sleep: H (Index 18) + Right SPACE (Index 51) -> Triggers rpwd
+    */
+    combos {
+        compatible = "zmk,combos";
+        
+        combo_left_sleep {
+            timeout-ms = <50>;
+            key-positions = <17 50>;
+            bindings = <&lpwd>;
+        };
 
-&uicr {
-    nfct-pins-as-gpios;
+        combo_right_sleep {
+            timeout-ms = <50>;
+            key-positions = <18 51>;
+            bindings = <&rpwd>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        /* === LAYER 0: Alpha Grid (No Number Row) === */
+        default_layer {
+            bindings = <
+                /* === ROW 1: TOP ROW (12 Keys) === */
+                &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
+                /* === ROW 2: HOME ROW ROW (12 Keys) === */
+                &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                /* === ROW 3: BOTTOM ROW (12 Keys) === */
+                &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
+                /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
+                &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
+                /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
+                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp BSPC  &kp RET
+            >;
+        };
+
+        /* === LAYER 1: Fn Track on Row 1, Numbers on Row 2 === */
+        lower_layer {
+            display-name = "Sym/Fn";
+            bindings = <
+                /* === ROW 1: FUNCTION TRACK (12 Keys) === */
+                &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+                /* === ROW 2: NUMBER TRACK (12 Keys) === */
+                &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
+                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
+                &trans    &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &trans
+                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
+                &trans    &trans    &trans    &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans
+                /* === ROW 5: THUMB CLUSTER (6 Keys) === */
+                                              &none     &none     &none         &none     &none     &none
+            >;
+        };
+
+        extra1 { status = "reserved"; };
+        extra2 { status = "reserved"; };
+        extra3 { status = "reserved"; };
+        extra4 { status = "reserved"; };
+        extra5 { status = "reserved"; };
+        extra6 { status = "reserved"; };
+        extra7 { status = "reserved"; };        
+        extra8 { status = "reserved"; };        
+        extra9 { status = "reserved"; };
+    };
 };
