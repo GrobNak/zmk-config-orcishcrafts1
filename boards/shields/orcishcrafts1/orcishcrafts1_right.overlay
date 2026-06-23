@@ -28,3 +28,8 @@
             ;
     };
 };
+
+/* Tells the right side microcontroller to shift its matrix map past column 5 */
+&matrix_transform0 {
+    col-offset = <6>;
+};
