@@ -3,23 +3,45 @@
 
 / {
     /* 
-       THE UPDATED SLEEP COMBO BLOCK:
-       Left Side:  G (Index 17) + ESC (Index 48)  -> Wakes up by tapping ESC
-       Right Side: H (Index 16) + BSPC (Index 52) -> Wakes up by tapping BSPC
+       THE 3-SECOND SLEEP MACROS:
+       Gives you 3 full seconds to lift your hands completely before sleep engages.
+    */
+    macros {
+        left_powerdown: left_powerdown {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <3000>;
+            tap-ms = <10>;
+            bindings = <&soft_off>;
+        };
+
+        right_powerdown: right_powerdown {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <3000>;
+            tap-ms = <10>;
+            bindings = <&soft_off>;
+        };
+    };
+
+    /* 
+       THE SLEEP COMBOS:
+       Left Sleep:  G (Index 17) + SPACE (Index 50) -> Wakes up with ESC (Index 48)
+       Right Sleep: H (Index 16) + SPACE (Index 51) -> Wakes up with RET (Index 53)
     */
     combos {
         compatible = "zmk,combos";
         
         combo_left_sleep {
             timeout-ms = <50>;
-            key-positions = <17 48>;
-            bindings = <&soft_off>;
+            key-positions = <17 50>;
+            bindings = <&left_powerdown>;
         };
 
         combo_right_sleep {
             timeout-ms = <50>;
-            key-positions = <16 52>;
-            bindings = <&soft_off>;
+            key-positions = <16 51>;
+            bindings = <&right_powerdown>;
         };
     };
 
@@ -38,7 +60,7 @@
                 /* === ROW 4: BOTTOM MODIFIERS ROW (36 to 47) === */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
                 /* === ROW 5: THUMB CLUSTERS (48 to 53) === */
-                                              /* ESC: 48 */ &mo 1 &kp SPACE     &kp SPACE /* BSPC: 52 */ &kp BSPC &kp RET
+                                              /* ESC: 48 */ &kp ESC &mo 1       /* SPACE: 50 */ &kp SPACE /* SPACE: 51 */ &kp SPACE &kp BSPC /* RET: 53 */ &kp RET
             >;
         };
 
@@ -46,15 +68,10 @@
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
-                /* === ROW 1: FUNCTION TRACK (12 Keys) === */
                 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
-                /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
-                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
                 &trans    &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &trans
-                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
                 &trans    &trans    &trans    &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans
-                /* === ROW 5: THUMB CLUSTER (6 Keys) === */
                                               &none     &none     &none         &none     &none     &none
             >;
         };
