@@ -1,6 +1,5 @@
 /*
  * OrcishCrafts1 Central 12-Column Hardware Base Transform Matrix
- * Explicitly maps wakeup properties to satisfy the low-level Soft Off driver
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
@@ -23,11 +22,6 @@
             RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7) RC(4,8)
         >;
     };
-};
-
-/* THE HARDWARE WAKE ENABLER */
-&matrix_transform0 {
-    wakeup-source;
 };
 
 &uicr {
