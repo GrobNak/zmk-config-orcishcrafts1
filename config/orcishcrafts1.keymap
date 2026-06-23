@@ -25,9 +25,9 @@
     };
 
     /* 
-       THE SLEEP COMBOS:
-       Left Sleep:  G (Index 17) + SPACE (Index 50) -> Wakes up with ESC (Index 48)
-       Right Sleep: H (Index 16) + SPACE (Index 51) -> Wakes up with RET (Index 53)
+       THE COMBOS:
+       Left Sleep:  G (Index 17) + Left SPACE (Index 50)  -> Wakes up with ESC (Index 48)
+       Right Sleep: H (Index 18) + Right SPACE (Index 51) -> Wakes up with RET (Index 53)
     */
     combos {
         compatible = "zmk,combos";
@@ -40,7 +40,7 @@
 
         combo_right_sleep {
             timeout-ms = <50>;
-            key-positions = <16 51>;
+            key-positions = <18 51>;
             bindings = <&right_powerdown>;
         };
     };
@@ -51,16 +51,16 @@
         /* === LAYER 0: Alpha Grid (No Number Row) === */
         default_layer {
             bindings = <
-                /* === ROW 1: TOP ROW (0 to 11) === */
+                /* === ROW 1: TOP ROW (12 Keys) === */
                 &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
-                /* === ROW 2: HOME ROW ROW (12 to 23) === */
-                &kp CAPS  &kp A     &kp S     &kp D     &kp F     /* G: 17 */   /* H: 16 */ &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-                /* === ROW 3: BOTTOM ROW (24 to 35) === */
+                /* === ROW 2: HOME ROW ROW (12 Keys) === */
+                &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                /* === ROW 3: BOTTOM ROW (12 Keys) === */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-                /* === ROW 4: BOTTOM MODIFIERS ROW (36 to 47) === */
+                /* === ROW 4: BOTTOM MODIFIERS ROW (12 Keys) === */
                 &kp LCTRL &kp LGUI  &kp LALT  &kp LALT  &kp LALT  &kp LALT      &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
-                /* === ROW 5: THUMB CLUSTERS (48 to 53) === */
-                                              /* ESC: 48 */ &kp ESC &mo 1       /* SPACE: 50 */ &kp SPACE /* SPACE: 51 */ &kp SPACE &kp BSPC /* RET: 53 */ &kp RET
+                /* === ROW 5: THUMB CLUSTERS (6 Keys Total — 3 Left Thumbs | 3 Right Thumbs) === */
+                                              &kp ESC   &mo 1     &kp SPACE     &kp SPACE &kp BSPC  &kp RET
             >;
         };
 
@@ -68,10 +68,15 @@
         lower_layer {
             display-name = "Sym/Fn";
             bindings = <
+                /* === ROW 1: FUNCTION TRACK (12 Keys) === */
                 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+                /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
+                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
                 &trans    &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &trans
+                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
                 &trans    &trans    &trans    &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans
+                /* === ROW 5: THUMB CLUSTER (6 Keys) === */
                                               &none     &none     &none         &none     &none     &none
             >;
         };
