@@ -3,10 +3,8 @@
 
 / {
     /* 
-       COMPRESSED POWER DOWN MACROS:
-       Shortened string identifiers from "left_powerdown" to "lpwd" 
-       to drop underneath Zephyr's compiled device name string lengths.
-       Maintains your 3-second (3000ms) safety delay.
+       THE REPAIRED POWER MACROS:
+       Gives you a 3-second hold delay buffer to pull your fingers away.
     */
     macros {
         lpwd: lpwd {
@@ -28,8 +26,8 @@
 
     /* 
        THE COMBOS:
-       Left Sleep:  G (Index 17) + Left SPACE (Index 50)  -> Triggers lpwd
-       Right Sleep: H (Index 18) + Right SPACE (Index 51) -> Triggers rpwd
+       Left Sleep:  G (Index 17) + Left SPACE (Index 50)  -> Wakes up with ESC (Index 48)
+       Right Sleep: H (Index 18) + Right SPACE (Index 51) -> Wakes up with RET (Index 53)
     */
     combos {
         compatible = "zmk,combos";
@@ -55,7 +53,7 @@
             bindings = <
                 /* === ROW 1: TOP ROW (12 Keys) === */
                 &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T         &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
-                /* === ROW 2: HOME ROW ROW (12 Keys) === */
+                /* === ROW 2: HOME ROW ROW (Strictly 12 Keys - DUPLICATE KEY REMOVED) === */
                 &kp CAPS  &kp A     &kp S     &kp D     &kp F     &kp G         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
                 /* === ROW 3: BOTTOM ROW (12 Keys) === */
                 &kp LSHFT &kp Z     &kp X     &kp C     &kp V     &kp B         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
