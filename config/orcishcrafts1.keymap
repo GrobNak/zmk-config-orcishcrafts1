@@ -29,18 +29,29 @@
                 &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6        &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
                 /* === ROW 2: NUMBER TRACK (12 Keys) === */
                 &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6        &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL
-                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys) === */
-                &trans    &none     &none     &none     &none     &none         &none     &none     &kp UP    &none     &none     &trans
-                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys) === */
-                &trans    &trans    &trans    &none     &none     &none         &none     &kp LEFT  &kp DOWN  &kp RIGHT &trans    &trans
-                /* === ROW 5: THUMB CLUSTER (6 Keys) === */
-                                              &none     &none     &none         &none     &none     &none
+                /* === ROW 3: EXTRA NAVIGATORS ROW (12 Keys — FIXED PREFIXES) === */
+                &trans    &none     &none     &none     &kp UP    &none         &kp INS   &kp HOME  &kp PG_UP &none     &none     &trans
+                /* === ROW 4: ARROW NAVIGATION ROW (12 Keys — RE-ALIGNED NAVIGATION CLUSTER) === */
+                &trans    &trans    &trans    &kp LEFT  &kp DOWN  &kp RIGHT     &kp DEL   &kp END   &kp PG_DN &trans    &trans    &trans
+                /* === ROW 5: THUMB CLUSTER (6 Keys — FIXED DOUBLE AMPERSAND) === */
+                                              &trans    &none     &trans        &trans    &trans    &trans
             >;
         };
 
-        extra1 { status = "reserved"; };
+        /* === LAYER 2: Games === */
+        extra1 {
+            status = "reserved";
+            bindings = <
+                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5        &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
+                &kp CAPS  &kp Q     &kp W     &kp E     &kp R     &kp T         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+                &kp LSHFT &kp A     &kp S     &kp D     &kp F     &kp G         &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
+                &kp LALT  &kp Z     &kp X     &kp C     &kp V     &kp B         &kp RALT  &kp RALT  &kp RALT  &kp RALT  &kp RGUI  &kp RCTRL
+                                              &kp ESC   &kp LCTRL &kp SPACE     &kp SPACE &kp BSPC  &kp RET
+            >;
+        };
+
         extra2 { status = "reserved"; };
-        extra3 { status = "reserved"; };
+        extra3 { status = "reserved"; }; 
         extra4 { status = "reserved"; };
         extra5 { status = "reserved"; };
         extra6 { status = "reserved"; };
@@ -49,3 +60,4 @@
         extra9 { status = "reserved"; };
     };
 };
+
