@@ -40,7 +40,7 @@
 
         /* === LAYER 2: Games === */
         extra1 {
-            status = "reserved";
+            display-name = "Gaming";
             bindings = <
                 &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5        &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
                 &kp CAPS  &kp Q     &kp W     &kp E     &kp R     &kp T         &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
