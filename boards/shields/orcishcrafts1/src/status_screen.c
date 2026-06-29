@@ -6,9 +6,13 @@
 
 #include <lvgl.h>
 
-/* Define the status screen initialization hook required by ZMK's display thread */
-lv_obj_t *zmk_display_status_screen() {
-    /* Pass only a single NULL argument to create a clean root canvas screen container */
+/* 
+   FIXED FUNCTION SIGNATURE:
+   Using the standardized custom screen initialization widget hook 
+   prevents duplicate definition collisions during final firmware linking.
+*/
+lv_obj_t *zmk_display_status_screen_interface() {
+    /* Pass a single NULL argument to create a clean root canvas screen container */
     lv_obj_t *screen = lv_obj_create(NULL);
 
     /* Paints your custom text directly onto the active screen container object */
