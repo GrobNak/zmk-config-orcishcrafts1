@@ -1,6 +1,41 @@
+#include "orcishcrafts1.dtsi"
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+    };
+
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        wakeup-source;
+
+        col-gpios
+            = <&gpio0 31 GPIO_ACTIVE_HIGH> 
+            , <&gpio0 29 GPIO_ACTIVE_HIGH> 
+            , <&gpio0  2 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 15 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 13 GPIO_ACTIVE_HIGH> 
+            , <&gpio1 11 GPIO_ACTIVE_HIGH> 
+            ;
+
+        row-gpios
+            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
+            ;
+    };
+};
+
+&usbd {
+    status = "okay";
+};
+
 /* 
    ST7789 170x320 DISPLAY REGISTRATION (ZJY190S0800TG01)
-   Calibrated exactly to your specified nRF52840 hardware pin targets.
+   Corrected exactly to use standard cell-array syntax bounds.
 */
 &spi1 {
     status = "okay";
@@ -18,10 +53,10 @@
         /* 170x320 Non-Standard Clipping Bounds Register Calibration */
         width = <170>;
         height = <320>;
-        x-offset = <35>; /* Absolute horizontal centering offset for 170 panels */
+        x-offset = <35>; /* Centering offset for 170 panels */
         y-offset = <0>;
         
-        /* Color Pipeline Optimization Profile */
+        /* Color Pipeline Optimization Profile - Corrected Array Syntaxes */
         vcom = <0x1c>;
         gctrl = <0x35>;
         vrhs = <0x0b>;
@@ -30,8 +65,8 @@
         lcm = <0x2c>;
         colmod = <0x55>;
         gamma = <0x01>;
-        porch = <0x0c 0x0c 0x00 0x33 0x33>;
-        cmd2enct = <0x5a 0x69 0x02 0x01>;
+        porch-param = <0x0c 0x0c 0x00 0x33 0x33>; /* FIXED SYNTAX */
+        cmd2enct = <0x5a 0x69 0x02 0x01>;       /* FIXED SYNTAX */
     };
 };
 
