@@ -32,6 +32,53 @@
 };
 
 /* 
+   RIGHT HALF ST7789 170x320 DISPLAY REGISTRATION
+   Calibrated exactly with the mandatory version arrays to pass validation.
+*/
+&spi1 {
+    status = "okay";
+    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Maps directly to pin 0.22 */
+
+    st7789: st7789@0 {
+        compatible = "sitronix,st7789v";
+        reg = <0>;
+        spi-max-frequency = <20000000>;
+        
+        /* Control Pin Hardware Overrides */
+        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; /* Maps directly to pin 0.08 */
+        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  /* Maps directly to pin 0.06 */
+        
+        /* 170x320 Non-Standard Clipping Bounds Register Calibration */
+        width = <170>;
+        height = <320>;
+        x-offset = <35>; /* Centering offset for 170 panels */
+        y-offset = <0>;
+        
+        /* Version-Compliant Power and Gamma Parameters Matrix Arrays */
+        vcom = <0x1c>;
+        gctrl = <0x35>;
+        mdac = <0x00>;
+        lcm = <0x2c>;
+        colmod = <0x55>;
+        gamma = <0x01>;
+        porch-param = [0c 0c 00 33 33]; 
+        cmd2en-param = [5a 69 02 01];
+        pwctrl1-param = [a4 a1];
+        pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
+        nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
+        ram-param = [2c 2e];
+        rgb-param = [00 05 00];
+    };
+};
+
+/* Anchor the right-hand graphical framework directly to the local Sitronix driver instance */
+/ {
+    chosen {
+        zephyr,display = &st7789;
+    };
+};
+
+/* 
    THE MIRROR LOCK BREAKER:
    Shifts the right side's electronic scanning index past column 5 
    so it maps natively to the right half of your 12-column wide keymap.
