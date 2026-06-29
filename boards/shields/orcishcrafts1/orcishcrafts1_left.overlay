@@ -1,34 +1,43 @@
-#include "orcishcrafts1.dtsi"
+/* 
+   ST7789 170x320 DISPLAY REGISTRATION (ZJY190S0800TG01)
+   Calibrated exactly to your specified nRF52840 hardware pin targets.
+*/
+&spi1 {
+    status = "okay";
+    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Maps directly to pin 0.22 */
 
-/ {
-    chosen {
-        zmk,kscan = &kscan0;
-    };
-
-    kscan0: kscan0 {
-        compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
-        wakeup-source;
-
-        col-gpios
-            = <&gpio0 31 GPIO_ACTIVE_HIGH> 
-            , <&gpio0 29 GPIO_ACTIVE_HIGH> 
-            , <&gpio0  2 GPIO_ACTIVE_HIGH> 
-            , <&gpio1 15 GPIO_ACTIVE_HIGH> 
-            , <&gpio1 13 GPIO_ACTIVE_HIGH> 
-            , <&gpio1 11 GPIO_ACTIVE_HIGH> 
-            ;
-
-        row-gpios
-            = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            ;
+    st7789: st7789@0 {
+        compatible = "sitronix,st7789v";
+        reg = <0>;
+        spi-max-frequency = <20000000>;
+        
+        /* Control Pin Hardware Overrides */
+        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; /* Maps directly to pin 0.08 */
+        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  /* Maps directly to pin 0.06 */
+        
+        /* 170x320 Non-Standard Clipping Bounds Register Calibration */
+        width = <170>;
+        height = <320>;
+        x-offset = <35>; /* Absolute horizontal centering offset for 170 panels */
+        y-offset = <0>;
+        
+        /* Color Pipeline Optimization Profile */
+        vcom = <0x1c>;
+        gctrl = <0x35>;
+        vrhs = <0x0b>;
+        vdv = <0x20>;
+        mdac = <0x00>;
+        lcm = <0x2c>;
+        colmod = <0x55>;
+        gamma = <0x01>;
+        porch = <0x0c 0x0c 0x00 0x33 0x33>;
+        cmd2enct = <0x5a 0x69 0x02 0x01>;
     };
 };
 
-&usbd {
-    status = "okay";
+/* Anchor the graphical framework directly to the compiled Sitronix driver instance */
+/ {
+    chosen {
+        zephyr,display = &st7789;
+    };
 };
