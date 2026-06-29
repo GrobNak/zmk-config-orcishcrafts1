@@ -35,7 +35,7 @@
 
 /* 
    ST7789 170x320 DISPLAY REGISTRATION (ZJY190S0800TG01)
-   Corrected explicitly to meet Zephyr 3.5.0 Kconfig byte-stream array requirements.
+   Corrected exactly to meet Zephyr 3.5.0 required property definitions.
 */
 &spi1 {
     status = "okay";
@@ -56,7 +56,7 @@
         x-offset = <35>; /* Centering offset for 170 panels */
         y-offset = <0>;
         
-        /* Color Pipeline Optimization Profile - Corrected Byte Stream Arrays */
+        /* Color Pipeline Optimization Profile - Corrected Property Names */
         vcom = <0x1c>;
         gctrl = <0x35>;
         vrhs = <0x0b>;
@@ -65,8 +65,8 @@
         lcm = <0x2c>;
         colmod = <0x55>;
         gamma = <0x01>;
-        porch-param = [0c 0c 00 33 33]; /* FIXED BYTES: Square brackets, no 0x prefixes */
-        cmd2enct = [5a 69 02 01];       /* FIXED BYTES: Square brackets, no 0x prefixes */
+        porch-param = [0c 0c 00 33 33]; 
+        cmd2en-param = [5a 69 02 01];    /* FIXED VARIABLE NAME */
     };
 };
 
