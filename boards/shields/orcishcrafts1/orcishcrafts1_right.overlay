@@ -10,6 +10,7 @@
         diode-direction = "col2row";
         wakeup-source;
 
+        /* Hardware Column GPIO Pin Tracks for your Right Board Half */
         col-gpios
             = <&gpio1 11 GPIO_ACTIVE_HIGH> 
             , <&gpio1 13 GPIO_ACTIVE_HIGH> 
@@ -19,6 +20,7 @@
             , <&gpio0 31 GPIO_ACTIVE_HIGH> 
             ;
 
+        /* Hardware Row GPIO Pin Tracks for your Right Board Half */
         row-gpios
             = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
@@ -29,7 +31,11 @@
     };
 };
 
-/* Tells the right side microcontroller to shift its matrix map past column 5 */
+/* 
+   THE MIRROR LOCK BREAKER:
+   Shifts the right side's electronic scanning index past column 5 
+   so it maps natively to the right half of your 12-column wide keymap.
+*/
 &matrix_transform0 {
     col-offset = <6>;
 };
