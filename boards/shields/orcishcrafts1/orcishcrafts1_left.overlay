@@ -35,7 +35,7 @@
 
 /* 
    ST7789 170x320 DISPLAY REGISTRATION (ZJY190S0800TG01)
-   Fully rebuilt to satisfy Zephyr 3.5.0 required parameter array properties.
+   Fully calibrated with every single mandatory parameter array required by Zephyr 3.5.0.
 */
 &spi1 {
     status = "okay";
@@ -65,11 +65,12 @@
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
-        
-        /* THE CRITICAL MISSING ZEPHYR 3.5.0 ARRAYS */
         pwctrl1-param = [a4 a1];
         pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
         nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
+        
+        /* THE CRITICAL MISSING ZEPHYR 3.5.0 RAM COMMANDS */
+        ram-param = [2c 2e]; /* Column address set (0x2C) and Row address set (0x2E) markers */
     };
 };
 
