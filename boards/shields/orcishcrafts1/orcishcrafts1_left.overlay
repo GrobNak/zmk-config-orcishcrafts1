@@ -35,7 +35,7 @@
 
 /* 
    ST7789 170x320 DISPLAY REGISTRATION (ZJY190S0800TG01)
-   Corrected exactly to meet Zephyr 3.5.0 required property definitions.
+   Fully rebuilt to satisfy Zephyr 3.5.0 required parameter array properties.
 */
 &spi1 {
     status = "okay";
@@ -56,17 +56,20 @@
         x-offset = <35>; /* Centering offset for 170 panels */
         y-offset = <0>;
         
-        /* Color Pipeline Optimization Profile - Corrected Property Names */
+        /* Version-Compliant Power and Gamma Parameters Matrix Arrays */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        vrhs = <0x0b>;
-        vdv = <0x20>;
         mdac = <0x00>;
         lcm = <0x2c>;
         colmod = <0x55>;
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
-        cmd2en-param = [5a 69 02 01];    /* FIXED VARIABLE NAME */
+        cmd2en-param = [5a 69 02 01];
+        
+        /* THE CRITICAL MISSING ZEPHYR 3.5.0 ARRAYS */
+        pwctrl1-param = [a4 a1];
+        pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
+        nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
     };
 };
 
