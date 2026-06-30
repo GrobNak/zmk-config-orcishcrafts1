@@ -44,23 +44,25 @@
     st7789: st7789@0 {
         compatible = "sitronix,st7789v";
         reg = <0>;
-        spi-max-frequency = <20000000>;
+        
+        /* 4MHz FREQUENCY OVERRIDE: Cures internal silicon noise */
+        spi-max-frequency = <4000000>; 
         
         cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
         reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
-        /* 170x320 CALIBRATED RESOLUTION DIMENSIONS */
+        /* 170x320 Realignment Dimensions Grid */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* CALIBRATED DRIVER INITIALIZATION MAPS */
+        /* Zephyr 3.5.0 Mandatory Hardware Registers */
         vcom = <0x1c>;
         gctrl = <0x35>;
         mdac = <0x00>; 
         lcm = <0x2c>;
-        colmod = <0x55>; /* Standardized 16-bit color register alignment baseline */
+        colmod = <0x55>; 
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
