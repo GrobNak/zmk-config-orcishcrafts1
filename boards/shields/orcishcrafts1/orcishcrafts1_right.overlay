@@ -32,9 +32,12 @@
 
 &spi1 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
+    /delete-property/ pinctrl-0;
+    /delete-property/ pinctrl-1;
+    /delete-property/ pinctrl-names;
+    
+    sck-pin = <20>;  /* Pin 0.20 */
+    mosi-pin = <17>; /* Pin 0.17 */
     cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
@@ -52,7 +55,7 @@
         
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x00>; /* Standard baseline orientation */
+        mdac = <0x00>; 
         lcm = <0x2c>;
         colmod = <0x55>;
         gamma = <0x01>;
