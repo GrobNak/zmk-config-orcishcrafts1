@@ -4,6 +4,9 @@
     chosen {
         zmk,kscan = &kscan0;
         zephyr,display = &st7789;
+        /* THE CONSOLE FIX: Maps the system console log straight to the virtual USB port */
+        zephyr,console = &cdc_acm_uart0;
+        zephyr,shell-uart = &cdc_acm_uart0;
     };
 
     kscan0: kscan0 {
@@ -30,8 +33,12 @@
     };
 };
 
+/* THE HARDWARE COMMUNICATIONS OVERRIDE: Creates the missing virtual port node */
 &usbd {
     status = "okay";
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
 };
 
 &spi1 {
@@ -49,18 +56,16 @@
         cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
         reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
-        /* 170x320 Non-Standard Clipping Calibration Bounds */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* EVERY MANDATORY ZEPHYR 3.5.0 SCHEMA ARRAY RESTORED */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x10>;   /* Forces memory scanning registers to parse low-color mode */
+        mdac = <0x10>;   
         lcm = <0x2c>;
-        colmod = <0x51>; /* Forces 12-bit monochrome compatible color-mapping channel */
+        colmod = <0x51>; 
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
