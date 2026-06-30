@@ -10,7 +10,6 @@
         diode-direction = "col2row";
         wakeup-source;
 
-        /* Hardware Column GPIO Pin Tracks for your Right Board Half */
         col-gpios
             = <&gpio1 11 GPIO_ACTIVE_HIGH> 
             , <&gpio1 13 GPIO_ACTIVE_HIGH> 
@@ -20,7 +19,6 @@
             , <&gpio0 31 GPIO_ACTIVE_HIGH> 
             ;
 
-        /* Hardware Row GPIO Pin Tracks for your Right Board Half */
         row-gpios
             = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
@@ -31,12 +29,29 @@
     };
 };
 
-/* 
-   RIGHT HALF ST7789 170x320 DISPLAY REGISTRATION
-   Calibrated exactly with the mandatory version arrays to pass validation.
-*/
+/* THE PIN ROUTING ENGINES FOR RIGHT HALF */
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPI_SCK, 0, 20)>,  /* Clock Pin 0.20 */
+                    <NRF_PSEL(SPI_MOSI, 0, 17)>; /* Data Pin 0.17 */
+        };
+    };
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPI_SCK, 0, 20)>,
+                    <NRF_PSEL(SPI_MOSI, 0, 17)>;
+            low-power-enable;
+        };
+    };
+};
+
+/* RIGHT HALF ST7789 170x320 DISPLAY REGISTRATION WITH PIN CONTROL MAPPING */
 &spi1 {
     status = "okay";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
     cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Maps directly to pin 0.22 */
 
     st7789: st7789@0 {
@@ -51,7 +66,7 @@
         /* 170x320 Non-Standard Clipping Bounds Register Calibration */
         width = <170>;
         height = <320>;
-        x-offset = <35>; /* Centering offset for 170 panels */
+        x-offset = <35>; 
         y-offset = <0>;
         
         /* Version-Compliant Power and Gamma Parameters Matrix Arrays */
@@ -71,18 +86,12 @@
     };
 };
 
-/* Anchor the right-hand graphical framework directly to the local Sitronix driver instance */
 / {
     chosen {
         zephyr,display = &st7789;
     };
 };
 
-/* 
-   THE MIRROR LOCK BREAKER:
-   Shifts the right side's electronic scanning index past column 5 
-   so it maps natively to the right half of your 12-column wide keymap.
-*/
 &matrix_transform0 {
     col-offset = <6>;
 };
