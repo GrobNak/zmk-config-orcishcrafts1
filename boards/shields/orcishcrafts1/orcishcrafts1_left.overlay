@@ -34,40 +34,32 @@
     status = "okay";
 };
 
-/* 
-   THE DIRECT SPI PIN OVERRIDE
-   Bypasses the nice!nano's default pinctrl lines and forces the hardware 
-   SPI engine to route its clock and data channels directly to your custom pin numbers.
-*/
 &spi1 {
     status = "okay";
-    /delete-property/ pinctrl-0;
-    /delete-property/ pinctrl-1;
-    /delete-property/ pinctrl-names;
-    
-    /* Direct hardware pin assignments for your clock and data soldering tracks */
-    sck-pin = <20>;  /* Pin 0.20 */
-    mosi-pin = <17>; /* Pin 0.17 */
-    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Pin 0.22 */
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
         compatible = "sitronix,st7789v";
         reg = <0>;
         spi-max-frequency = <20000000>;
         
-        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; /* Pin 0.08 */
-        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  /* Pin 0.06 */
+        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
+        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
+        /* MONOCHROME COMPATIBILITY OVERRIDES */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x00>; 
+        mdac = <0x10>;   /* Aligns memory mapping to accept mono bytes */
         lcm = <0x2c>;
-        colmod = <0x55>;
+        colmod = <0x53>; /* Forces 12-bit low-color format mode */
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
