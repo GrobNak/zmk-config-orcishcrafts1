@@ -2,15 +2,16 @@
 #include <zephyr/device.h>
 #include <zmk/display.h>
 
-#include <lvgl.h>
+/* THE MACRO HEADER FIX: Ensures the exact LVGL text module layouts link natively */
+#include <zephyr/lvgl/lvgl.h>
 
 /* 
    THE ACTUAL ZMK CORE RENDERING HOOK
-   ZMK's display thread looks specifically for 'zmk_display_status_screen' 
-   to draw the base layer layout. We hook into it natively.
+   By setting CONFIG_ZMK_DISPLAY_STATUS_SCREEN_CUSTOM=y, the compiler expects 
+   the shield to export this exact function to paint the base canvas.
 */
 lv_obj_t *zmk_display_status_screen() {
-    /* Create a clean root screen base object container canvas */
+    /* Pass only a single NULL argument to create a clean root canvas screen container */
     lv_obj_t *screen = lv_obj_create(NULL);
 
     /* Paints your custom text directly onto the active screen container object */
