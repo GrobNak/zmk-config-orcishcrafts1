@@ -30,9 +30,6 @@
     };
 };
 
-/* 
-   ST7789 170x320 DISPLAY WITH EVERY SINGLE REQUIRED ZEPHYR 3.5.0 PARAMETER
-*/
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
@@ -45,17 +42,17 @@
         reg = <0>;
         spi-max-frequency = <20000000>;
         
-        /* Control Pin Hardware Overrides */
         cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
         reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
-        /* 170x320 Non-Standard Clipping Bounds Register Calibration */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* EVERY SINGLE REQUIRED SCHEMA ARRAY RESTORED */
+        /* THE BIT-INVERSION FIX: Activates the pixel logic panel layout */
+        inversion;
+        
         vcom = <0x1c>;
         gctrl = <0x35>;
         mdac = <0x00>;
@@ -72,7 +69,6 @@
     };
 };
 
-/* SHIFTS THE RIGHT CONTROLLER CHIP BY EXACTLY 6 COLUMNS NATIVELY */
 &matrix_transform0 {
     col-offset = <6>;
 };
