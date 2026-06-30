@@ -50,12 +50,11 @@
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* MONOCHROME COMPATIBILITY OVERRIDES */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x10>;   /* Aligns memory mapping to accept mono bytes */
+        mdac = <0x10>;   
         lcm = <0x2c>;
-        colmod = <0x53>; /* Forces 12-bit low-color format mode */
+        colmod = <0x51>; /* HARDWARE INVERSION: Shifts low-color mode registers */
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
