@@ -1,18 +1,16 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
-#include <zephyr/devicetree.h>
-#include <drivers/behavior.h>
 #include <zmk/display.h>
 
 #include <lvgl.h>
 
 /* 
-   FIXED FUNCTION SIGNATURE:
-   Using the standardized custom screen initialization widget hook 
-   prevents duplicate definition collisions during final firmware linking.
+   THE ACTUAL ZMK CORE RENDERING HOOK
+   ZMK's display thread looks specifically for 'zmk_display_status_screen' 
+   to draw the base layer layout. We hook into it natively.
 */
-lv_obj_t *zmk_display_status_screen_interface() {
-    /* Pass a single NULL argument to create a clean root canvas screen container */
+lv_obj_t *zmk_display_status_screen() {
+    /* Create a clean root screen base object container canvas */
     lv_obj_t *screen = lv_obj_create(NULL);
 
     /* Paints your custom text directly onto the active screen container object */
