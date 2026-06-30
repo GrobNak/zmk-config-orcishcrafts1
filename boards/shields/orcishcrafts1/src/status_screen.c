@@ -2,8 +2,8 @@
 #include <zephyr/device.h>
 #include <zmk/display.h>
 
-/* THE MACRO HEADER FIX: Ensures the exact LVGL text module layouts link natively */
-#include <zephyr/lvgl/lvgl.h>
+/* FIXED INCLUDE PATH: Stripped the zephyr/ prefix to match your Zephyr 3.5.0 environment */
+#include <lvgl.h>
 
 /* 
    THE ACTUAL ZMK CORE RENDERING HOOK
