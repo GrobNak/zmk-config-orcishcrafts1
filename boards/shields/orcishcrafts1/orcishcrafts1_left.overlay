@@ -49,25 +49,18 @@
         cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
         reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
+        /* 170x320 Centering Calibration Limits */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
+        /* FACTORY STABLE DRIVER INITIALIZATION STATE */
         vcom = <0x1c>;
         gctrl = <0x35>;
         mdac = <0x00>; 
         lcm = <0x2c>;
         colmod = <0x55>; 
         gamma = <0x01>;
-        
-        /* THE BYTE-MULTIPLE ALIGNMENT FIX: Padded to bypass the register shift freeze */
-        porch-param = [0c 0c 00 33 33 00 00 00]; 
-        cmd2en-param = [5a 69 02 01];
-        pwctrl1-param = [a4 a1];
-        pvgam-param = [d0 04 0d 11 13 2b 3f 54 4c 18 0d 0b 1f 23];
-        nvgam-param = [d0 04 0c 11 13 2c 3f 44 51 2f 1f 1f 20 23];
-        ram-param = [2c 2e];
-        rgb-param = [00 05 00];
     };
 };
