@@ -30,54 +30,33 @@
     };
 };
 
-/* 
-   THE CLONE PINTRL OVERRIDE:
-   Maps your physical SCK track to Pin 0.06 and MOSI data track to Pin 0.08
-   to match the literal layout of the SuperMini clone board footprint.
-*/
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <0x00010006>,  /* Raw literal mapping for SPI_SCK on Pin 0.06 */
-                    <0x00010008>;  /* Raw literal mapping for SPI_MOSI on Pin 0.08 */
-        };
-    };
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <0x00010006>,
-                    <0x00010008>;
-            low-power-enable;
-        };
-    };
-};
-
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    /* Dedicated Control Line Targets */
-    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Pin 0.22 */
+    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
         compatible = "sitronix,st7789v";
         reg = <0>;
         spi-max-frequency = <20000000>;
         
-        cmd-data-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; /* Shifted to safe pin 0.24 */
-        reset-gpios    = <&gpio1  7 GPIO_ACTIVE_LOW>;  /* Shifted to safe pin 1.07 */
+        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
+        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
+        /* 170x320 CALIBRATED RESOLUTION DIMENSIONS */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
+        /* CALIBRATED DRIVER INITIALIZATION MAPS */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x10>;   
+        mdac = <0x00>; 
         lcm = <0x2c>;
-        colmod = <0x51>; 
+        colmod = <0x55>; /* Standardized 16-bit color register alignment baseline */
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
