@@ -50,12 +50,9 @@
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* THE BIT-INVERSION FIX: Activates the pixel logic panel layout */
-        inversion;
-        
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x00>;
+        mdac = <0x00>; /* Standard baseline orientation */
         lcm = <0x2c>;
         colmod = <0x55>;
         gamma = <0x01>;
