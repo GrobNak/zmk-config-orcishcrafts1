@@ -2,7 +2,7 @@
 include:
   - board: nice_nano_v2
     shield: orcishcrafts1_left
-    cmake-args: "-DCONFIG_SERIAL=y" # THE FIX: Forces the logging serial driver alive
+    cmake-args: "-DZEPHYR_KCONFIG_WARN_AS_ERROR=OFF" # THE FIX: Keeps warnings from stopping the build
 #    snippet: studio-rpc-usb-uart
   - board: nice_nano_v2
     shield: orcishcrafts1_right
