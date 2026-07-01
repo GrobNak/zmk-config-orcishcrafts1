@@ -1,8 +1,8 @@
 manifest:
   remotes:
-    - name: joelspadin
+    - name: petejohanson
       url-base: https://github.com
   projects:
-    - name: zmk-lvgl
-      remote: joelspadin
+    - name: zmk-st7789
+      remote: petejohanson
       revision: main
