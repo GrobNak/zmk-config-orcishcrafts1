@@ -4,6 +4,3 @@
 - name: orcishcrafts1_right
   board: nice_nano_v2
   shield: orcishcrafts1_right
-- name: settings_reset
-  board: nice_nano_v2
-  shield: settings_reset
