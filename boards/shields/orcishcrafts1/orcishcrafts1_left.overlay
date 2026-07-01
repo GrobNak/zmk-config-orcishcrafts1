@@ -1,5 +1,4 @@
 #include "orcishcrafts1.dtsi"
-#include <dt-bindings/pinctrl/nrf-pinctrl.h>
 
 / {
     chosen {
@@ -36,21 +35,21 @@
 };
 
 /* 
-   THE PINTRL CLONE MAP:
-   Maps your physical SCK track to Pin 0.06 and MOSI data track to Pin 0.08
-   to match the literal layout of the SuperMini clone board footprint.
+   THE PINTRL RAW FIX:
+   Replaced NRF_PSEL macro calls with raw compiled hex digits to completely
+   bypass the shield preprocessor parse error crash.
 */
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPI_SCK, 0, 6)>,  /* Raw literal mapping for SCK on Pin 0.06 */
-                    <NRF_PSEL(SPI_MOSI, 0, 8)>; /* Raw literal mapping for MOSI on Pin 0.08 */
+            psels = <0x00010006>,  /* Raw literal mapping for SCK on Pin 0.06 */
+                    <0x00010008>;  /* Raw literal mapping for MOSI on Pin 0.08 */
         };
     };
     spi1_sleep: spi1_sleep {
         group1 {
-            psels = <NRF_PSEL(SPI_SCK, 0, 6)>,
-                    <NRF_PSEL(SPI_MOSI, 0, 8)>;
+            psels = <0x00010006>,
+                    <0x00010008>;
             low-power-enable;
         };
     };
@@ -61,18 +60,15 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    
-    /* Dedicated Control Line Targets */
-    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; /* Pro Micro Pin 14 Footprint */
+    cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
         compatible = "sitronix,st7789v";
         reg = <0>;
         spi-max-frequency = <4000000>; 
         
-        /* Control Lines Shifted to Safe, Free Matrix Pins */
-        cmd-data-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; /* Pro Micro Pin 15 Footprint */
-        reset-gpios    = <&gpio1  7 GPIO_ACTIVE_LOW>;  /* Pro Micro Pin 16 Footprint */
+        cmd-data-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; 
+        reset-gpios    = <&gpio1  7 GPIO_ACTIVE_LOW>;  
         
         width = <170>;
         height = <320>;
