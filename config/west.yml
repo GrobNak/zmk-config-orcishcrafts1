@@ -1,14 +1,8 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com
     - name: joelspadin
       url-base: https://github.com
   projects:
-    - name: zmk
-      remote: zmkfirmware
-      revision: main
-      import: app/west.yml
     - name: zmk-lvgl
       remote: joelspadin
       revision: main
