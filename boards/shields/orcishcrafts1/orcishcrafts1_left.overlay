@@ -54,12 +54,12 @@
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* THE ST7789 ACTIVATION REGISTERS Matrix */
+        /* MONOCHROME LOOKUP TABLE FORCED PATCH */
         vcom = <0x1c>;
         gctrl = <0x35>;
-        mdac = <0x00>; 
+        mdac = <0x10>;   /* Shifts the memory scan lookup to accept sequential mono bits */
         lcm = <0x2c>;
-        colmod = <0x55>; /* Sets standard pixel data interpretation layout */
+        colmod = <0x53>; /* Forces 12-bit data unpacking mode to align with 1-bit streams */
         gamma = <0x01>;
         porch-param = [0c 0c 00 33 33]; 
         cmd2en-param = [5a 69 02 01];
