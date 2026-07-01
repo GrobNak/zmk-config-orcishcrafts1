@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
 
 #include <zephyr/dt-bindings/gpio/nrf-gpio.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
 
 /* ==============================
    DISPLAY PIN CONFIGURATION
    SCL=020(SCK), SDA=017(MOSI), RES=006, DC=008, CS=022
+   Applied to LEFT HALF (Central)
    ============================== */
 
 #define DISPLAY_SCK_PIN   <P0_20>
@@ -12,7 +14,6 @@
 #define DISPLAY_RST_PIN   <P0_06>
 #define DISPLAY_DC_PIN    <P0_08>
 #define DISPLAY_CS_PIN    <P0_22>
-
 
 /* Enable SPI0 bus */
 &spi0 {
@@ -25,12 +26,14 @@ st7789_pins: st7789-pinmux {
         group = "st7789_spi";
         function = "mux";
         
+        /* SPI clock and data - push-pull drive */
         pin-conf-spi {
             pins = <DISPLAY_SCK_PIN>, 
                    <DISPLAY_MOSI_PIN>;
             output-drive-strong;
         };
         
+        /* Control lines as outputs */
         pin-conf-gpio {
             pins = <DISPLAY_CS_PIN>, 
                    <DISPLAY_DC_PIN>, 
@@ -46,20 +49,27 @@ st7789_pins: st7789-pinmux {
         compatible = "sitronix,st7789";
         reg = <0>;
         
+        /* SPI Communication Parameters - Mode 3 */
         spi-max-frequency = <8000000>;
-        spi-cpol;
-        spi-cpha;
+        spi-cpol;                       // CPOL = 1 (idle high)
+        spi-cpha;                       // CPHA = 1 (sample second edge)
         
+        /* Required GPIO Connections */
         reset-gpios = <DISPLAY_RST_PIN GPIO_ACTIVE_LOW>;
         dc-gpios = <DISPLAY_DC_PIN GPIO_ACTIVE_HIGH>;
         cs-gpios = <DISPLAY_CS_PIN GPIO_ACTIVE_LOW>;
         
+        /* Panel Physical Resolution */
         width = <170>;
         height = <320>;
+        
+        /* Screen Rotation */
         rotation = <270>;
         
+        /* Frame Buffer Storage */
         frame-buffer-in-vram;
         
+        /* Pin Selection */
         pinctrl-0 = <&st7789_pins>;
         pinctrl-names = "default";
         
@@ -67,6 +77,5 @@ st7789_pins: st7789-pinmux {
     };
 };
 
-/* TODO: Add your LEFT half keyboard matrix definition here
-   (col/row GPIOs and key positions) — from your existing
-   Shield Wizard-generated overlay */
+/* Include your existing keyboard matrix definitions */
+#include "orcishcrafts1.dtsi"
