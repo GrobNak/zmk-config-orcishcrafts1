@@ -1,6 +1,4 @@
-- name: orcishcrafts1_left
-  board: nice_nano_v2
+- board: nice_nano_v2
   shield: orcishcrafts1_left
-- name: orcishcrafts1_right
-  board: nice_nano_v2
+- board: nice_nano_v2
   shield: orcishcrafts1_right
