@@ -12,7 +12,7 @@ config LV_COLOR_DEPTH
     int
     default 16
 
-config SPLIT_KEYBOARD
+config ZMK_SPLIT
     def_bool y
 
 endif
