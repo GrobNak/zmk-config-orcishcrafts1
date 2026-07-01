@@ -1,5 +1,4 @@
 #include "orcishcrafts1.dtsi"
-#include <dt-bindings/pinctrl/nrf-pinctrl.h>
 
 / {
     chosen {
@@ -24,10 +23,27 @@
         row-gpios
             = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             , <&gpio0  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
-            , <&gpio1  6 (GPIO_ACTIVE_DOWN | GPIO_PULL_DOWN)> 
+            , <&gpio1  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             , <&gpio1  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> 
             ;
+    };
+};
+
+/* THE PINTRL RAW FIX FOR RIGHT SIDE */
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <0x00010006>,  
+                    <0x00010008>;  
+        };
+    };
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <0x00010006>,
+                    <0x00010008>;
+            low-power-enable;
+        };
     };
 };
 
@@ -36,7 +52,6 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-    
     cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
