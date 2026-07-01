@@ -34,11 +34,20 @@
     status = "okay";
 };
 
+/* 
+   THE MATRIX ISOLATION FIX:
+   Completely removes the conflicting nice_nano pinctrl rules and configures 
+   direct, isolated pin tracks for your display lines.
+*/
 &spi1 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
+    /delete-property/ pinctrl-0;
+    /delete-property/ pinctrl-1;
+    /delete-property/ pinctrl-names;
+    
+    /* Wires up your literal physical pin paths directly */
+    sck-pin = <20>;  /* Physical SCL Clock Pin */
+    mosi-pin = <17>; /* Physical SDA Data Pin */
     cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
@@ -49,13 +58,11 @@
         cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
         reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
-        /* 170x320 Non-Standard Alignment Metrics */
         width = <170>;
         height = <320>;
         x-offset = <35>; 
         y-offset = <0>;
         
-        /* EXACTLY BOUND BALANCED PROPERTIES TO MATCH THE SCHEMA RULES NATIVELY */
         vcom = <0x1c>;
         gctrl = <0x35>;
         mdac = <0x00>; 
