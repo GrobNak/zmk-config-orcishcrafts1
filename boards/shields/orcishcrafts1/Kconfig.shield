@@ -1,6 +1,7 @@
-config SHIELD_ORCISHCRAFTS1_LEFT
-    def_bool $(shields_list_contains,orcishcrafts1_left)
-  
-config SHIELD_ORCISHCRAFTS1_RIGHT
-    def_bool $(shields_list_contains,orcishcrafts1_right)
-  
+# SPDX-License-Identifier: MIT
+
+menuconfig ORCISHCRAFTS1
+    bool "OrcishCrafts1 Keyboard"
+    select ZMK_DISPLAY
+    select LVGL
+    select SPLIT_KEYBOARD
