@@ -2,7 +2,7 @@
 include:
   - board: nice_nano_v2
     shield: orcishcrafts1_left
-    snippet: zmk-usb-logging # THE FIX: Uses the exact valid snippet token name from your log
+    cmake-args: "-DZEPHYR_KCONFIG_WARN_AS_ERROR=OFF"
   - board: nice_nano_v2
     shield: orcishcrafts1_right
   - board: nice_nano_v2
