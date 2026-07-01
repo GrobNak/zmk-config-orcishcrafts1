@@ -30,28 +30,12 @@
     };
 };
 
-/* THE PINTRL RAW FIX FOR RIGHT SIDE */
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <0x00010006>,  
-                    <0x00010008>;  
-        };
-    };
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <0x00010006>,
-                    <0x00010008>;
-            low-power-enable;
-        };
-    };
-};
-
 &spi1 {
     status = "okay";
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
+    
     cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>; 
 
     st7789: st7789@0 {
@@ -59,8 +43,8 @@
         reg = <0>;
         spi-max-frequency = <4000000>; 
         
-        cmd-data-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; 
-        reset-gpios    = <&gpio1  7 GPIO_ACTIVE_LOW>;  
+        cmd-data-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>; 
+        reset-gpios    = <&gpio0  6 GPIO_ACTIVE_LOW>;  
         
         width = <170>;
         height = <320>;
