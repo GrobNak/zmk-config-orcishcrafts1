@@ -1,8 +1,9 @@
 manifest:
   remotes:
-    - name: petejohanson
+    - name: joelspadin
       url-base: https://github.com
   projects:
-    - name: zmk-st7789
-      remote: petejohanson
+    - name: zmk-st7789-driver
+      remote: joelspadin
+      repo-path: zmk-st7789-driver # THE FIX: Explicitly targets the true repository name
       revision: main
