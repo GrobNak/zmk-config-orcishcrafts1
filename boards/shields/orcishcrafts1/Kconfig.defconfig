@@ -1,26 +1,18 @@
-if SHIELD_ORCISHCRAFTS1_LEFT
+# SPDX-License-Identifier: MIT
 
-# Name must be less than 16 characters long!
-config ZMK_KEYBOARD_NAME
-    default "OrcishCrafts1"
+if ORCISHCRAFTS1
 
-config ZMK_SPLIT_ROLE_CENTRAL
-    default y
+config ZMK_DISPLAY
+    def_bool y
 
-config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
-  default 1
+config LVGL
+    def_bool y
 
-config BT_MAX_CONN
-  default 6
+config LV_COLOR_DEPTH
+    int
+    default 16
 
-config BT_MAX_PAIRED
-  default 6
-
-endif
-
-if SHIELD_ORCISHCRAFTS1_LEFT || SHIELD_ORCISHCRAFTS1_RIGHT
-
-config ZMK_SPLIT
-    default y
+config SPLIT_KEYBOARD
+    def_bool y
 
 endif
