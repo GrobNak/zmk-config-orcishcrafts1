@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: MIT
 
-config SHIELD_ORCISHCRAFTS1_LEFT
-    def_bool $(shields_list_contains,orcishcrafts1_left)
+menuconfig ORCISHCRAFTS1_LEFT
+    bool "OrcishCrafts1 Left"
+    select ZMK_DISPLAY
+    select LVGL
+    select SPLIT_KEYBOARD
 
-config SHIELD_ORCISHCRAFTS1_RIGHT
-    def_bool $(shields_list_contains,orcishcrafts1_right)
-
-if SHIELD_ORCISHCRAFTS1_LEFT || SHIELD_ORCISHCRAFTS1_RIGHT
-
-config ORCISHCRAFTS1
-    def_bool y
-
-endif
+menuconfig ORCISHCRAFTS1_RIGHT  
+    bool "OrcishCrafts1 Right"
+    select ZMK_DISPLAY
+    select LVGL
+    select SPLIT_KEYBOARD
